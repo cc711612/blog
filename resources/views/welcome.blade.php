@@ -16,7 +16,7 @@
         <tr class="text-center-row">
             <th> 名稱</th>
             <th> Email</th>
-            <th> 其他操作</th>
+            <!-- <th> 其他操作</th> -->
         </tr>
         </thead>
         <tbody id="div-body">
@@ -24,10 +24,10 @@
             <tr class="text-center-row">
                 <td>{{$element->name}}</td>
                 <td>{{$element->email}}</td>
-                <td>
+                <!-- <td>
                     <a href="#" class="btn dark  btn-outline sbold uppercase  ">
                         <i class="fa fa-edit"></i> 編輯部門名稱 </a>
-                </td>
+                </td> -->
             </tr>
         @endforeach
         </tbody>
@@ -40,16 +40,17 @@
 <tr class="text-center-row">
         <td>@{{ name }}</td>
         <td>@{{ email }}</td>
-        <td>
+        <!-- <td>
             <a href="#" class="btn dark  btn-outline sbold uppercase  ">
                 <i class="fa fa-edit"></i> 編輯部門名稱 </a>
-        </td>
+        </td> -->
 </tr>
 
 </script>
 <script>
     window.Echo.channel('EventTriggered')
         .listen('GetRequestEvent', (e) => {
+            console.log(e);
             let template = $("#template").html();
             document.querySelector('#div-body').innerHTML += Mustache.render(template, {
                 name: e.message.name,
