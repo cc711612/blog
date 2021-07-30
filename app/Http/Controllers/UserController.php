@@ -23,7 +23,7 @@ class UserController extends BaseController
     public function index()
     {
         $Users = (new User())
-            ->paginate();
+            ->all();
 
         return response()->json($Users);
     }
