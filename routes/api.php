@@ -17,6 +17,9 @@ Route::group(['middleware' => [] ], function () {
     # user
     Route::group(['as' => 'user.','prefix'=>'user'], function(){
         Route::name("index")->get("/",[UserController::class, 'index']);
+        Route::name("store")->post("/",[UserController::class, 'store']);
+        Route::name("update")->put("/{id}",[UserController::class, 'update']);
+        Route::name("delete")->delete("/{id}",[UserController::class, 'destroy']);
     });
 });
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
