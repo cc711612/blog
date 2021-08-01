@@ -22,12 +22,12 @@ class UserUpdateValidator extends ValidatorAbstracts
     protected $request;
 
     /**
-     * UserStoreValidator constructor.
+     * UserUpdateValidator constructor.
      *
      * @param  \App\Concerns\Databases\Contracts\Request  $request
      *
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 01:16
+     * @DateTime: 2021/8/1 下午 09:51
      */
     public function __construct(Request $request)
     {

@@ -12,7 +12,7 @@ use App\Concerns\Databases\Contracts\Request;
  *
  * @package App\Http\Validators\Api\Users
  * @Author: Roy
- * @DateTime: 2021/7/30 下午 02:14
+ * @DateTime: 2021/8/1 下午 09:51
  */
 class UserDestroyValidator extends ValidatorAbstracts
 {
@@ -22,12 +22,12 @@ class UserDestroyValidator extends ValidatorAbstracts
     protected $request;
 
     /**
-     * UserStoreValidator constructor.
+     * UserDestroyValidator constructor.
      *
      * @param  \App\Concerns\Databases\Contracts\Request  $request
      *
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 01:16
+     * @DateTime: 2021/8/1 下午 09:51
      */
     public function __construct(Request $request)
     {
@@ -45,14 +45,6 @@ class UserDestroyValidator extends ValidatorAbstracts
             'id'=>[
                 'required',
             ],
-            'name' => [
-                'required',
-            ],
-            'password' => [
-                'required',
-                'min:6',
-                'max:18'
-            ],
         ];
     }
 
@@ -65,10 +57,6 @@ class UserDestroyValidator extends ValidatorAbstracts
     {
         return [
             'id.required' => 'id 為必填',
-            'name.required' => 'name 為必填',
-            'password.required' => 'password 為必填',
-            'password.max' => 'password 至多18字元',
-            'password.min' => 'password 至多6字元',
         ];
     }
 }

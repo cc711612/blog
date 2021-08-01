@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requesters\Api\Users\UserUpdateRequest;
 use App\Http\Validators\Api\Users\UserUpdateValidator;
 use App\Http\Requesters\Api\Users\UserDestroyRequest;
+use App\Http\Validators\Api\Users\UserDestroyValidator;
 
 class UserController extends BaseController
 {
@@ -106,7 +107,7 @@ class UserController extends BaseController
     {
         $Requester = (new UserDestroyRequest($request));
 
-        $Validate = (new UserUpdateValidator($Requester))->validate();
+        $Validate = (new UserDestroyValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
@@ -114,12 +115,16 @@ class UserController extends BaseController
                 'message' => $Validate->errors(),
             ]);
         }
-        $Requester = $Requester->toArray();
-        Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
-        #Create
-        $Entity = (new User())->find(Arr::get($Requester, 'id'))
-            ->update($Requester);
-        if ($Entity) {
+        $Entity = (new User())->find(Arr::get($Requester, 'id'));
+        if(is_null($Entity) === true){
+            return response()->json([
+                'status'  => false,
+                'code'    => 400,
+                'message' => ['id' => 'not exist'],
+            ]);
+        }
+        #刪除
+        if ($Entity->delete()) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
