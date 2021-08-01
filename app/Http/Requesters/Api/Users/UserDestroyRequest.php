@@ -15,7 +15,7 @@ class UserDestroyRequest extends Request
     protected function schema(): array
     {
         return [
-            'id'       => null,
+            'id' => null,
         ];
     }
 
@@ -29,7 +29,7 @@ class UserDestroyRequest extends Request
     protected function map($row): array
     {
         return [
-            'id'     => Arr::get($row, 'id'),
+            'id' => Arr::get($row, 'id'),
         ];
     }
 
