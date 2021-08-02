@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Users;
 
 use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
@@ -26,7 +26,7 @@ class UserController extends BaseController
         $Users = (new User())
             ->all();
 
-        return response()->json($Users);
+        return view('welcome',compact('Users'));
     }
 
     /**
@@ -123,7 +123,6 @@ class UserController extends BaseController
                 'message' => ['id' => 'not exist'],
             ]);
         }
-        dd('test');
         #刪除
         if ($Entity->delete()) {
             return response()->json([

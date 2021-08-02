@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Web\Users\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,13 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    $Users = (new \App\Models\User())->all();
-
-    return view('welcome',compact('Users'));
-});
+Route::get('/',[UserController::class, 'index']);
 Route::get('/trigger/{data}', function ($data) {
-
     echo "<p>You have sent $data</p>";
     event(new App\Events\GetRequestEvent($data));
 });
