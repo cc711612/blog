@@ -123,6 +123,7 @@ class UserController extends BaseController
                 'message' => ['id' => 'not exist'],
             ]);
         }
+        dd('test');
         #刪除
         if ($Entity->delete()) {
             return response()->json([
