@@ -131,7 +131,6 @@ class UserController extends BaseController
                 'message' => [],
             ]);
         }
-        dd('213');
         return response()->json([
             'status'  => false,
             'code'    => 400,
