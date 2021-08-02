@@ -14,6 +14,7 @@
     <table class="table table-striped table-bordered table-hover" id="sample_1" name="dataTable">
         <thead>
         <tr class="text-center-row">
+            <th> ID</th>
             <th> 名稱</th>
             <th> Email</th>
             <!-- <th> 其他操作</th> -->
@@ -22,6 +23,7 @@
         <tbody id="div-body">
         @foreach($Users as $element)
             <tr class="text-center-row">
+                <td>{{$element->id}}</td>
                 <td>{{$element->name}}</td>
                 <td>{{$element->email}}</td>
                 <!-- <td>
