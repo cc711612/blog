@@ -65,6 +65,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'images',
     ];
 
     /**
@@ -96,4 +97,27 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * @param $value
+     *
+     * @return array|mixed
+     * @Author: Roy
+     * @DateTime: 2021/8/7 下午 02:37
+     */
+    public function getImagesAttribute($value)
+    {
+        return empty($value) ? [] : unserialize($value);
+    }
+
+    /**
+     * @param  array  $value
+     *
+     * @Author: Roy
+     * @DateTime: 2021/8/7 下午 02:37
+     */
+    public function setImagesAttribute(array $value)
+    {
+        $this->attributes['images'] = serialize($value);
+    }
 }

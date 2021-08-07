@@ -17,9 +17,10 @@ class UserUpdateRequest extends Request
         return [
             'id'       => null,
             'name'     => null,
-            'password' => null,
+//            'password' => null,
             'users.name'     => null,
-            'users.password' => null,
+//            'users.password' => null,
+            'users.images.cover' => null,
         ];
     }
 
@@ -35,9 +36,10 @@ class UserUpdateRequest extends Request
         return [
             'id'     => Arr::get($row, 'id'),
             'users.name'     => Arr::get($row, 'name'),
-            'password' => Arr::get($row, 'password'),
+//            'password' => Arr::get($row, 'password'),
             'name'     => Arr::get($row, 'name'),
-            'users.password' => Arr::get($row, 'password'),
+//            'users.password' => Arr::get($row, 'password'),
+            'users.images.cover' => Arr::get($row, 'image'),
         ];
     }
 
