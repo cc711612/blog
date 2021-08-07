@@ -27,11 +27,13 @@ class UserController extends BaseController
             ->all();
         $Users = $Users->map(function ($userEntity) {
             return [
-                'id'    => Arr::get($userEntity, 'id'),
-                'name'  => Arr::get($userEntity, 'name'),
-                'email' => Arr::get($userEntity, 'email'),
-                'image' => Arr::get($userEntity, 'images.cover',$this->getDefaultImage()),
-                'email_verified_at'  => is_null(Arr::get($userEntity, 'email_verified_at'))?null:Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
+                'id'                => Arr::get($userEntity, 'id'),
+                'name'              => Arr::get($userEntity, 'name'),
+                'email'             => Arr::get($userEntity, 'email'),
+                'image'             => Arr::get($userEntity, 'images.cover', $this->getDefaultImage()),
+                'created_at'        => Arr::get($userEntity, 'created_at'),
+                'email_verified_at' => is_null(Arr::get($userEntity,
+                    'email_verified_at')) ? null : Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
             ];
         });
         return response()->json($Users);
@@ -90,7 +92,7 @@ class UserController extends BaseController
 //        Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
         #Create
         $Entity = (new User())->find(Arr::get($Requester, 'id'))
-            ->update(Arr::get($Requester,'users'));
+            ->update(Arr::get($Requester, 'users'));
 
         if ($Entity) {
             return response()->json([
@@ -154,6 +156,6 @@ class UserController extends BaseController
      */
     public function getDefaultImage()
     {
-        return sprintf('%s%s%s',$_SERVER["HTTP_HOST"],config('filesystems.disks.images.url'),'default.png');
+        return sprintf('%s%s%s', $_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
     }
 }
