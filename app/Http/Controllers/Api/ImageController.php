@@ -51,7 +51,6 @@ class ImageController extends Controller
                 'message' => '上傳發生錯誤，請黎落管理員',
             ]);
         }
-        dd($this->getImagePath($imageName));
         return response()->json(
             [
                 'status' => true,
