@@ -51,6 +51,7 @@ class ImageController extends Controller
                 'message' => '上傳發生錯誤，請黎落管理員',
             ]);
         }
+        dd($this->getImagePath($imageName));
         return response()->json(
             [
                 'status' => true,
@@ -90,7 +91,7 @@ class ImageController extends Controller
      */
     public function getImagePath(string $imageName)
     {
-        return sprintf('%s%s%s%s',$_SERVER["HTTP_HOST"],config('filesystems.disks.images.url'),$this->getUrlDatePath(),$imageName);
+        return sprintf('%s%s%s%s',$_SERVER["HTTP_ORIGIN"],config('filesystems.disks.images.url'),$this->getUrlDatePath(),$imageName);
     }
 
     /**
