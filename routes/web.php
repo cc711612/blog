@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Users\UserController;
+use Intervention\Image\Facades\Image;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +13,16 @@ use App\Http\Controllers\Web\Users\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/',[UserController::class, 'index']);
+Route::get('/upload', function () {
+    return view('upload');
+});
 Route::get('/trigger/{data}', function ($data) {
     echo "<p>You have sent $data</p>";
     event(new App\Events\GetRequestEvent($data));
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
