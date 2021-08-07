@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Users\UserController;
+use App\Http\Controllers\Api\ImageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,8 +22,11 @@ Route::group(['middleware' => [] ], function () {
         Route::name("update")->put("/{id}",[UserController::class, 'update']);
         Route::name("delete")->delete("/{id}",[UserController::class, 'destroy']);
     });
+    Route::group(['as' => 'image.','prefix'=>'image'], function(){
+        Route::name("store")->post("/",[ImageController::class, 'store']);
+    });
 });
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     dd('123');
 //     return $request->user();
 // });
