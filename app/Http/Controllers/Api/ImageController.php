@@ -68,7 +68,7 @@ class ImageController extends Controller
      */
     public function getSaveDatePath()
     {
-        return  sprintf('\%s\%s\%s',date("Y"),date("m"),date('d'));
+        return  sprintf('/%s/%s/%s',date("Y"),date("m"),date('d'));
     }
 
     /**
