@@ -45,7 +45,7 @@ return [
         //圖檔
         'images' => [
             'driver' => 'local',
-            'root'   => public_path('storage\images'),
+            'root'   => public_path('storage/images'),
             'url' => '/storage/images/',
         ],
 
