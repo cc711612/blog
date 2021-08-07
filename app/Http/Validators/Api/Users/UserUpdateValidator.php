@@ -48,11 +48,11 @@ class UserUpdateValidator extends ValidatorAbstracts
             'name' => [
                 'required',
             ],
-            'password' => [
-                'required',
-                'min:6',
-                'max:18'
-            ],
+//            'password' => [
+//                'required',
+//                'min:6',
+//                'max:18'
+//            ],
         ];
     }
 
@@ -66,9 +66,9 @@ class UserUpdateValidator extends ValidatorAbstracts
         return [
             'id.required' => 'id 為必填',
             'name.required' => 'name 為必填',
-            'password.required' => 'password 為必填',
-            'password.max' => 'password 至多18字元',
-            'password.min' => 'password 至多6字元',
+//            'password.required' => 'password 為必填',
+//            'password.max' => 'password 至多18字元',
+//            'password.min' => 'password 至多6字元',
         ];
     }
 }

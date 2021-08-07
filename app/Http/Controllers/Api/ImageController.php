@@ -105,6 +105,12 @@ class ImageController extends Controller
         [$width, $height] = getimagesize($file_path);
         return compact('width', 'height');
     }
+
+    /**
+     * @return string
+     * @Author: Roy
+     * @DateTime: 2021/8/7 下午 02:28
+     */
     private function getSavePath()
     {
         return sprintf('%s%s',config('filesystems.disks.images.root'),$this->getSaveDatePath());
