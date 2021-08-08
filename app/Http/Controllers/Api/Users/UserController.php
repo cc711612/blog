@@ -156,6 +156,6 @@ class UserController extends BaseController
      */
     public function getDefaultImage()
     {
-        return sprintf('%s%s%s', $_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
+        return sprintf('%s://%s%s%s',$_SERVER['REQUEST_SCHEME'] ,$_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
     }
 }
