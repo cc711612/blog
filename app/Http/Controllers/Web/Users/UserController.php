@@ -25,6 +25,17 @@ class UserController extends BaseController
     {
         $Users = (new User())
             ->all();
+        $Users = $Users->map(function ($userEntity) {
+            return (object)[
+                'id'                => Arr::get($userEntity, 'id'),
+                'name'              => Arr::get($userEntity, 'name'),
+                'email'             => Arr::get($userEntity, 'email'),
+                'image'             => Arr::get($userEntity, 'images.cover', $this->getDefaultImage()),
+                'created_at'        => Arr::get($userEntity, 'created_at')->format('Y-m-d H:i:s'),
+                'email_verified_at' => is_null(Arr::get($userEntity,
+                    'email_verified_at')) ? null : Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
+            ];
+        });
 
         return view('welcome',compact('Users'));
     }
@@ -136,5 +147,14 @@ class UserController extends BaseController
             'code'    => 400,
             'message' => ['error' => '系統異常'],
         ]);
+    }
+    /**
+     * @return string
+     * @Author: Roy
+     * @DateTime: 2021/8/7 下午 02:32
+     */
+    public function getDefaultImage()
+    {
+        return sprintf('%s://%s%s%s',$_SERVER['REQUEST_SCHEME'] ,$_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
     }
 }

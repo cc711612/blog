@@ -15,9 +15,9 @@
         <thead>
         <tr class="text-center-row">
             <th> ID</th>
-            <th> 名稱</th>
+            <th> Name</th>
             <th> Email</th>
-            <!-- <th> 其他操作</th> -->
+            <th> Image</th>
         </tr>
         </thead>
         <tbody id="div-body">
@@ -26,10 +26,7 @@
                 <td>{{$element->id}}</td>
                 <td>{{$element->name}}</td>
                 <td>{{$element->email}}</td>
-                <!-- <td>
-                    <a href="#" class="btn dark  btn-outline sbold uppercase  ">
-                        <i class="fa fa-edit"></i> 編輯部門名稱 </a>
-                </td> -->
+                <td><img src="{{$element->image}}" style="width: 100px"></td>
             </tr>
         @endforeach
         </tbody>
