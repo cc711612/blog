@@ -31,7 +31,7 @@ class UserController extends BaseController
                 'name'              => Arr::get($userEntity, 'name'),
                 'email'             => Arr::get($userEntity, 'email'),
                 'image'             => Arr::get($userEntity, 'images.cover', $this->getDefaultImage()),
-                'created_at'        => Arr::get($userEntity, 'created_at'),
+                'created_at'        => Arr::get($userEntity, 'created_at')->format('Y-m-d H:i:s'),
                 'email_verified_at' => is_null(Arr::get($userEntity,
                     'email_verified_at')) ? null : Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
             ];
