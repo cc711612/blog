@@ -20,11 +20,12 @@ Route::group(['middleware' => []], function () {
     # user
     Route::group(['middleware' => [], 'as' => 'user.', 'prefix' => 'user'], function () {
         Route::name("index")->get("/", [UserController::class, 'index']);
+        Route::name("store")->post("/", [UserController::class, 'store']);
     });
     Route::group(['middleware' => ['VerifyApi']], function () {
         # user
         Route::group(['middleware' => [], 'as' => 'user.', 'prefix' => 'user'], function () {
-            Route::name("store")->post("/", [UserController::class, 'store']);
+
             Route::name("update")->put("/{id}", [UserController::class, 'update']);
             Route::name("delete")->delete("/{id}", [UserController::class, 'destroy']);
         });
