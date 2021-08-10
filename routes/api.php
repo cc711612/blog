@@ -25,7 +25,6 @@ Route::group(['middleware' => []], function () {
     Route::group(['middleware' => ['VerifyApi']], function () {
         # user
         Route::group(['middleware' => [], 'as' => 'user.', 'prefix' => 'user'], function () {
-
             Route::name("update")->put("/{id}", [UserController::class, 'update']);
             Route::name("delete")->delete("/{id}", [UserController::class, 'destroy']);
         });
@@ -40,7 +39,3 @@ Route::group(['middleware' => []], function () {
         Route::name("login")->post("/login", [LoginController::class, 'login']);
     });
 });
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     dd('123');
-//     return $request->user();
-// });

@@ -4,6 +4,7 @@ namespace App\Http\Requesters\Api\Users;
 
 use App\Concerns\Databases\Request;
 use Illuminate\Support\Arr;
+use Carbon\Carbon;
 
 class UserDestroyRequest extends Request
 {
@@ -15,7 +16,10 @@ class UserDestroyRequest extends Request
     protected function schema(): array
     {
         return [
-            'id' => null,
+            'id'               => null,
+            'users.deleted_at' => Carbon::now()->toDateTimeString(),
+            'users.updated_by' => null,
+            'users.deleted_by' => null,
         ];
     }
 
@@ -30,6 +34,9 @@ class UserDestroyRequest extends Request
     {
         return [
             'id' => Arr::get($row, 'id'),
+            'users.deleted_at' => Carbon::now()->toDateTimeString(),
+            'users.deleted_by' => Arr::get($row, 'user.id'),
+            'users.updated_by' => Arr::get($row, 'user.id'),
         ];
     }
 
