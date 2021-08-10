@@ -13,6 +13,8 @@ use App\Http\Requesters\Api\Users\UserUpdateRequest;
 use App\Http\Validators\Api\Users\UserUpdateValidator;
 use App\Http\Requesters\Api\Users\UserDestroyRequest;
 use App\Http\Validators\Api\Users\UserDestroyValidator;
+use App\Http\Requesters\Api\Users\UserShowRequest;
+use App\Http\Validators\Api\Users\UserShowValidator;
 
 class UserController extends BaseController
 {
@@ -37,7 +39,50 @@ class UserController extends BaseController
                     'email_verified_at')) ? null : Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
             ];
         });
-        return response()->json($Users);
+        return response()->json([
+            'status'  => true,
+            'code'    => 200,
+            'message' => [],
+            'data'    => $Users,
+        ]);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @Author: Roy
+     * @DateTime: 2021/8/10 下午 11:52
+     */
+    public function show(Request $request)
+    {
+        $Requester = (new UserShowRequest($request));
+
+        $Validate = (new UserShowValidator($Requester))->validate();
+        if ($Validate->fails() === true) {
+            return response()->json([
+                'status'  => false,
+                'code'    => 400,
+                'message' => $Validate->errors(),
+                'data'    => [],
+            ]);
+        }
+        $User = (new User())->find(Arr::get($Requester, 'id'));
+        return response()->json([
+            'status'  => true,
+            'code'    => 200,
+            'message' => [],
+            'data'    => [
+                'id'                => Arr::get($User, 'id'),
+                'name'              => Arr::get($User, 'name'),
+                'email'             => Arr::get($User, 'email'),
+                'image'             => Arr::get($User, 'images.cover', $this->getDefaultImage()),
+                'created_at'        => Arr::get($User, 'created_at')->format('Y-m-d H:i:s'),
+                'email_verified_at' => is_null(Arr::get($User,
+                    'email_verified_at')) ? null : Arr::get($User, 'email_verified_at')->format('Y-m-d H:i:s'),
+            ],
+        ]);
+
     }
 
     /**
@@ -57,6 +102,7 @@ class UserController extends BaseController
                 'status'  => false,
                 'code'    => 400,
                 'message' => $Validate->errors(),
+                'data'    => [],
             ]);
         }
         $Requester = $Requester->toArray();
@@ -67,6 +113,7 @@ class UserController extends BaseController
             'status'  => true,
             'code'    => 200,
             'message' => [],
+            'data'    => [],
         ]);
     }
 
@@ -86,6 +133,7 @@ class UserController extends BaseController
                 'status'  => false,
                 'code'    => 400,
                 'message' => $Validate->errors(),
+                'data'    => [],
             ]);
         }
         $Requester = $Requester->toArray();
@@ -99,12 +147,14 @@ class UserController extends BaseController
                 'status'  => true,
                 'code'    => 200,
                 'message' => [],
+                'data'    => [],
             ]);
         }
         return response()->json([
             'status'  => false,
             'code'    => 400,
             'message' => ['error' => '系統異常'],
+            'data'    => [],
         ]);
     }
 
@@ -123,6 +173,7 @@ class UserController extends BaseController
                 'status'  => false,
                 'code'    => 400,
                 'message' => $Validate->errors(),
+                'data'    => [],
             ]);
         }
         $Entity = (new User())->find(Arr::get($Requester, 'id'));
@@ -131,20 +182,23 @@ class UserController extends BaseController
                 'status'  => false,
                 'code'    => 400,
                 'message' => ['id' => 'not exist'],
+                'data'    => [],
             ]);
         }
         #刪除
-        if ($Entity->update(Arr::get($Requester,'users'))) {
+        if ($Entity->update(Arr::get($Requester, 'users'))) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
                 'message' => [],
+                'data'    => [],
             ]);
         }
         return response()->json([
             'status'  => false,
             'code'    => 400,
             'message' => ['error' => '系統異常'],
+            'data'    => [],
         ]);
     }
 
@@ -155,6 +209,7 @@ class UserController extends BaseController
      */
     public function getDefaultImage()
     {
-        return sprintf('%s://%s%s%s',$_SERVER['REQUEST_SCHEME'] ,$_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
+        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
+            config('filesystems.disks.images.url'), 'default.png');
     }
 }
