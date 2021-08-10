@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Users\UserController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,10 @@ Route::group(['middleware' => []], function () {
         # 上傳圖片
         Route::group(['as' => 'image.', 'prefix' => 'image'], function () {
             Route::name("store")->post("/", [ImageController::class, 'store']);
+        });
+        # 登出相關
+        Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function () {
+            Route::name("logout")->post("/logout", [LogoutController::class, 'logout']);
         });
     });
 
