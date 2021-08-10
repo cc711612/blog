@@ -15,12 +15,13 @@ class UserUpdateRequest extends Request
     protected function schema(): array
     {
         return [
-            'id'       => null,
-            'name'     => null,
+            'id'                 => null,
+            'name'               => null,
 //            'password' => null,
-            'users.name'     => null,
+            'users.name'         => null,
 //            'users.password' => null,
             'users.images.cover' => null,
+            'users.updated_by'   => null,
         ];
     }
 
@@ -34,12 +35,13 @@ class UserUpdateRequest extends Request
     protected function map($row): array
     {
         return [
-            'id'     => Arr::get($row, 'id'),
-            'users.name'     => Arr::get($row, 'name'),
+            'id'                 => Arr::get($row, 'id'),
+            'users.name'         => Arr::get($row, 'name'),
 //            'password' => Arr::get($row, 'password'),
-            'name'     => Arr::get($row, 'name'),
+            'name'               => Arr::get($row, 'name'),
 //            'users.password' => Arr::get($row, 'password'),
             'users.images.cover' => Arr::get($row, 'image'),
+            'users.updated_by'   => Arr::get($row, 'user.id'),
         ];
     }
 

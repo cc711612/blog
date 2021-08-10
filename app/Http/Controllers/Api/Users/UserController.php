@@ -80,7 +80,6 @@ class UserController extends BaseController
     public function update(Request $request)
     {
         $Requester = (new UserUpdateRequest($request));
-
         $Validate = (new UserUpdateValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
@@ -118,7 +117,6 @@ class UserController extends BaseController
     public function destroy(Request $request)
     {
         $Requester = (new UserDestroyRequest($request));
-
         $Validate = (new UserDestroyValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
@@ -136,7 +134,7 @@ class UserController extends BaseController
             ]);
         }
         #刪除
-        if ($Entity->delete()) {
+        if ($Entity->update(Arr::get($Requester,'users'))) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
