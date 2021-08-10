@@ -16,6 +16,7 @@ use App\Http\Validators\Api\Users\UserDestroyValidator;
 
 class UserController extends BaseController
 {
+
     /**
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
