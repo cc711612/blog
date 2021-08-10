@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Http\Requesters\Api\Auth\LoginRequest;
 use App\Http\Validators\Api\Auth\LoginValidator;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Cache;
 
 
 class LoginController extends Controller
@@ -32,22 +33,64 @@ class LoginController extends Controller
                 'message' => $Validate->errors(),
             ]);
         }
-        dump(bcrypt(Arr::get($Requester,'password')));
-        dd((new User())->find(21)->password);
-        $User = (new User())
-            ->where('email',Arr::get($Requester,'email'))
-            ->where('password',Hash::make(Arr::get($Requester,'password')))
-            ->get();
-
-        if($User->isEmpty()){
+        $credentials = request(['email', 'password']);
+        #認證失敗
+        if(!Auth::attempt($credentials)){
             return response()->json([
                 'status'  => false,
                 'code'    => 400,
                 'message' => ['password'=>'密碼有誤'],
             ]);
         }
-        $User->api_token = Str::random(10);
-        $User->save();
-        dd($User);
+
+        # set cache
+        $this->MemberTokenCache();
+
+        return response()->json([
+            'status'  => true,
+            'code'    => 200,
+            'message' => [],
+            'data'    => [
+                'id' => Arr::get(Auth::user(),'id'),
+                'name' => Arr::get(Auth::user(),'name'),
+                'email' => Arr::get(Auth::user(),'email'),
+                'image' => Arr::get(Auth::user(),'image.cover',$this->getDefaultImage()),
+                'member_token' => Arr::get(Auth::user(),'api_token'),
+            ]
+        ]);
+    }
+
+    /**
+     * @param $UserEntity
+     */
+    private function MemberTokenCache()
+    {
+        # 更新token
+        $this->updateToken();
+        Cache::put(sprintf("member_token.%s",Arr::get(Auth::user(),'api_token')), Auth::user(), Carbon::now()->addMonth()->toDateTimeString());
+    }
+    /**
+     * @return string
+     * @Author: Roy
+     * @DateTime: 2021/8/7 下午 02:32
+     */
+    private function getDefaultImage()
+    {
+        return sprintf('%s://%s%s%s',$_SERVER['REQUEST_SCHEME'] ,$_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
+    }
+
+    /**
+     * @return $this
+     */
+    private function updateToken()
+    {
+        $user = Auth::user();
+        if (Cache::has(sprintf("member_token.%s",Arr::get(Auth::user(),'api_token')))) {
+            # 清除cache
+            Cache::forget(sprintf("member_token.%s",Arr::get(Auth::user(),'api_token')));
+        }
+        $user->api_token = Str::random(20);
+        $user->save();
+        return $this;
     }
 }
