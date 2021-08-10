@@ -67,7 +67,7 @@ class LoginController extends Controller
     {
         # 更新token
         $this->updateToken();
-        Cache::put(sprintf("member_token.%s",Arr::get(Auth::user(),'api_token')), Auth::user(), Carbon::now()->addMonth()->toDateTimeString());
+        Cache::put(sprintf(config('cache_key.api.member_token'),Arr::get(Auth::user(),'api_token')), Auth::user(), Carbon::now()->addMonth()->toDateTimeString());
     }
     /**
      * @return string
@@ -85,9 +85,9 @@ class LoginController extends Controller
     private function updateToken()
     {
         $user = Auth::user();
-        if (Cache::has(sprintf("member_token.%s",Arr::get(Auth::user(),'api_token')))) {
+        if (Cache::has(sprintf(config('cache_key.api.member_token'),Arr::get(Auth::user(),'api_token')))) {
             # 清除cache
-            Cache::forget(sprintf("member_token.%s",Arr::get(Auth::user(),'api_token')));
+            Cache::forget(sprintf(config('cache_key.api.member_token'),Arr::get(Auth::user(),'api_token')));
         }
         $user->api_token = Str::random(20);
         $user->save();

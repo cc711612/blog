@@ -20,6 +20,7 @@ Route::group(['middleware' => []], function () {
     # user
     Route::group(['middleware' => [], 'as' => 'user.', 'prefix' => 'user'], function () {
         Route::name("index")->get("/", [UserController::class, 'index']);
+        Route::name("show")->get("/{id}", [UserController::class, 'show']);
         Route::name("store")->post("/", [UserController::class, 'store']);
     });
     Route::group(['middleware' => ['VerifyApi']], function () {
