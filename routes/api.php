@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Users\UserController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,6 +25,10 @@ Route::group(['middleware' => [] ], function () {
     });
     Route::group(['as' => 'image.','prefix'=>'image'], function(){
         Route::name("store")->post("/",[ImageController::class, 'store']);
+    });
+    # 登入相關
+    Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function(){
+        Route::name("login")->post("/login", [LoginController::class, 'login']);
     });
 });
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
