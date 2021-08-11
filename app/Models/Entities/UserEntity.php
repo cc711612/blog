@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entities;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\User
+ * App\Models\Entities\User
  *
  * @property int $id
  * @property string $name
@@ -32,24 +32,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereImages($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity query()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereImages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereTwoFactorRecoveryCodes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereTwoFactorSecret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class UserEntity extends Authenticatable
 {
     use SoftDeletes;
     use HasApiTokens;
@@ -58,6 +58,20 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    const Table = 'users';
+    /**
+     * @var string
+     * @Author  : daniel
+     * @DateTime: 2020-05-13 16:28
+     */
+//    protected $connection = 'default';
+
+    /**
+     * @var string
+     * @Author  : daniel
+     * @DateTime: 2020-05-13 16:28
+     */
+    protected $table = self::Table;
     /**
      * The attributes that are mass assignable.
      *
@@ -102,7 +116,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
-        'profile_photo_url',
+//        'profile_photo_url',
     ];
 
     /**
@@ -126,5 +140,15 @@ class User extends Authenticatable
     public function setImagesAttribute(array $value)
     {
         $this->attributes['images'] = serialize($value);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @Author: Roy
+     * @DateTime: 2021/8/11 下午 03:08
+     */
+    public function articles()
+    {
+        return $this->hasMany(ArticleEntity::class,  'user_id', 'id');
     }
 }
