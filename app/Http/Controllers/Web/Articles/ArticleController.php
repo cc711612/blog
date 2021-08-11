@@ -36,7 +36,7 @@ class ArticleController extends BaseController
                     'id'         => Arr::get($article, 'id'),
                     'title'      => Arr::get($article, 'title'),
                     'content'    => Arr::get($article, 'content'),
-                    'sub_title'  => Str::limit(Arr::get($article, 'content'), 30, '...'),
+                    'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
                     'user_name'  => Arr::get($article, 'users.name'),
                     'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                     'actions'    => (object) [
@@ -61,7 +61,7 @@ class ArticleController extends BaseController
                 'id'         => Arr::get($article, 'id'),
                 'title'      => Arr::get($article, 'title'),
                 'content'    => Arr::get($article, 'content'),
-                'sub_title'  => Str::limit(Arr::get($article, 'content'), 30, '...'),
+                'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
                 'user_name'  => Arr::get($article, 'users.name'),
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                 'actions'    => (object) [
