@@ -6,8 +6,8 @@ use App\Models\UserEntity;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Http\Validators\Api\Users\UserStoreValidator;
-use App\Http\Requesters\Api\Users\UserStoreRequest;
+use App\Http\Validators\Api\Users\ArticleStoreValidator;
+use App\Http\Requesters\Api\Users\ArticleStoreRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requesters\Api\Users\UserUpdateRequest;
 use App\Http\Validators\Api\Users\UserUpdateValidator;
@@ -16,6 +16,7 @@ use App\Http\Validators\Api\Users\UserDestroyValidator;
 use App\Models\Services\ArticleService;
 use Illuminate\Support\Str;
 use App\Models\Entities\ArticleEntity;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends BaseController
 {
@@ -76,6 +77,18 @@ class ArticleController extends BaseController
         return view('blog.show', compact('Html'));
     }
 
+    public function create(Request $request)
+    {
+        $Html = (object) [
+            'action' => route('api.article.store'),
+            'method'  => 'POST',
+            'title'   => '',
+            'content' => '',
+            'member_token' => Arr::get(Auth::user(),'api_token')
+        ];
+        return view('blog.form', compact('Html'));
+    }
+
     /**
      * @param  \Illuminate\Http\Request  $request
      *
@@ -85,9 +98,9 @@ class ArticleController extends BaseController
      */
     public function store(Request $request)
     {
-        $Requester = (new UserStoreRequest($request));
+        $Requester = (new ArticleStoreRequest($request));
 
-        $Validate = (new UserStoreValidator($Requester))->validate();
+        $Validate = (new ArticleStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,

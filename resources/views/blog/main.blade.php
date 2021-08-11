@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet" />
 </head>
 <body>
 <!-- Navigation-->
@@ -28,7 +29,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">Login</a></li>
+                @if(is_null(\Illuminate\Support\Facades\Auth::user()))
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">LOGIN</a></li>
+                @else
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('article.create')}}">POST</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/logout">LOGOUT</a></li>
+                @endif
+
             </ul>
         </div>
     </div>
@@ -65,7 +72,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2021</div>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; Roy 2021</div>
             </div>
         </div>
     </div>
