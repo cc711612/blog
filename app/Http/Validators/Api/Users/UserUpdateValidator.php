@@ -44,6 +44,12 @@ class UserUpdateValidator extends ValidatorAbstracts
         return [
             'id'=>[
                 'required',
+                Rule::exists('users')->where(function ($query) {
+                    return $query
+                        ->where('id', Arr::get($this->request,'id'))
+                        ->whereNull('deleted_at')
+                        ;
+                }),
             ],
             'name' => [
                 'required',
@@ -65,6 +71,7 @@ class UserUpdateValidator extends ValidatorAbstracts
     {
         return [
             'id.required' => 'id 為必填',
+            'id.exists'   => 'id not exist',
             'name.required' => 'name 為必填',
 //            'password.required' => 'password 為必填',
 //            'password.max' => 'password 至多18字元',
