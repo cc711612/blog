@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\UserEntity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Http\Livewire\TwoFactorAuthenticationForm;
 use Livewire\Livewire;
@@ -14,7 +14,7 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
 
     public function test_two_factor_authentication_can_be_enabled()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = UserEntity::factory()->create());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
 
@@ -29,7 +29,7 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
 
     public function test_recovery_codes_can_be_regenerated()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = UserEntity::factory()->create());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
 
@@ -47,7 +47,7 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
 
     public function test_two_factor_authentication_can_be_disabled()
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = UserEntity::factory()->create());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
 

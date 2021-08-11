@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\UserEntity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
@@ -20,9 +20,9 @@ class CreateApiTokenTest extends TestCase
         }
 
         if (Features::hasTeamFeatures()) {
-            $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+            $this->actingAs($user = UserEntity::factory()->withPersonalTeam()->create());
         } else {
-            $this->actingAs($user = User::factory()->create());
+            $this->actingAs($user = UserEntity::factory()->create());
         }
 
         Livewire::test(ApiTokenManager::class)

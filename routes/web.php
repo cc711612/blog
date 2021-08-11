@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\Articles\ArticleController;
 use App\Http\Controllers\Web\Users\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,11 @@ use App\Http\Controllers\Web\Users\UserController;
 |
 */
 
-Route::get('/',[UserController::class, 'index']);
+Route::get('/',function (){
+    return redirect()->route('article.index');
+});
+Route::resource('article', ArticleController::class);
+
 Route::get('/upload', function () {
     return view('upload');
 });

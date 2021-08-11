@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\Users;
 
-use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -15,6 +14,7 @@ use App\Http\Requesters\Api\Users\UserDestroyRequest;
 use App\Http\Validators\Api\Users\UserDestroyValidator;
 use App\Http\Requesters\Api\Users\UserShowRequest;
 use App\Http\Validators\Api\Users\UserShowValidator;
+use App\Models\Entities\UserEntity;
 
 class UserController extends BaseController
 {
@@ -26,7 +26,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $Users = (new User())
+        $Users = (new UserEntity())
             ->all();
         $Users = $Users->map(function ($userEntity) {
             return [
@@ -67,7 +67,7 @@ class UserController extends BaseController
                 'data'    => [],
             ]);
         }
-        $User = (new User())->find(Arr::get($Requester, 'id'));
+        $User = (new UserEntity())->find(Arr::get($Requester, 'id'));
         return response()->json([
             'status'  => true,
             'code'    => 200,
@@ -108,7 +108,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
         Arr::set($Requester, 'password', Hash::make(Arr::get($Requester, 'password')));
         #Create
-        (new User())->create($Requester);
+        (new UserEntity())->create($Requester);
         return response()->json([
             'status'  => true,
             'code'    => 200,
@@ -139,7 +139,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
 //        Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
         #Create
-        $Entity = (new User())->find(Arr::get($Requester, 'id'))
+        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'))
             ->update(Arr::get($Requester, 'users'));
 
         if ($Entity) {
@@ -176,7 +176,7 @@ class UserController extends BaseController
                 'data'    => [],
             ]);
         }
-        $Entity = (new User())->find(Arr::get($Requester, 'id'));
+        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'));
         if (is_null($Entity) === true) {
             return response()->json([
                 'status'  => false,

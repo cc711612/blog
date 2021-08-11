@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\UserEntity;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
@@ -32,7 +32,7 @@ class PasswordResetTest extends TestCase
 
         Notification::fake();
 
-        $user = User::factory()->create();
+        $user = UserEntity::factory()->create();
 
         $response = $this->post('/forgot-password', [
             'email' => $user->email,
@@ -49,7 +49,7 @@ class PasswordResetTest extends TestCase
 
         Notification::fake();
 
-        $user = User::factory()->create();
+        $user = UserEntity::factory()->create();
 
         $response = $this->post('/forgot-password', [
             'email' => $user->email,
@@ -72,7 +72,7 @@ class PasswordResetTest extends TestCase
 
         Notification::fake();
 
-        $user = User::factory()->create();
+        $user = UserEntity::factory()->create();
 
         $response = $this->post('/forgot-password', [
             'email' => $user->email,
