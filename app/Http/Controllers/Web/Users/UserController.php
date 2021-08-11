@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Web\Users;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Http\Validators\Api\Users\UserStoreValidator;
-use App\Http\Requesters\Api\Users\UserStoreRequest;
+use App\Http\Validators\Api\Users\ArticleStoreValidator;
+use App\Http\Requesters\Api\Users\ArticleStoreRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requesters\Api\Users\UserUpdateRequest;
 use App\Http\Validators\Api\Users\UserUpdateValidator;
@@ -49,9 +49,9 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-        $Requester = (new UserStoreRequest($request));
+        $Requester = (new ArticleStoreRequest($request));
 
-        $Validate = (new UserStoreValidator($Requester))->validate();
+        $Validate = (new ArticleStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
