@@ -38,7 +38,7 @@
         </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/ksrinf0sacm0wcvckf5l7gzm4shalvqpq18q0uqhrlwqbkmi/tinymce/5/tinymce.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/ma5vlvghjz93fthi8wglhda2j2x1jc9jsit28g74jalc6z2z/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="../js/tinymce.js"></script>
 <script>
     $(function() {
