@@ -17,6 +17,7 @@ use App\Http\Controllers\Web\Users\UserController;
 Route::get('/',function (){
     return redirect()->route('article.index');
 });
+Route::get('/user',[UserController::class, 'index']);
 Route::resource('article', ArticleController::class);
 
 Route::get('/upload', function () {
