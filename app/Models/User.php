@@ -66,6 +66,10 @@ class User extends Authenticatable
         'email',
         'password',
         'images',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+        'api_token ',
     ];
 
     /**
