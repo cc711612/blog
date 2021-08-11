@@ -51,4 +51,14 @@ class ArticleEntity extends Model
     {
         return $this->hasOne(UserEntity::class, 'id', 'user_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @Author: Roy
+     * @DateTime: 2021/8/11 下午 06:27
+     */
+    public function comments()
+    {
+        return $this->hasMany(CommentEntity::class, 'article_id', 'id');
+    }
 }
