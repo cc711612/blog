@@ -23,7 +23,7 @@ class ArticleEntityFactory extends Factory
         $user_id = rand(1, 30);
         return [
             'user_id'    => $user_id,
-            'title'      => $this->faker->title(),
+            'title'      => $this->faker->text('20'),
             'content'    => $this->faker->paragraph(),
             'status'     => 1,
             'created_by' => $user_id,
