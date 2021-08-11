@@ -44,7 +44,12 @@ class UserShowValidator extends ValidatorAbstracts
         return [
             'id' => [
                 'required',
-                'exists:users,id',
+                Rule::exists('users')->where(function ($query) {
+                    return $query
+                        ->where('id', Arr::get($this->request,'id'))
+                        ->whereNull('deleted_at')
+                        ;
+                }),
             ],
         ];
     }
