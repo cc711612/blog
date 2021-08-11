@@ -70,6 +70,7 @@ class User extends Authenticatable
         'updated_by',
         'deleted_by',
         'api_token ',
+        'deleted_at',
     ];
 
     /**
