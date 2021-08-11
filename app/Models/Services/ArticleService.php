@@ -8,6 +8,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
+use App\Models\Entities\CommentEntity;
 
 /**
  * Class ArticleService
@@ -112,9 +113,20 @@ class ArticleService
     public function find(int $id)
     {
         return $this->getEntity()
-            ->with([UserEntity::Table=>function($query){
-                $query->select(['id','name']);
-            }])
+            ->with([
+                UserEntity::Table=>function($query){
+                    $query->select(['id','name']);
+                },
+                CommentEntity::Table=>function($query){
+                    $query
+                        ->with([
+                            UserEntity::Table=>function($query){
+                                $query->select(['id','name']);
+                            },
+                        ])
+                        ->select(['id','user_id','article_id','content','updated_at']);
+                }
+            ])
             ->find($id);
     }
 

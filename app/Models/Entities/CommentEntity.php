@@ -4,13 +4,12 @@ namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
-class ArticleEntity extends Model
+class CommentEntity extends Model
 {
     use HasFactory;
 
-    const Table = 'articles';
+    const Table = 'comments';
     /**
      * @var string
      * @Author  : daniel
@@ -28,7 +27,7 @@ class ArticleEntity extends Model
      */
     protected $fillable = [
         'user_id',
-        'title',
+        'article_id',
         'content',
         'status',
         'created_by',
@@ -55,10 +54,10 @@ class ArticleEntity extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      * @Author: Roy
-     * @DateTime: 2021/8/11 下午 06:27
+     * @DateTime: 2021/8/11 下午 06:31
      */
-    public function comments()
+    public function articles()
     {
-        return $this->hasMany(CommentEntity::class, 'article_id', 'id');
+        return $this->hasOne(ArticleEntity::class, 'id', 'article_id');
     }
 }

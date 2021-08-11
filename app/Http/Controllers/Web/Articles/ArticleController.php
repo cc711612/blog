@@ -56,6 +56,7 @@ class ArticleController extends BaseController
     {
         $id = Arr::get($request, 'article');
         $article = (new ArticleService())->find($id);
+
         $Html = (object) [
             'element' => (object) [
                 'id'         => Arr::get($article, 'id'),
@@ -64,6 +65,7 @@ class ArticleController extends BaseController
                 'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
                 'user_name'  => Arr::get($article, 'users.name'),
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
+                'comments'   => Arr::get($article, 'comments'),
                 'actions'    => (object) [
                     'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
                     'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
