@@ -10,7 +10,7 @@
                         <h2 class="subheading">{{$Html->element->sub_title}}</h2>
                         <span class="meta">
                             Posted by
-                            <a href="#!">{{$Html->element->user_name}}</a>
+                            <a href="{{$Html->element->actions->user_uri}}">{{$Html->element->user_name}}</a>
                             on {{$Html->element->updated_at}}
                         </span>
                     </div>

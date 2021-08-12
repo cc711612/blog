@@ -49,7 +49,7 @@ class ArticleController extends BaseController
                     'is_editor'  => Auth::id() === Arr::get($article, 'user_id'),
                 ];
             }),
-            'page_link' => $Articles->appends(request(['user']))->links()->toHtml()
+            'page_link' => $Articles->appends(request(['user']))->links()->toHtml(),
         ];
         return view('blog.index', compact('Html'));
     }
@@ -72,6 +72,7 @@ class ArticleController extends BaseController
                     'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
                     'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
                     'delete_uri' => route('api.article.destroy', ['article' => Arr::get($article, 'id')]),
+                    'user_uri'   => route('article.index', ['user' => Arr::get($article, 'user_id')]),
                 ],
             ],
         ];
