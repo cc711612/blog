@@ -44,12 +44,13 @@ class ArticleController extends BaseController
                         'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
                         'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
                         'delete_uri' => route('article.destroy', ['article' => Arr::get($article, 'id')]),
+                        'user_uri'   => route('article.index', ['user' => Arr::get($article, 'user_id')]),
                     ],
+                    'is_editor'  => Auth::id() === Arr::get($article, 'user_id'),
                 ];
             }),
-            'page_link' => $Articles->links()->toHtml(),
+            'page_link' => $Articles->appends(request(['user']))->links()->toHtml()
         ];
-
         return view('blog.index', compact('Html'));
     }
 
@@ -80,132 +81,14 @@ class ArticleController extends BaseController
     public function create(Request $request)
     {
         $Html = (object) [
-            'action' => route('api.article.store'),
-            'method'  => 'POST',
-            'title'   => '',
-            'content' => '',
-            'member_token' => Arr::get(Auth::user(),'api_token')
+            'action'       => route('api.article.store'),
+            'method'       => 'POST',
+            'title'        => '',
+            'content'      => '',
+            'member_token' => Arr::get(Auth::user(), 'api_token'),
         ];
         return view('blog.form', compact('Html'));
     }
 
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @Author: Roy
-     * @DateTime: 2021/7/30 下午 02:01
-     */
-    public function store(Request $request)
-    {
-        $Requester = (new ArticleStoreRequest($request));
 
-        $Validate = (new ArticleStoreValidator($Requester))->validate();
-        if ($Validate->fails() === true) {
-            return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => $Validate->errors(),
-            ]);
-        }
-        $Requester = $Requester->toArray();
-        Arr::set($Requester, 'password', Hash::make(Arr::get($Requester, 'password')));
-        #Create
-        (new UserEntity())->create($Requester);
-        return response()->json([
-            'status'  => true,
-            'code'    => 200,
-            'message' => [],
-        ]);
-    }
-
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @Author: Roy
-     * @DateTime: 2021/7/30 下午 02:03
-     */
-    public function update(Request $request)
-    {
-        $Requester = (new UserUpdateRequest($request));
-
-        $Validate = (new UserUpdateValidator($Requester))->validate();
-        if ($Validate->fails() === true) {
-            return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => $Validate->errors(),
-            ]);
-        }
-        $Requester = $Requester->toArray();
-        Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
-        #Create
-        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'))
-            ->update($Requester);
-        if ($Entity) {
-            return response()->json([
-                'status'  => true,
-                'code'    => 200,
-                'message' => [],
-            ]);
-        }
-        return response()->json([
-            'status'  => false,
-            'code'    => 400,
-            'message' => ['error' => '系統異常'],
-        ]);
-    }
-
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @Author: Roy
-     * @DateTime: 2021/7/30 下午 02:13
-     */
-    public function destroy(Request $request)
-    {
-        $Requester = (new UserDestroyRequest($request));
-
-        $Validate = (new UserDestroyValidator($Requester))->validate();
-        if ($Validate->fails() === true) {
-            return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => $Validate->errors(),
-            ]);
-        }
-        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'));
-        if (is_null($Entity) === true) {
-            return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => ['id' => 'not exist'],
-            ]);
-        }
-        #刪除
-        if ($Entity->delete()) {
-            return response()->json([
-                'status'  => true,
-                'code'    => 200,
-                'message' => [],
-            ]);
-        }
-        return response()->json([
-            'status'  => false,
-            'code'    => 400,
-            'message' => ['error' => '系統異常'],
-        ]);
-    }
-
-    /**
-     * @return string
-     * @Author: Roy
-     * @DateTime: 2021/8/7 下午 02:32
-     */
-    public function getDefaultImage()
-    {
-        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
-            config('filesystems.disks.images.url'), 'default.png');
-    }
 }

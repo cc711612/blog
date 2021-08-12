@@ -12,7 +12,7 @@
             </div>
         @endif
 
-        <form method="POST" id="form" action="{{route('api.auth.login')}}}">
+        <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div>
@@ -39,28 +39,10 @@
                     </a>
                 @endif
 
-                <x-jet-button class="ml-4 btn-submit">
+                <x-jet-button class="ml-4">
                     {{ __('Log in') }}
                 </x-jet-button>
             </div>
         </form>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script>
-            $().ready(function () {
-               $(".btn-submit").click(function (){
-                  //  let FormElement = $("#form");
-                  //  $.post(FormElement.attr('action'), FormElement.serialize(), function(Obj){
-                  //      console.log(Obj);
-                  //      if(Obj.status !== true){
-                  //          alert('登入失敗');
-                  //      }else{
-                  //          alert('登入成功');
-                  //          location.href='../';
-                  //      }
-                  //  });
-                  // return false;
-               });
-            });
-        </script>
     </x-jet-authentication-card>
 </x-guest-layout>

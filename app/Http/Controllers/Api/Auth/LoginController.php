@@ -7,14 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Http\Requesters\Api\Auth\LoginRequest;
 use App\Http\Validators\Api\Auth\LoginValidator;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use Cache;
+use App\Traits\AuthLoginTrait;
 
-
+/**
+ * Class LoginController
+ *
+ * @package App\Http\Controllers\Api\Auth
+ * @Author: Roy
+ * @DateTime: 2021/8/12 下午 09:14
+ */
 class LoginController extends Controller
 {
+    use AuthLoginTrait;
+
     /**
      * @param  \Illuminate\Http\Request  $request
      *
@@ -60,37 +66,16 @@ class LoginController extends Controller
         ]);
     }
 
-    /**
-     * @param $UserEntity
-     */
-    private function MemberTokenCache()
-    {
-        # 更新token
-        $this->updateToken();
-        Cache::put(sprintf(config('cache_key.api.member_token'),Arr::get(Auth::user(),'api_token')), Auth::user(), Carbon::now()->addMonth()->toDateTimeString());
-    }
+
     /**
      * @return string
      * @Author: Roy
-     * @DateTime: 2021/8/7 下午 02:32
+     * @DateTime: 2021/8/12 下午 09:14
      */
     private function getDefaultImage()
     {
         return sprintf('%s://%s%s%s',$_SERVER['REQUEST_SCHEME'] ,$_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
     }
 
-    /**
-     * @return $this
-     */
-    private function updateToken()
-    {
-        $user = Auth::user();
-        if (Cache::has(sprintf(config('cache_key.api.member_token'),Arr::get(Auth::user(),'api_token')))) {
-            # 清除cache
-            Cache::forget(sprintf(config('cache_key.api.member_token'),Arr::get(Auth::user(),'api_token')));
-        }
-        $user->api_token = Str::random(20);
-        $user->save();
-        return $this;
-    }
+
 }

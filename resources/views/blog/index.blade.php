@@ -27,7 +27,7 @@
                 </a>
                 <p class="post-meta">
                     Posted by
-                    <a href="#!">{{$element->user_name}}</a>
+                    <a href="{{$element->actions->user_uri}}">{{$element->user_name}}</a>
                     At {{$element->updated_at}}
                 </p>
             </div>

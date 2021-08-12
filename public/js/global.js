@@ -7,4 +7,14 @@ $().ready(function () {
     });
 });
 
+function ajaxLoadingOpen()
+{
+    $("#loading").show();
+}
+
+function ajaxLoadingClose()
+{
+    $("#loading").hide();
+}
+
 
