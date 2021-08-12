@@ -18,7 +18,7 @@ Route::get('/',function (){
     return redirect()->route('article.index');
 });
 Route::get('/user',[UserController::class, 'index']);
-Route::resource('article', ArticleController::class)->only(['index','create','show']);
+Route::resource('article', ArticleController::class)->only(['index','create','show','edit']);
 
 Route::get('/upload', function () {
     return view('upload');
