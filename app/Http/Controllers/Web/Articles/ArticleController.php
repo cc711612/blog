@@ -54,6 +54,13 @@ class ArticleController extends BaseController
         return view('blog.index', compact('Html'));
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @Author: Roy
+     * @DateTime: 2021/8/12 下午 10:07
+     */
     public function show(Request $request)
     {
         $id = Arr::get($request, 'article');
@@ -79,8 +86,18 @@ class ArticleController extends BaseController
         return view('blog.show', compact('Html'));
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @Author: Roy
+     * @DateTime: 2021/8/12 下午 10:07
+     */
     public function create(Request $request)
     {
+        if(is_null(Auth::id())){
+            return redirect()->route('login');
+        }
         $Html = (object) [
             'action'       => route('api.article.store'),
             'method'       => 'POST',
