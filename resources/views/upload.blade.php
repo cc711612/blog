@@ -21,7 +21,7 @@
 <script>
     $().ready(function () {
         let ImageUpload = $('#ImageUpload');
-        let upload_url = '{{route('image.store')}}';
+        let upload_url = '{{route('api.image.store')}}';
         //上傳
         ImageUpload.html5Uploader({
             // 最大上傳檔案數

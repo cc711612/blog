@@ -41,7 +41,6 @@ Route::group(['middleware' => [],'as'=>'api.'], function () {
             Route::name("logout")->post("/logout", [LogoutController::class, 'logout']);
         });
     });
-
     # 登入相關
     Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function () {
         Route::name("login")->post("/login", [LoginController::class, 'login']);
