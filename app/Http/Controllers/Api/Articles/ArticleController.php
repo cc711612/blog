@@ -94,6 +94,7 @@ class ArticleController extends BaseController
                 'status'  => false,
                 'code'    => 400,
                 'message' => $Validate->errors(),
+                'redirect' => '',
             ]);
         }
         #Create

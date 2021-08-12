@@ -78,8 +78,8 @@ class ArticleService
             }])
             ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at']);
         #關鍵字
-        if (is_null($this->getRequestByKey('search.keyword')) === false) {
-            $Result = $Result->where('title', 'like', sprintf('%%%s%%', $this->getRequestByKey('search.keyword')));
+        if (is_null($this->getRequestByKey('user')) === false) {
+            $Result = $Result->where('user_id', $this->getRequestByKey('user'));
         }
 
         return $Result

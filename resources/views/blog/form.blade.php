@@ -46,16 +46,19 @@
 
         tinymceInit();
         $("button[data-action='submit']").click(function(){
-
+            ajaxLoadingOpen();
             $.post(FormElement.attr('action'), FormElement.serialize(), function(Obj){
-                console.log(Obj);
+                ajaxLoadingClose();
                 if(Obj.status !== true){
-                    alert('error');
+                    $.each(Obj.message,function (key,value){
+                        alert(value.join(','));
+                    });
                 }else{
                     alert('新增成功');
+                }
+                if(Obj.redirect != ''){
                     location.href=Obj.redirect;
                 }
-
             });
         });
     });
