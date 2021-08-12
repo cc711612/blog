@@ -43,7 +43,7 @@ class ArticleController extends BaseController
                     'actions'    => (object) [
                         'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
                         'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
-                        'delete_uri' => route('article.destroy', ['article' => Arr::get($article, 'id')]),
+                        'delete_uri' => route('api.article.destroy', ['article' => Arr::get($article, 'id')]),
                         'user_uri'   => route('article.index', ['user' => Arr::get($article, 'user_id')]),
                     ],
                     'is_editor'  => Auth::id() === Arr::get($article, 'user_id'),
@@ -71,7 +71,7 @@ class ArticleController extends BaseController
                 'actions'    => (object) [
                     'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
                     'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
-                    'delete_uri' => route('article.destroy', ['article' => Arr::get($article, 'id')]),
+                    'delete_uri' => route('api.article.destroy', ['article' => Arr::get($article, 'id')]),
                 ],
             ],
         ];
