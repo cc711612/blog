@@ -65,7 +65,9 @@ class ArticleController extends BaseController
     {
         $id = Arr::get($request, 'article');
         $article = (new ArticleService())->find($id);
-
+        if (is_null($article) === true) {
+            return redirect()->route('article.index');
+        }
         $Html = (object) [
             'element' => (object) [
                 'id'         => Arr::get($article, 'id'),
@@ -95,8 +97,8 @@ class ArticleController extends BaseController
      */
     public function create(Request $request)
     {
-        if(is_null(Auth::id())){
-            return redirect()->route('login');
+        if (is_null(Auth::id())) {
+            return redirect()->route('article.index');
         }
         $Html = (object) [
             'action'       => route('api.article.store'),
@@ -104,9 +106,40 @@ class ArticleController extends BaseController
             'title'        => '',
             'content'      => '',
             'member_token' => Arr::get(Auth::user(), 'api_token'),
+            'heading'      => 'Create Article',
+            'success_msg'  => '新增成功',
         ];
         return view('blog.form', compact('Html'));
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @Author: Roy
+     * @DateTime: 2021/8/13 下午 08:56
+     */
+    public function edit(Request $request)
+    {
+        if (is_null(Auth::id()) === true) {
+            return redirect()->route('login');
+        }
+        $id = Arr::get($request, 'article');
+        $article = (new ArticleService())->find($id);
+        if (is_null($article) === true || Auth::id() != Arr::get($article, 'user_id')) {
+            return redirect()->route('article.index');
+        }
+
+        $Html = (object) [
+            'action'       => route('api.article.update', ['article' => Arr::get($article, 'id')]),
+            'method'       => 'PUT',
+            'title'        => Arr::get($article, 'title'),
+            'content'      => Arr::get($article, 'content'),
+            'member_token' => Arr::get(Auth::user(), 'api_token'),
+            'heading'      => 'Edit Article',
+            'success_msg'  => '更新成功',
+        ];
+        return view('blog.form', compact('Html'));
+    }
 
 }
