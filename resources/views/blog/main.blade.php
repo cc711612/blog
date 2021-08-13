@@ -36,13 +36,15 @@
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">LOGIN</a></li>
                 @else
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('article.create')}}">POST</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/logout">LOGOUT</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" id="logout" href="/logout">LOGOUT</a></li>
                 @endif
 
             </ul>
         </div>
     </div>
 </nav>
+<!-- jquery-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 @yield("content")
 <!-- Footer-->
 <footer class="border-top">
@@ -80,12 +82,13 @@
         </div>
     </div>
 </footer>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
-
 <!-- Core theme JS-->
-<script src="../js/global.js"></script>
-<script src="../js/scripts.js"></script>
+<script src="../js/blog/global.js"></script>
+<script src="../js/blog/logout.js"></script>
+<script src="../js/blog/scripts.js"></script>
 </body>
 </html>
