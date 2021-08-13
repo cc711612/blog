@@ -6,9 +6,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Cache;
+use App\Traits\AuthLoginTrait;
 
 class VerifyApi
 {
+    use AuthLoginTrait;
     /**
      * Handle an incoming request.
      *
@@ -30,9 +32,7 @@ class VerifyApi
                 'data'    => [],
             ]);
         }
-        $cache_key = sprintf("member_token.%s", $member_token);
-
-        if (Cache::has($cache_key) == false) {
+        if ($this->checkToken($member_token) === false) {
             return response()->json([
                 'status'   => false,
                 'code'     => 400,
@@ -42,7 +42,7 @@ class VerifyApi
             ]);
         }
         # 取得快取資料
-        $LoginCache = Cache::get($cache_key);
+        $LoginCache = Cache::get($this->getCacheKey($member_token));
 
         # 若有新增請記得至 ResponseApiServiceProvider 排除
         $request->merge([

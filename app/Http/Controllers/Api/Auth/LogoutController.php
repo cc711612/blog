@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Cache;
+use App\Traits\AuthLogoutTrait;
 
 
 class LogoutController extends Controller
 {
+    use AuthLogoutTrait;
     /**
      * @param  \Illuminate\Http\Request  $request
      *
@@ -29,18 +31,5 @@ class LogoutController extends Controller
         ]);
     }
 
-    /**
-     * @param  string  $token
-     *
-     * @Author: Roy
-     * @DateTime: 2021/8/10 下午 11:59
-     */
-    private function cleanToken(string $token)
-    {
-        if (Cache::has(sprintf(config('cache_key.api.member_token'), $token))) {
-            # 清除cache
-            Cache::forget(sprintf(config('cache_key.api.member_token'), $token));
-        }
-        return $this;
-    }
+
 }
