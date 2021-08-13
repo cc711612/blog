@@ -7,19 +7,19 @@
     <meta name="author" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{{asset('/assets/favicon.ico')}}" />
     <!-- Font Awesome icons (free version)-->
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../css/styles.css?v={{date("Ymdhis")}}" rel="stylesheet" />
-    <link href="../css/main.css?v={{date("Ymdhis")}}" rel="stylesheet" />
+    <link href="{{asset('/css/styles.css?v='.date("Ymdhis"))}}" rel="stylesheet" />
+    <link href="{{asset('/css/main.css?v='.date("Ymdhis"))}}" rel="stylesheet" />
     <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet" />
 </head>
 <body>
 <div class="loader" id="loading" style="display:none;">
-    <img src="../assets/img/loader.gif" alt="Loading..."/>
+    <img src="{{asset('/assets/img/loader.gif')}}" alt="Loading..."/>
 </div>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -87,8 +87,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 <!-- Core theme JS-->
-<script src="../js/blog/global.js"></script>
-<script src="../js/blog/logout.js"></script>
-<script src="../js/blog/scripts.js"></script>
+<script src="{{asset('/js/blog/global.js')}}"></script>
+<script src="{{asset('/js/blog/logout.js')}}"></script>
+<script src="{{asset('/js/blog/scripts.js')}}"></script>
 </body>
 </html>

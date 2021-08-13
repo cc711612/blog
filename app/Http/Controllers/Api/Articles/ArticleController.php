@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requesters\Api\Articles\ArticleStoreRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Traits\ApiPaginateTrait;
+use App\Http\Requesters\Api\Articles\ArticleUpdateRequest;
+use App\Http\Validators\Api\Articles\ArticleUpdateValidator;
+use App\Http\Requesters\Api\Articles\ArticleDestroyRequest;
+use App\Http\Validators\Api\Articles\ArticleDestroyValidator;
 
 class ArticleController extends BaseController
 {
@@ -56,6 +60,13 @@ class ArticleController extends BaseController
         ]);
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @Author: Roy
+     * @DateTime: 2021/8/13 下午 12:52
+     */
     public function show(Request $request)
     {
         $id = Arr::get($request, 'article');
@@ -134,32 +145,36 @@ class ArticleController extends BaseController
      */
     public function update(Request $request)
     {
-        $Requester = (new UserUpdateRequest($request));
+        $Requester = (new ArticleUpdateRequest($request));
 
-        $Validate = (new UserUpdateValidator($Requester))->validate();
+        $Validate = (new ArticleUpdateValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
                 'code'    => 400,
                 'message' => $Validate->errors(),
+                'data'     => [],
+                'redirect' => '',
             ]);
         }
         $Requester = $Requester->toArray();
-        Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
-        #Create
-        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'))
-            ->update($Requester);
+        $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'))
+            ->update(Arr::get($Requester,ArticleEntity::Table));
         if ($Entity) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
                 'message' => [],
+                'data'     => [],
+                'redirect' => route('article.index')
             ]);
         }
         return response()->json([
             'status'  => false,
             'code'    => 400,
-            'message' => ['error' => '系統異常'],
+            'message' => ['error' => '系統異常,請重新整理'],
+            'data'     => [],
+            'redirect' => '',
         ]);
     }
 
@@ -171,9 +186,9 @@ class ArticleController extends BaseController
      */
     public function destroy(Request $request)
     {
-        $Requester = (new UserDestroyRequest($request));
+        $Requester = (new ArticleDestroyRequest($request));
 
-        $Validate = (new UserDestroyValidator($Requester))->validate();
+        $Validate = (new ArticleDestroyValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
@@ -181,7 +196,7 @@ class ArticleController extends BaseController
                 'message' => $Validate->errors(),
             ]);
         }
-        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'));
+        $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'));
         if (is_null($Entity) === true) {
             return response()->json([
                 'status'  => false,
@@ -190,7 +205,7 @@ class ArticleController extends BaseController
             ]);
         }
         #刪除
-        if ($Entity->delete()) {
+        if ($Entity->update(Arr::get($Requester,ArticleEntity::Table))) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
