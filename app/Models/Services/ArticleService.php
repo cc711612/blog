@@ -72,12 +72,19 @@ class ArticleService
      */
     public function paginate(int $page_count = 10): LengthAwarePaginator
     {
+        # 一頁幾個
+        if (is_null($this->getRequestByKey('per_page')) === false) {
+            $page_count = $this->getRequestByKey('per_page');
+        }
+
         $Result = $this->getEntity()
-            ->with([UserEntity::Table=>function($query){
-                $query->select(['id','name']);
-            }])
+            ->with([
+                UserEntity::Table => function ($query) {
+                    $query->select(['id', 'name']);
+                },
+            ])
             ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at']);
-        #關鍵字
+        # 作者
         if (is_null($this->getRequestByKey('user')) === false) {
             $Result = $Result->where('user_id', $this->getRequestByKey('user'));
         }
@@ -114,18 +121,18 @@ class ArticleService
     {
         return $this->getEntity()
             ->with([
-                UserEntity::Table=>function($query){
-                    $query->select(['id','name']);
+                UserEntity::Table    => function ($query) {
+                    $query->select(['id', 'name']);
                 },
-                CommentEntity::Table=>function($query){
+                CommentEntity::Table => function ($query) {
                     $query
                         ->with([
-                            UserEntity::Table=>function($query){
-                                $query->select(['id','name']);
+                            UserEntity::Table => function ($query) {
+                                $query->select(['id', 'name']);
                             },
                         ])
-                        ->select(['id','user_id','article_id','content','updated_at']);
-                }
+                        ->select(['id', 'user_id', 'article_id', 'content', 'updated_at']);
+                },
             ])
             ->find($id);
     }

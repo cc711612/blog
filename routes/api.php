@@ -19,23 +19,15 @@ use App\Http\Controllers\Api\Articles\ArticleController;
 |
 */
 Route::group(['middleware' => [],'as'=>'api.'], function () {
-    # user
-    Route::group(['middleware' => [], 'as' => 'user.', 'prefix' => 'user'], function () {
-        Route::name("index")->get("/", [UserController::class, 'index']);
-        Route::name("show")->get("/{id}", [UserController::class, 'show']);
-        Route::name("store")->post("/", [UserController::class, 'store']);
-    });
-    # 上傳圖片
-    Route::group(['as' => 'image.', 'prefix' => 'image'], function () {
-        Route::name("store")->post("/", [ImageController::class, 'store']);
-    });
+    # 需要member_token的
     Route::group(['middleware' => ['VerifyApi']], function () {
         # user
         Route::group(['middleware' => [], 'as' => 'user.', 'prefix' => 'user'], function () {
             Route::name("update")->put("/{id}", [UserController::class, 'update']);
             Route::name("delete")->delete("/{id}", [UserController::class, 'destroy']);
         });
-        Route::resource('article', ArticleController::class);
+        #文章
+        Route::resource('article', ArticleController::class)->except(['index','show']);
         # 登出相關
         Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function () {
             Route::name("logout")->post("/logout", [LogoutController::class, 'logout']);
@@ -44,5 +36,20 @@ Route::group(['middleware' => [],'as'=>'api.'], function () {
     # 登入相關
     Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function () {
         Route::name("login")->post("/login", [LoginController::class, 'login']);
+    });
+    # user
+    Route::group(['middleware' => [], 'as' => 'user.', 'prefix' => 'user'], function () {
+        Route::name("index")->get("/", [UserController::class, 'index']);
+        Route::name("show")->get("/{id}", [UserController::class, 'show']);
+        Route::name("store")->post("/", [UserController::class, 'store']);
+    });
+    # user
+    Route::group(['middleware' => [], 'as' => 'article.', 'prefix' => 'article'], function () {
+        Route::name("index")->get("/", [ArticleController::class, 'index']);
+        Route::name("show")->get("/{article}", [ArticleController::class, 'show']);
+    });
+    # 上傳圖片
+    Route::group(['as' => 'image.', 'prefix' => 'image'], function () {
+        Route::name("store")->post("/", [ImageController::class, 'store']);
     });
 });

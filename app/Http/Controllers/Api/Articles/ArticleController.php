@@ -17,9 +17,13 @@ use Illuminate\Support\Str;
 use App\Models\Entities\ArticleEntity;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requesters\Api\Articles\ArticleStoreRequest;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Traits\ApiPaginateTrait;
 
 class ArticleController extends BaseController
 {
+    use ApiPaginateTrait;
+
     /**
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -31,50 +35,61 @@ class ArticleController extends BaseController
             ->setRequest($request->toArray())
             ->paginate();
 
-        $Html = (object) [
-            'elements'  => $Articles->getCollection()->map(function ($article) {
-                return (object) [
-                    'id'         => Arr::get($article, 'id'),
-                    'title'      => Arr::get($article, 'title'),
-                    'content'    => Arr::get($article, 'content'),
-                    'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
-                    'user_name'  => Arr::get($article, 'users.name'),
-                    'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
-                    'actions'    => (object) [
-                        'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
-                        'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
-                        'delete_uri' => route('article.destroy', ['article' => Arr::get($article, 'id')]),
-                    ],
-                ];
-            }),
-            'page_link' => $Articles->links()->toHtml(),
-        ];
-
-        return view('blog.index', compact('Html'));
+        return response()->json([
+            'status'  => true,
+            'code'    => 200,
+            'message' => [],
+            'data'    => [
+                'paginate' => $this->handleApiPageInfo($Articles),
+                'articles' => $Articles->getCollection()->map(function ($article) {
+                    return [
+                        'id'         => Arr::get($article, 'id'),
+                        'title'      => Arr::get($article, 'title'),
+                        'content'    => Arr::get($article, 'content'),
+                        'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                        'user_name'  => Arr::get($article, 'users.name'),
+                        'user_id'    => Arr::get($article, 'user_id'),
+                        'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
+                    ];
+                }),
+            ],
+        ]);
     }
 
     public function show(Request $request)
     {
         $id = Arr::get($request, 'article');
         $article = (new ArticleService())->find($id);
-
-        $Html = (object) [
-            'element' => (object) [
+        if (is_null($article)) {
+            return response()->json([
+                'status'  => false,
+                'code'    => 400,
+                'message' => [],
+                'data'    => [],
+            ]);
+        }
+        return response()->json([
+            'status'  => true,
+            'code'    => 200,
+            'message' => [],
+            'data'    => [
                 'id'         => Arr::get($article, 'id'),
                 'title'      => Arr::get($article, 'title'),
                 'content'    => Arr::get($article, 'content'),
                 'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
                 'user_name'  => Arr::get($article, 'users.name'),
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
-                'comments'   => Arr::get($article, 'comments'),
-                'actions'    => (object) [
-                    'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
-                    'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
-                    'delete_uri' => route('article.destroy', ['article' => Arr::get($article, 'id')]),
-                ],
+                'comments'   => Arr::get($article, 'comments', collect([]))->map(function ($comment) {
+                    return [
+                        'id'         => Arr::get($comment, 'id'),
+                        'user_id'    => Arr::get($comment, 'user_id'),
+                        'user_name'  => Arr::get($comment, 'users.name'),
+                        'content'    => Arr::get($comment, 'content'),
+                        'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
+                    ];
+                }),
             ],
-        ];
-        return view('blog.show', compact('Html'));
+        ]);
     }
 
     /**
@@ -91,9 +106,10 @@ class ArticleController extends BaseController
         $Validate = (new ArticleStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => $Validate->errors(),
+                'status'   => false,
+                'code'     => 400,
+                'message'  => $Validate->errors(),
+                'data'     => [],
                 'redirect' => '',
             ]);
         }
@@ -101,9 +117,10 @@ class ArticleController extends BaseController
         $Entity = (new ArticleEntity())->create($Requester->toArray());
 
         return response()->json([
-            'status'  => true,
-            'code'    => 200,
-            'message' => [],
+            'status'   => true,
+            'code'     => 200,
+            'message'  => [],
+            'data'     => [],
             'redirect' => route('article.index'),
         ]);
     }
@@ -187,14 +204,5 @@ class ArticleController extends BaseController
         ]);
     }
 
-    /**
-     * @return string
-     * @Author: Roy
-     * @DateTime: 2021/8/7 下午 02:32
-     */
-    public function getDefaultImage()
-    {
-        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
-            config('filesystems.disks.images.url'), 'default.png');
-    }
+
 }
