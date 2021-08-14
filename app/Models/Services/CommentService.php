@@ -96,13 +96,26 @@ class CommentService
     public function update()
     {
         $Entity = $this->getEntity()
-            ->find($this->getRequestByKey(sprintf("%s.%s", CommentEntity::Table, 'id')));
-
+            ->find($this->getRequestByKey('id'));
         if (is_null($Entity)) {
             return null;
         }
         return $Entity->update($this->getRequestByKey(CommentEntity::Table));
     }
 
+    /**
+     * @return |null
+     * @Author: Roy
+     * @DateTime: 2021/8/14 下午 12:21
+     */
+    public function delete()
+    {
+        $Entity = $this->getEntity()
+            ->find($this->getRequestByKey('id'));
+        if (is_null($Entity)) {
+            return null;
+        }
+        return $Entity->update($this->getRequestByKey(CommentEntity::Table));
+    }
 
 }
