@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Articles\ArticleController;
+use App\Http\Controllers\Api\Comments\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +27,10 @@ Route::group(['middleware' => [],'as'=>'api.'], function () {
             Route::name("update")->put("/{id}", [UserController::class, 'update']);
             Route::name("delete")->delete("/{id}", [UserController::class, 'destroy']);
         });
-        #文章
+        # 文章
         Route::resource('article', ArticleController::class)->except(['index','show']);
+        # 留言
+        Route::resource('comment', CommentController::class)->except(['index']);
         # 登出相關
         Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function () {
             Route::name("logout")->post("/logout", [LogoutController::class, 'logout']);
@@ -43,10 +46,14 @@ Route::group(['middleware' => [],'as'=>'api.'], function () {
         Route::name("show")->get("/{id}", [UserController::class, 'show']);
         Route::name("store")->post("/", [UserController::class, 'store']);
     });
-    # user
+    # 文章
     Route::group(['middleware' => [], 'as' => 'article.', 'prefix' => 'article'], function () {
         Route::name("index")->get("/", [ArticleController::class, 'index']);
         Route::name("show")->get("/{article}", [ArticleController::class, 'show']);
+    });
+    # 留言
+    Route::group(['middleware' => [], 'as' => 'comment.', 'prefix' => 'comment'], function () {
+        Route::name("index")->get("/", [CommentController::class, 'index']);
     });
     # 上傳圖片
     Route::group(['as' => 'image.', 'prefix' => 'image'], function () {
