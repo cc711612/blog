@@ -13,6 +13,10 @@ use App\Models\Entities\CommentEntity;
 use App\Models\Services\CommentService;
 use App\Http\Requesters\Api\Comments\CommentIndexRequest;
 use App\Http\Validators\Api\Comments\CommentIndexValidator;
+use App\Http\Requesters\Api\Comments\CommentUpdateRequest;
+use App\Http\Validators\Api\Comments\CommentUpdateValidator;
+use App\Http\Requesters\Api\Comments\CommentDestroyRequest;
+use App\Http\Validators\Api\Comments\CommentDestroyValidator;
 
 class CommentController extends BaseController
 {
@@ -45,7 +49,7 @@ class CommentController extends BaseController
             'status'  => true,
             'code'    => 200,
             'message' => [],
-            'data'    => $Comments->map(function ($comment){
+            'data'    => $Comments->map(function ($comment) {
                 return [
                     'id'         => Arr::get($comment, 'id'),
                     'user_id'    => Arr::get($comment, 'user_id'),
@@ -81,12 +85,12 @@ class CommentController extends BaseController
             ]);
         }
         #Create
-        $Entity = (new CommentEntity())->create(Arr::get($Requester,CommentEntity::Table));
+        $Entity = (new CommentEntity())->create(Arr::get($Requester, CommentEntity::Table));
         return response()->json([
-            'status'   => true,
-            'code'     => 200,
-            'message'  => [],
-            'data'     => [],
+            'status'  => true,
+            'code'    => 200,
+            'message' => [],
+            'data'    => [],
         ]);
     }
 
@@ -99,34 +103,32 @@ class CommentController extends BaseController
      */
     public function update(Request $request)
     {
-        $Requester = (new ArticleUpdateRequest($request));
+        $Requester = (new CommentUpdateRequest($request));
 
-        $Validate = (new ArticleUpdateValidator($Requester))->validate();
+        $Validate = (new CommentUpdateValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => $Validate->errors(),
+                'status'   => false,
+                'code'     => 400,
+                'message'  => $Validate->errors(),
                 'data'     => [],
                 'redirect' => '',
             ]);
         }
-        $Requester = $Requester->toArray();
-        $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'))
-            ->update(Arr::get($Requester,ArticleEntity::Table));
+        $Entity = (new CommentService())->setRequest($Requester->toArray())->update();
         if ($Entity) {
             return response()->json([
-                'status'  => true,
-                'code'    => 200,
-                'message' => [],
+                'status'   => true,
+                'code'     => 200,
+                'message'  => [],
                 'data'     => [],
-                'redirect' => route('article.index')
+                'redirect' => route('article.show', ['article' => Arr::get($Requester, 'article_id')]),
             ]);
         }
         return response()->json([
-            'status'  => false,
-            'code'    => 400,
-            'message' => ['error' => '系統異常,請重新整理'],
+            'status'   => false,
+            'code'     => 400,
+            'message'  => ['error' => '系統異常,請重新整理'],
             'data'     => [],
             'redirect' => '',
         ]);
@@ -140,36 +142,33 @@ class CommentController extends BaseController
      */
     public function destroy(Request $request)
     {
-        $Requester = (new ArticleDestroyRequest($request));
-
-        $Validate = (new ArticleDestroyValidator($Requester))->validate();
+        $Requester = (new CommentDestroyRequest($request));
+        $Validate = (new CommentDestroyValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
                 'code'    => 400,
                 'message' => $Validate->errors(),
-            ]);
-        }
-        $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'));
-        if (is_null($Entity) === true) {
-            return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => ['id' => 'not exist'],
+                'data'    => [],
             ]);
         }
         #刪除
-        if ($Entity->update(Arr::get($Requester,ArticleEntity::Table))) {
+        if (is_null((new CommentService())
+                ->setRequest($Requester->toArray())
+                ->delete()
+            ) === false) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
                 'message' => [],
+                'data'    => [],
             ]);
         }
         return response()->json([
             'status'  => false,
             'code'    => 400,
             'message' => ['error' => '系統異常'],
+            'data'    => [],
         ]);
     }
 

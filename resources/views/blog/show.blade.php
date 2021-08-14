@@ -64,7 +64,7 @@
                 <div class="form-floating" style="padding-bottom: 1rem">
                 <textarea class="form-control" id="content" name="content"
                           placeholder="Enter your content here..." style="height: 10rem"
-                          data-sb-validations="required" autofocus="autofocus"></textarea>
+                          data-sb-validations="required" ></textarea>
                 </div>
                 <input type="hidden" name="member_token" value="{{$Html->member_token}}">
                 <input type="hidden" name="article_id" value="{{$Html->element->id}}">
