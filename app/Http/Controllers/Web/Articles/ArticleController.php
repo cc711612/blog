@@ -69,7 +69,7 @@ class ArticleController extends BaseController
             return redirect()->route('article.index');
         }
         $Html = (object) [
-            'element' => (object) [
+            'element'      => (object) [
                 'id'         => Arr::get($article, 'id'),
                 'title'      => Arr::get($article, 'title'),
                 'content'    => Arr::get($article, 'content'),
@@ -84,6 +84,7 @@ class ArticleController extends BaseController
                     'user_uri'   => route('article.index', ['user' => Arr::get($article, 'user_id')]),
                 ],
             ],
+            'member_token' => is_null(Auth::id()) ? '' : Arr::get(Auth::user(), 'api_token'),
         ];
         return view('blog.show', compact('Html'));
     }
