@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="{{ config('app.name', 'Laravel') }}"/>
+    <meta name="author" content=""/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }}"/>
+    <meta property="og:description" content="{{ config('app.name', 'Laravel') }}"/>
+    <meta property="og:url" content="{{config('app.url')}}"/>
+    <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}"/>
+    <meta property="og:image"
+          content="https://roy.usongrat.tw/storage/images/2021/08/12/喜勒哈囉.png"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="icon" type="image/x-icon" href="{{asset('/assets/favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('/assets/favicon.ico')}}"/>
     <!-- Font Awesome icons (free version)-->
     <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+        rel="stylesheet" type="text/css"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{asset('/css/styles.css?v='.date("Ymdhis"))}}" rel="stylesheet" />
-    <link href="{{asset('/css/main.css?v='.date("Ymdhis"))}}" rel="stylesheet" />
-    <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet" />
+    <link href="{{asset('/css/styles.css?v='.date("Ymdhis"))}}" rel="stylesheet"/>
+    <link href="{{asset('/css/main.css?v='.date("Ymdhis"))}}" rel="stylesheet"/>
+    <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="loader" id="loading" style="display:none;">
@@ -25,7 +37,8 @@
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="/">{{ config('app.name', 'Laravel') }}</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
@@ -35,8 +48,10 @@
                 @if(is_null(\Illuminate\Support\Facades\Auth::user()))
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">LOGIN</a></li>
                 @else
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('article.create')}}">POST</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" id="logout" href="/logout">LOGOUT</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('article.create')}}">POST</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" id="logout" href="/logout">LOGOUT</a>
+                    </li>
                 @endif
 
             </ul>
