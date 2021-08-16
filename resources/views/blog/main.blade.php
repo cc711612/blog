@@ -25,8 +25,8 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
         rel="stylesheet" type="text/css"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{asset('/css/styles.css?v='.date("Ymdhis"))}}" rel="stylesheet"/>
-    <link href="{{asset('/css/main.css?v='.date("Ymdhis"))}}" rel="stylesheet"/>
+    <link href="{{asset('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{asset('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
 </head>
 <body>
