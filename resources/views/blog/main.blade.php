@@ -28,6 +28,15 @@
     <link href="{{asset('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{asset('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YM0TE3LVWW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YM0TE3LVWW');
+    </script>
 </head>
 <body>
 <div class="loader" id="loading" style="display:none;">
