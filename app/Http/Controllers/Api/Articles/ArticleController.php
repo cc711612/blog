@@ -91,7 +91,7 @@ class ArticleController extends BaseController
                 'user'       => [
                     'id'    => Arr::get($article, 'users.id'),
                     'name'  => Arr::get($article, 'users.name'),
-                    'image' => Arr::get($article, 'users.image.cover', $this->getDefaultImage()),
+                    'image' => Arr::get($article, 'users.images.cover', $this->getDefaultImage()),
                 ],
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                 'comments'   => Arr::get($article, 'comments', collect([]))->map(function ($comment) {
@@ -100,7 +100,7 @@ class ArticleController extends BaseController
                         'user'       => [
                             'id'    => Arr::get($comment, 'users.id'),
                             'name'  => Arr::get($comment, 'users.name'),
-                            'image' => Arr::get($comment, 'users.image.cover', $this->getDefaultImage()),
+                            'image' => Arr::get($comment, 'users.images.cover', $this->getDefaultImage()),
                         ],
                         'content'    => Arr::get($comment, 'content'),
                         'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
