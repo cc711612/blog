@@ -89,14 +89,19 @@ class ArticleController extends BaseController
                 'content'    => Arr::get($article, 'content'),
                 'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
                 'user'       => [
+                    'id'    => Arr::get($article, 'users.id'),
                     'name'  => Arr::get($article, 'users.name'),
                     'image' => Arr::get($article, 'users.image.cover', $this->getDefaultImage()),
                 ],
-                'user_name'  => Arr::get($article, 'users.name'),
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                 'comments'   => Arr::get($article, 'comments', collect([]))->map(function ($comment) {
                     return [
                         'id'         => Arr::get($comment, 'id'),
+                        'user'       => [
+                            'id'    => Arr::get($comment, 'users.id'),
+                            'name'  => Arr::get($comment, 'users.name'),
+                            'image' => Arr::get($comment, 'users.image.cover', $this->getDefaultImage()),
+                        ],
                         'user_id'    => Arr::get($comment, 'user_id'),
                         'user_name'  => Arr::get($comment, 'users.name'),
                         'content'    => Arr::get($comment, 'content'),
