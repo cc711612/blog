@@ -17,6 +17,8 @@ use App\Models\Services\ArticleService;
 use Illuminate\Support\Str;
 use App\Models\Entities\ArticleEntity;
 use Illuminate\Support\Facades\Auth;
+use romanzipp\Seo\Facades\Seo;
+use romanzipp\Seo\Services\SeoService;
 
 class ArticleController extends BaseController
 {
@@ -30,7 +32,10 @@ class ArticleController extends BaseController
         $Articles = (new ArticleService())
             ->setRequest($request->toArray())
             ->paginate();
-
+        $this->setSeo([
+            'title'       => config('app.name'),
+            'description' => '文章列表',
+        ]);
         $Html = (object) [
             'elements'  => $Articles->getCollection()->map(function ($article) {
                 return (object) [
@@ -68,6 +73,10 @@ class ArticleController extends BaseController
         if (is_null($article) === true) {
             return redirect()->route('article.index');
         }
+        $this->setSeo([
+            'title'       => Arr::get($article, 'title'),
+            'description' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+        ]);
         $Html = (object) [
             'element'      => (object) [
                 'id'         => Arr::get($article, 'id'),
@@ -143,4 +152,31 @@ class ArticleController extends BaseController
         return view('blog.form', compact('Html'));
     }
 
+    /**
+     * @param  array  $Params
+     *
+     * @return $this
+     * @Author: Roy
+     * @DateTime: 2021/8/19 下午 08:22
+     */
+    private function setSeo(array $Params)
+    {
+        $seo = seo();
+        $seo = app(SeoService::class);
+        $seo = Seo::make();
+        seo()->charset();
+        seo()->title(Arr::get($Params, 'title', config('meta.title')));
+        seo()->description(Arr::get($Params, 'description', config('meta.description')));
+        seo()->meta('keyword', Arr::get($Params, 'keyword', config('meta.keyword')));
+        seo()->og('title', Arr::get($Params, 'title', config('meta.title')));
+        seo()->og('description', Arr::get($Params, 'description', config('meta.description')));
+        seo()->og('url', Arr::get($Params, 'url', config('meta.url')));
+        seo()->og('site_name', Arr::get($Params, 'site_name', config('meta.site_name')));
+        seo()->og('type', config('meta.type'));
+        seo()->og('locale', config('meta.locale'));
+        seo()->og('image', Arr::get($Params, 'image', config('meta.image')));
+        seo()->viewport();
+        seo()->csrfToken();
+        return $this;
+    }
 }

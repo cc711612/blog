@@ -124,7 +124,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'version' => env('APP_VERSION', date("Ymd")),
+    'version'     => env('APP_VERSION', date("Ymd")),
 
     /*
     |--------------------------------------------------------------------------
@@ -136,6 +136,8 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
+
+
 
     'providers' => [
 
