@@ -75,7 +75,7 @@ class ArticleController extends BaseController
         }
         $this->setSeo([
             'title'       => Arr::get($article, 'title'),
-            'description' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+            'description' => preg_replace('/\s(?=)/', '', Str::limit(strip_tags(Arr::get($article, 'content')), 100, '...')),
         ]);
         $Html = (object) [
             'element'      => (object) [
@@ -159,7 +159,7 @@ class ArticleController extends BaseController
      * @Author: Roy
      * @DateTime: 2021/8/19 下午 08:22
      */
-    private function setSeo(array $Params)
+    private function setSeo(array $Params = [])
     {
         $seo = seo();
         $seo = app(SeoService::class);
