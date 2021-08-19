@@ -19,6 +19,7 @@ use App\Models\Entities\ArticleEntity;
 use Illuminate\Support\Facades\Auth;
 use romanzipp\Seo\Facades\Seo;
 use romanzipp\Seo\Services\SeoService;
+use Illuminate\Support\Facades\URL;
 
 class ArticleController extends BaseController
 {
@@ -76,9 +77,9 @@ class ArticleController extends BaseController
         $this->setSeo([
             'title'       => Arr::get($article, 'title'),
             'description' => is_null(Arr::get($article, 'seo.description'))
-                ?  preg_replace('/\s(?=)/', '',
+                ? preg_replace('/\s(?=)/', '',
                     Str::limit(strip_tags(Arr::get($article, 'content')), 100, '...'))
-                :Arr::get($article, 'seo.description'),
+                : Arr::get($article, 'seo.description'),
             'keyword'     => Arr::get($article, 'seo.keyword'),
         ]);
         $Html = (object) [
@@ -180,7 +181,7 @@ class ArticleController extends BaseController
         seo()->meta('keyword', $keyword);
         seo()->og('title', Arr::get($Params, 'title', config('meta.title')));
         seo()->og('description', $description);
-        seo()->og('url', Arr::get($Params, 'url', config('meta.url')));
+        seo()->og('url', URL::current());
         seo()->og('site_name', Arr::get($Params, 'site_name', config('meta.site_name')));
         seo()->og('type', config('meta.type'));
         seo()->og('locale', config('meta.locale'));
