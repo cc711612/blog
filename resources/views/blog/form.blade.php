@@ -26,6 +26,16 @@
                                 <label for="title">Title</label>
                             </div>
                             <div class="form-floating">
+                                <input class="form-control" id="description" name="description" type="text"
+                                       placeholder="Enter your description..." value="{{$Html->description}}">
+                                <label for="description">seo-description</label>
+                            </div>
+                            <div class="form-floating">
+                                <input class="form-control" id="keyword" name="keyword" type="text"
+                                       placeholder="Enter your keyword..." value="{{$Html->keyword}}">
+                                <label for="keyword">seo-keyword(ex:laravel,backend)</label>
+                            </div>
+                            <div class="form-floating">
                                 <label for="content">Content</label>
                                 <textarea class="form-control" id="content" name="content"
                                           placeholder="Enter your content here..." style="height: 12rem"
