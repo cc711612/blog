@@ -75,7 +75,11 @@ class ArticleController extends BaseController
         }
         $this->setSeo([
             'title'       => Arr::get($article, 'title'),
-            'description' => preg_replace('/\s(?=)/', '', Str::limit(strip_tags(Arr::get($article, 'content')), 100, '...')),
+            'description' => is_null(Arr::get($article, 'seo.description'))
+                ?  preg_replace('/\s(?=)/', '',
+                    Str::limit(strip_tags(Arr::get($article, 'content')), 100, '...'))
+                :Arr::get($article, 'seo.description'),
+            'keyword'     => Arr::get($article, 'seo.keyword'),
         ]);
         $Html = (object) [
             'element'      => (object) [
@@ -114,6 +118,8 @@ class ArticleController extends BaseController
             'action'       => route('api.article.store'),
             'method'       => 'POST',
             'title'        => '',
+            'keyword'      => '',
+            'description'  => '',
             'content'      => '',
             'member_token' => Arr::get(Auth::user(), 'api_token'),
             'heading'      => 'Create Article',
@@ -139,12 +145,13 @@ class ArticleController extends BaseController
         if (is_null($article) === true || Auth::id() != Arr::get($article, 'user_id')) {
             return redirect()->route('article.index');
         }
-
         $Html = (object) [
             'action'       => route('api.article.update', ['article' => Arr::get($article, 'id')]),
             'method'       => 'PUT',
             'title'        => Arr::get($article, 'title'),
             'content'      => Arr::get($article, 'content'),
+            'keyword'      => Arr::get($article, 'seo.keyword'),
+            'description'  => Arr::get($article, 'seo.description'),
             'member_token' => Arr::get(Auth::user(), 'api_token'),
             'heading'      => 'Edit Article',
             'success_msg'  => '更新成功',
@@ -164,12 +171,15 @@ class ArticleController extends BaseController
         $seo = seo();
         $seo = app(SeoService::class);
         $seo = Seo::make();
+        $description = is_null(Arr::get($Params, 'description')) ? config('meta.description')
+            : Arr::get($Params, 'description');
+        $keyword = is_null(Arr::get($Params, 'keyword')) ? config('meta.keyword') : Arr::get($Params, 'keyword');
         seo()->charset();
         seo()->title(Arr::get($Params, 'title', config('meta.title')));
-        seo()->description(Arr::get($Params, 'description', config('meta.description')));
-        seo()->meta('keyword', Arr::get($Params, 'keyword', config('meta.keyword')));
+        seo()->description($description);
+        seo()->meta('keyword', $keyword);
         seo()->og('title', Arr::get($Params, 'title', config('meta.title')));
-        seo()->og('description', Arr::get($Params, 'description', config('meta.description')));
+        seo()->og('description', $description);
         seo()->og('url', Arr::get($Params, 'url', config('meta.url')));
         seo()->og('site_name', Arr::get($Params, 'site_name', config('meta.site_name')));
         seo()->og('type', config('meta.type'));

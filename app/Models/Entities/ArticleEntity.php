@@ -33,6 +33,8 @@ class ArticleEntity extends Model
         'title',
         'content',
         'status',
+        'seo',
+        'images',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -62,5 +64,50 @@ class ArticleEntity extends Model
     public function comments()
     {
         return $this->hasMany(CommentEntity::class, 'article_id', 'id');
+    }
+
+    /**
+     * @param $value
+     *
+     * @return array|mixed
+     * @Author: Roy
+     * @DateTime: 2021/8/19 下午 09:13
+     */
+    public function getImagesAttribute($value)
+    {
+        return empty($value) ? [] : unserialize($value);
+    }
+
+    /**
+     * @param  array  $value
+     *
+     * @Author: Roy
+     * @DateTime: 2021/8/19 下午 09:13
+     */
+    public function setImagesAttribute(array $value)
+    {
+        $this->attributes['images'] = serialize($value);
+    }
+    /**
+     * @param $value
+     *
+     * @return array|mixed
+     * @Author: Roy
+     * @DateTime: 2021/8/19 下午 09:13
+     */
+    public function getSeoAttribute($value)
+    {
+        return empty($value) ? [] : unserialize($value);
+    }
+
+    /**
+     * @param  array  $value
+     *
+     * @Author: Roy
+     * @DateTime: 2021/8/19 下午 09:13
+     */
+    public function setSeoAttribute(array $value)
+    {
+        $this->attributes['seo'] = serialize($value);
     }
 }
