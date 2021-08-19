@@ -102,8 +102,6 @@ class ArticleController extends BaseController
                             'name'  => Arr::get($comment, 'users.name'),
                             'image' => Arr::get($comment, 'users.image.cover', $this->getDefaultImage()),
                         ],
-                        'user_id'    => Arr::get($comment, 'user_id'),
-                        'user_name'  => Arr::get($comment, 'users.name'),
                         'content'    => Arr::get($comment, 'content'),
                         'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
                     ];
