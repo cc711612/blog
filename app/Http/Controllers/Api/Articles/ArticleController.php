@@ -88,6 +88,10 @@ class ArticleController extends BaseController
                 'title'      => Arr::get($article, 'title'),
                 'content'    => Arr::get($article, 'content'),
                 'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                'user'       => [
+                    'name'  => Arr::get($article, 'users.name'),
+                    'image' => Arr::get($article, 'users.image.cover', $this->getDefaultImage()),
+                ],
                 'user_name'  => Arr::get($article, 'users.name'),
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                 'comments'   => Arr::get($article, 'comments', collect([]))->map(function ($comment) {
@@ -150,29 +154,29 @@ class ArticleController extends BaseController
         $Validate = (new ArticleUpdateValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => $Validate->errors(),
+                'status'   => false,
+                'code'     => 400,
+                'message'  => $Validate->errors(),
                 'data'     => [],
                 'redirect' => '',
             ]);
         }
         $Requester = $Requester->toArray();
         $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'))
-            ->update(Arr::get($Requester,ArticleEntity::Table));
+            ->update(Arr::get($Requester, ArticleEntity::Table));
         if ($Entity) {
             return response()->json([
-                'status'  => true,
-                'code'    => 200,
-                'message' => [],
+                'status'   => true,
+                'code'     => 200,
+                'message'  => [],
                 'data'     => [],
-                'redirect' => route('article.index')
+                'redirect' => route('article.index'),
             ]);
         }
         return response()->json([
-            'status'  => false,
-            'code'    => 400,
-            'message' => ['error' => '系統異常,請重新整理'],
+            'status'   => false,
+            'code'     => 400,
+            'message'  => ['error' => '系統異常,請重新整理'],
             'data'     => [],
             'redirect' => '',
         ]);
@@ -205,7 +209,7 @@ class ArticleController extends BaseController
             ]);
         }
         #刪除
-        if ($Entity->update(Arr::get($Requester,ArticleEntity::Table))) {
+        if ($Entity->update(Arr::get($Requester, ArticleEntity::Table))) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
@@ -219,5 +223,14 @@ class ArticleController extends BaseController
         ]);
     }
 
-
+    /**
+     * @return string
+     * @Author: Roy
+     * @DateTime: 2021/8/19 下午 01:30
+     */
+    private function getDefaultImage()
+    {
+        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
+            config('filesystems.disks.images.url'), 'default.png');
+    }
 }
