@@ -122,13 +122,13 @@ class ArticleService
         return $this->getEntity()
             ->with([
                 UserEntity::Table    => function ($query) {
-                    $query->select(['id', 'name', 'image']);
+                    $query->select(['id', 'name', 'images']);
                 },
                 CommentEntity::Table => function ($query) {
                     $query
                         ->with([
                             UserEntity::Table    => function ($query) {
-                                $query->select(['id', 'name', 'image']);
+                                $query->select(['id', 'name', 'images']);
                             },
                         ])
                         ->select(['id', 'user_id', 'article_id', 'content', 'updated_at']);
