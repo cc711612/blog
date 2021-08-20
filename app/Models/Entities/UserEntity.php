@@ -48,6 +48,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $api_token
+ * @property int|null $created_by 建立者ID
+ * @property int|null $updated_by 修改者ID
+ * @property int|null $deleted_by 刪除者ID
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entities\ArticleEntity[] $articles
+ * @property-read int|null $articles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entities\CommentEntity[] $comments
+ * @property-read int|null $comments_count
+ * @method static \Illuminate\Database\Query\Builder|UserEntity onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereApiToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserEntity whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|UserEntity withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|UserEntity withoutTrashed()
  */
 class UserEntity extends Authenticatable
 {
