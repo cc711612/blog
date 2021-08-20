@@ -115,6 +115,10 @@ class ArticleController extends BaseController
         if (is_null(Auth::id())) {
             return redirect()->route('article.index');
         }
+        $this->setSeo([
+            'title'       => '新增文章',
+            'description' => '新增文章',
+        ]);
         $Html = (object) [
             'action'       => route('api.article.store'),
             'method'       => 'POST',
@@ -146,6 +150,14 @@ class ArticleController extends BaseController
         if (is_null($article) === true || Auth::id() != Arr::get($article, 'user_id')) {
             return redirect()->route('article.index');
         }
+        $this->setSeo([
+            'title'       => Arr::get($article, 'title'),
+            'description' => is_null(Arr::get($article, 'seo.description'))
+                ? preg_replace('/\s(?=)/', '',
+                    Str::limit(strip_tags(Arr::get($article, 'content')), 100, '...'))
+                : Arr::get($article, 'seo.description'),
+            'keyword'     => Arr::get($article, 'seo.keyword'),
+        ]);
         $Html = (object) [
             'action'       => route('api.article.update', ['article' => Arr::get($article, 'id')]),
             'method'       => 'PUT',
