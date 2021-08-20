@@ -96,7 +96,7 @@ class SocialController extends BaseController
      */
     public function lineLogin(Request $request)
     {
-        return Socialite::driver('line')->redirect();
+        return Socialite::with('line')->redirect();
     }
 
     /**
@@ -107,7 +107,8 @@ class SocialController extends BaseController
      */
     public function lineReturn(Request $request)
     {
-        dd($request);
+        $userInfo = Socialite::driver('line')->user();
+        dump($userInfo);
     }
 
     /**
