@@ -21,7 +21,7 @@ class InitializationSocials extends Migration
             $table->unsignedSmallInteger('social_type')->comment('第三方類別');
             $table->string('social_type_value')->comment('第三方ID');
             $table->string('image', 2048)->nullable()->comment('第三方照片');
-            $table->string('token')->nullable()->comment('第三方token');
+            $table->string('token',2048)->nullable()->comment('第三方token');
             $table->softDeletes();
             $table->timestamps();
         });
