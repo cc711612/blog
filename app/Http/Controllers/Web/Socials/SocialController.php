@@ -32,7 +32,7 @@ class SocialController extends BaseController
      */
     public function facebookReturn(Request $request)
     {
-        $userInfo = Socialite::driver('facebook')->stateless()->user();
+        $userInfo = Socialite::driver('facebook')->user();
         dd($userInfo);
     }
 
