@@ -60,3 +60,9 @@ Route::group(['middleware' => [],'as'=>'api.'], function () {
         Route::name("store")->post("/", [ImageController::class, 'store']);
     });
 });
+Route::fallback(function () {
+    return response([
+        'status' => false,
+        'message' => '不支援此方法'
+    ]);
+});

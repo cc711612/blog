@@ -15,6 +15,8 @@ use App\Http\Validators\Api\Users\UserDestroyValidator;
 use App\Http\Requesters\Api\Users\UserShowRequest;
 use App\Http\Validators\Api\Users\UserShowValidator;
 use App\Models\Entities\UserEntity;
+use App\Http\Requesters\Api\Users\UserStoreRequest;
+use App\Http\Validators\Api\Users\UserStoreValidator;
 
 class UserController extends BaseController
 {
@@ -94,9 +96,9 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-        $Requester = (new ArticleStoreRequest($request));
+        $Requester = (new UserStoreRequest($request));
 
-        $Validate = (new ArticleStoreValidator($Requester))->validate();
+        $Validate = (new UserStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
