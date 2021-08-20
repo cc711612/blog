@@ -46,10 +46,10 @@
             </div>
             <div class="flex items-center justify-end mt-4">
                 <div class="facebook_login ml-4">
-                    <a href="{{route('social.facebook.login')}}" target="_blank" title="facebook登入"><i class="fab fa-2x fa-facebook-square"></i></a>
+                    <a href="{{route('social.facebook.login')}}" title="facebook登入"><i class="fab fa-2x fa-facebook-square"></i></a>
                 </div>
                 <div class="line_login ml-4">
-                    <a href="{{route('social.line.login')}}" target="_blank" title="Line登入" ><i class="fab fa-2x fa-line text-success mr-1"></i></a>
+                    <a href="{{route('social.line.login')}}" title="Line登入" ><i class="fab fa-2x fa-line text-success mr-1"></i></a>
                 </div>
                 <x-jet-button class="ml-4">
                     {{ __('Log in') }}
