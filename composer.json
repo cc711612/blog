@@ -20,7 +20,8 @@
         "livewire/livewire": "^2.5",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "~3.0",
-        "romanzipp/laravel-seo": "^2.2"
+        "romanzipp/laravel-seo": "^2.2",
+        "socialiteproviders/line": "^4.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
