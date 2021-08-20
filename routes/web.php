@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Articles\ArticleController;
 use App\Http\Controllers\Web\Users\UserController;
+use App\Http\Controllers\Web\Socials\SocialController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,11 +16,11 @@ use App\Http\Controllers\Web\Users\UserController;
 |
 */
 
-Route::get('/',function (){
+Route::get('/', function () {
     return redirect()->route('article.index');
 });
-Route::get('/user',[UserController::class, 'index']);
-Route::resource('article', ArticleController::class)->only(['index','create','show','edit']);
+Route::get('/user', [UserController::class, 'index']);
+Route::resource('article', ArticleController::class)->only(['index', 'create', 'show', 'edit']);
 
 Route::get('/upload', function () {
     return view('upload');
@@ -27,7 +29,16 @@ Route::get('/trigger/{data}', function ($data) {
     echo "<p>You have sent $data</p>";
     event(new App\Events\GetRequestEvent($data));
 });
-
+Route::group(['as' => 'social.', 'prefix' => 'social'], function () {
+    Route::group(['as' => 'line.', 'prefix' => 'line'], function () {
+        Route::name("login")->get("/login", [SocialController::class, 'lineLogin']);
+        Route::name("return")->post("/return", [SocialController::class, 'lineReturn']);
+    });
+    Route::group(['as' => 'facebook.', 'prefix' => 'facebook'], function () {
+        Route::name("login")->get("/login", [SocialController::class, 'facebookLogin']);
+        Route::name("return")->post("/return", [SocialController::class, 'facebookReturn']);
+    });
+});
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

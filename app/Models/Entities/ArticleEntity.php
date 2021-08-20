@@ -7,6 +7,47 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\Entities\ArticleEntity
+ *
+ * @property int $id
+ * @property int|null $user_id user 的流水號
+ * @property string|null $title 標題
+ * @property string|null $content 內容
+ * @property array|mixed $images 圖片位置(序列化)
+ * @property array|mixed $seo seo(序列化)
+ * @property int $status 狀態
+ * @property int|null $created_by 建立者ID
+ * @property int|null $updated_by 修改者ID
+ * @property int|null $deleted_by 刪除者ID
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entities\CommentEntity[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \App\Models\Entities\UserEntity|null $users
+ * @method static \Database\Factories\Entities\ArticleEntityFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity newQuery()
+ * @method static \Illuminate\Database\Query\Builder|ArticleEntity onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereImages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereSeo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ArticleEntity whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|ArticleEntity withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|ArticleEntity withoutTrashed()
+ * @mixin \Eloquent
+ */
 class ArticleEntity extends Model
 {
     use HasFactory;
