@@ -24,16 +24,45 @@ class SocialController extends BaseController
         return Socialite::driver('facebook')->redirect();
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @Author: Roy
+     * @DateTime: 2021/8/20 上午 11:34
+     */
     public function facebookReturn(Request $request)
     {
         dd($request);
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @Author: Roy
+     * @DateTime: 2021/8/20 上午 11:35
+     */
+    public function facebookDelete(Request $request)
+    {
+
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @Author: Roy
+     * @DateTime: 2021/8/20 上午 11:35
+     */
     public function lineLogin(Request $request)
     {
         dd($request);
     }
 
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @Author: Roy
+     * @DateTime: 2021/8/20 上午 11:35
+     */
     public function lineReturn(Request $request)
     {
         dd($request);

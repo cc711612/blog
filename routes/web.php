@@ -33,10 +33,14 @@ Route::group(['as' => 'social.', 'prefix' => 'social'], function () {
     Route::group(['as' => 'line.', 'prefix' => 'line'], function () {
         Route::name("login")->get("/login", [SocialController::class, 'lineLogin']);
         Route::name("return")->post("/return", [SocialController::class, 'lineReturn']);
+        #用戶資料刪除
+        Route::name("delete")->post("/delete", [SocialController::class, 'lineDelete']);
     });
     Route::group(['as' => 'facebook.', 'prefix' => 'facebook'], function () {
         Route::name("login")->get("/login", [SocialController::class, 'facebookLogin']);
         Route::name("return")->post("/return", [SocialController::class, 'facebookReturn']);
+        #用戶資料刪除
+        Route::name("delete")->post("/delete", [SocialController::class, 'facebookDelete']);
     });
 });
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
