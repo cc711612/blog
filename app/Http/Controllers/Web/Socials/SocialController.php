@@ -15,6 +15,7 @@ use App\Models\Services\SocialService;
 use App\Models\Services\UserService;
 use App\Http\Requesters\Api\Users\UserStoreRequest;
 use App\Models\UserEntity;
+use App\Http\Requesters\Web\Socials\SocialLineLoginRequest;
 
 class SocialController extends BaseController
 {
@@ -48,7 +49,6 @@ class SocialController extends BaseController
             # 先檢查User表Email重複性
             $User = (new UserService())
                 ->checkUserEmail(Arr::get($requester, 'email'));
-
             if(is_null($User)){
                 # 新增
                 $User = (new UserService())
@@ -96,7 +96,7 @@ class SocialController extends BaseController
      */
     public function lineLogin(Request $request)
     {
-        return Socialite::with('line')->redirect();
+        return Socialite::driver('line')->redirect();
     }
 
     /**
@@ -108,7 +108,42 @@ class SocialController extends BaseController
     public function lineReturn(Request $request)
     {
         $userInfo = Socialite::driver('line')->user();
-        dump($userInfo);
+        $requester = (new SocialLineLoginRequest($this->object2array($userInfo)));
+        # 檢查DB
+        $Social = (new SocialService())
+            ->setRequest($requester->toArray())
+            ->findFaceBookEmail();
+        # 不存在DB
+        if (is_null($Social)) {
+            # 先檢查User表Email重複性
+            $User = (new UserService())
+                ->checkUserEmail(Arr::get($requester, 'email'));
+            if(is_null($User)){
+                # 新增
+                $User = (new UserService())
+                    ->setRequest([
+                        UserEntity::Table => [
+                            'name'     => Arr::get($requester, 'name'),
+                            'email'    => Arr::get($requester, 'email'),
+                            'password' => Hash::make(Str::random(10)),
+                            'images'   => [
+                                'cover' => Arr::get($requester, 'image'),
+                            ],
+                        ],
+                    ])
+                    ->create();
+            }
+            # 新增
+            $Social = (new SocialService())
+                ->setRequest($requester->toArray())
+                ->create();
+
+            $Social->users()->sync(['user_id' => $User->id]);
+        } else {
+            $User = $Social->users()->get()->first();
+        }
+        Auth::login($User);
+        return redirect('/');
     }
 
     /**

@@ -16,14 +16,12 @@ class SocialFacebookLoginRequest extends Request
     protected function schema(): array
     {
         return [
-            'id'                        => null,
             'name'                      => null,
             'email'                     => null,
             'image'                     => null,
             'social_type'               => SocialType::Facebook,
             'social_type_value'         => null,
             'token'                     => null,
-            'socials.id'                => null,
             'socials.name'              => null,
             'socials.email'             => null,
             'socials.image'             => null,
