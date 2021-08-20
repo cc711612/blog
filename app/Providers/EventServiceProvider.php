@@ -21,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\SuccessfulLogin',
         ],
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            // ... other providers
+            'SocialiteProviders\\Line\\LineExtendSocialite@handle',
+        ],
     ];
 
     /**

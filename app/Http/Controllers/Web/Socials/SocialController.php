@@ -32,7 +32,8 @@ class SocialController extends BaseController
      */
     public function facebookReturn(Request $request)
     {
-        dd($request);
+        $userInfo = Socialite::driver('facebook')->stateless()->user();
+        dd($userInfo);
     }
 
     /**
@@ -54,7 +55,7 @@ class SocialController extends BaseController
      */
     public function lineLogin(Request $request)
     {
-        dd($request);
+        return Socialite::driver('line')->redirect();
     }
 
     /**

@@ -50,7 +50,6 @@ class SocialiteManager extends Manager implements Contracts\Factory
     protected function createFacebookDriver()
     {
         $config = $this->config->get('socialite.facebook');
-
         return $this->buildProvider(
             FacebookProvider::class, $config
         );
