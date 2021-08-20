@@ -176,4 +176,14 @@ class UserEntity extends Authenticatable
     {
         return $this->hasMany(CommentEntity::class,  'user_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @Author: Roy
+     * @DateTime: 2021/8/20 下午 02:44
+     */
+    public function socials()
+    {
+        return $this->belongsToMany(SocialEntity::class,'user_social','user_id','social_id');
+    }
 }
