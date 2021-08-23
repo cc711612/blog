@@ -48,7 +48,7 @@
                 @foreach($Html->element->comments as $comment)
                     <div class="container px-4 px-lg-5 comment-element">
                         <div class="post-preview">
-                            <span class="post-subtitle">{{$comment->content}}</span>
+                            <span class="post-subtitle">{!! $comment->content !!}</span>
                             <p class="post-meta">
                                 Comment by
                                 <span
