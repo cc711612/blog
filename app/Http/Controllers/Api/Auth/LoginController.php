@@ -60,7 +60,7 @@ class LoginController extends Controller
                 'id' => Arr::get(Auth::user(),'id'),
                 'name' => Arr::get(Auth::user(),'name'),
                 'email' => Arr::get(Auth::user(),'email'),
-                'image' => Arr::get(Auth::user(),'image.cover',$this->getDefaultImage()),
+                'image' => Arr::get(Auth::user(),'images.cover',$this->getDefaultImage()),
                 'member_token' => Arr::get(Auth::user(),'api_token'),
             ]
         ]);
