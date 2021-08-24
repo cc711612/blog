@@ -16,6 +16,7 @@ use App\Models\Services\UserService;
 use App\Http\Requesters\Api\Users\UserStoreRequest;
 use App\Models\UserEntity;
 use App\Http\Requesters\Web\Socials\SocialLineLoginRequest;
+use App\Models\Entities\SocialEntity;
 
 class SocialController extends BaseController
 {
@@ -49,7 +50,7 @@ class SocialController extends BaseController
             # 先檢查User表Email重複性
             $User = (new UserService())
                 ->checkUserEmail(Arr::get($requester, 'email'));
-            if(is_null($User)){
+            if (is_null($User)) {
                 # 新增
                 $User = (new UserService())
                     ->setRequest([
@@ -72,6 +73,8 @@ class SocialController extends BaseController
             $Social->users()->sync(['user_id' => $User->id]);
         } else {
             $User = $Social->users()->get()->first();
+            # 更新
+            $Social->update(Arr::get($requester, SocialEntity::Table));
         }
         Auth::login($User);
         return redirect('/');
@@ -118,7 +121,7 @@ class SocialController extends BaseController
             # 先檢查User表Email重複性
             $User = (new UserService())
                 ->checkUserEmail(Arr::get($requester, 'email'));
-            if(is_null($User)){
+            if (is_null($User)) {
                 # 新增
                 $User = (new UserService())
                     ->setRequest([
@@ -141,6 +144,9 @@ class SocialController extends BaseController
             $Social->users()->sync(['user_id' => $User->id]);
         } else {
             $User = $Social->users()->get()->first();
+            # 更新
+            $Social->update(Arr::get($requester, SocialEntity::Table));
+
         }
         Auth::login($User);
         return redirect('/');
