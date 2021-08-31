@@ -97,10 +97,14 @@ class CommentService
     {
         $Entity = $this->getEntity()
             ->find($this->getRequestByKey('id'));
+
         if (is_null($Entity)) {
             return null;
         }
-        return $Entity->update($this->getRequestByKey(CommentEntity::Table));
+
+        $UpdateData = $this->getRequestByKey(CommentEntity::Table);
+        Arr::set($UpdateData,'logs',array_merge($Entity->logs,Arr::get($UpdateData,'content')));
+        return $Entity->update($UpdateData);
     }
 
     /**
