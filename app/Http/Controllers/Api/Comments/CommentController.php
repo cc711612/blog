@@ -33,10 +33,10 @@ class CommentController extends BaseController
         $Validate = (new CommentIndexValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'   => false,
-                'code'     => 400,
-                'message'  => $Validate->errors(),
-                'data'     => [],
+                'status' => false,
+                'code' => 400,
+                'message' => $Validate->errors(),
+                'data' => [],
                 'redirect' => '',
             ]);
         }
@@ -46,16 +46,20 @@ class CommentController extends BaseController
             ->getCommentsByArticleId();
 
         return response()->json([
-            'status'  => true,
-            'code'    => 200,
+            'status' => true,
+            'code' => 200,
             'message' => [],
-            'data'    => $Comments->map(function ($comment) {
+            'data' => $Comments->map(function ($comment) {
                 return [
-                    'id'         => Arr::get($comment, 'id'),
-                    'user_id'    => Arr::get($comment, 'user_id'),
-                    'user_name'  => Arr::get($comment, 'users.name'),
-                    'content'    => Arr::get($comment, 'content'),
+                    'id' => Arr::get($comment, 'id'),
+                    'user'=>[
+                        'id' => Arr::get($comment, 'users.id'),
+                        'name' => Arr::get($comment, 'users.name'),
+                        'image' => Arr::get($comment, 'users.images.cover', $this->getDefaultImage()),
+                    ],
+                    'content' => Arr::get($comment, 'content'),
                     'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
+                    'logs' => Arr::get($comment, 'logs', []),
                 ];
             }),
         ]);
@@ -63,7 +67,7 @@ class CommentController extends BaseController
 
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -77,25 +81,25 @@ class CommentController extends BaseController
         $Validate = (new CommentStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'   => false,
-                'code'     => 400,
-                'message'  => $Validate->errors(),
-                'data'     => [],
+                'status' => false,
+                'code' => 400,
+                'message' => $Validate->errors(),
+                'data' => [],
                 'redirect' => '',
             ]);
         }
         #Create
         $Entity = (new CommentEntity())->create(Arr::get($Requester, CommentEntity::Table));
         return response()->json([
-            'status'  => true,
-            'code'    => 200,
+            'status' => true,
+            'code' => 200,
             'message' => [],
-            'data'    => [],
+            'data' => [],
         ]);
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -108,34 +112,34 @@ class CommentController extends BaseController
         $Validate = (new CommentUpdateValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'   => false,
-                'code'     => 400,
-                'message'  => $Validate->errors(),
-                'data'     => [],
+                'status' => false,
+                'code' => 400,
+                'message' => $Validate->errors(),
+                'data' => [],
                 'redirect' => '',
             ]);
         }
         $Entity = (new CommentService())->setRequest($Requester->toArray())->update();
         if ($Entity) {
             return response()->json([
-                'status'   => true,
-                'code'     => 200,
-                'message'  => [],
-                'data'     => [],
+                'status' => true,
+                'code' => 200,
+                'message' => [],
+                'data' => [],
                 'redirect' => route('article.show', ['article' => Arr::get($Requester, 'article_id')]),
             ]);
         }
         return response()->json([
-            'status'   => false,
-            'code'     => 400,
-            'message'  => ['error' => '系統異常,請重新整理'],
-            'data'     => [],
+            'status' => false,
+            'code' => 400,
+            'message' => ['error' => '系統異常,請重新整理'],
+            'data' => [],
             'redirect' => '',
         ]);
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @Author: Roy
      * @DateTime: 2021/7/30 下午 02:13
@@ -146,10 +150,10 @@ class CommentController extends BaseController
         $Validate = (new CommentDestroyValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'  => false,
-                'code'    => 400,
+                'status' => false,
+                'code' => 400,
                 'message' => $Validate->errors(),
-                'data'    => [],
+                'data' => [],
             ]);
         }
         #刪除
@@ -158,19 +162,28 @@ class CommentController extends BaseController
                 ->delete()
             ) === false) {
             return response()->json([
-                'status'  => true,
-                'code'    => 200,
+                'status' => true,
+                'code' => 200,
                 'message' => [],
-                'data'    => [],
+                'data' => [],
             ]);
         }
         return response()->json([
-            'status'  => false,
-            'code'    => 400,
+            'status' => false,
+            'code' => 400,
             'message' => ['error' => '系統異常'],
-            'data'    => [],
+            'data' => [],
         ]);
     }
-
+    /**
+     * @return string
+     * @Author: Roy
+     * @DateTime: 2021/8/19 下午 01:30
+     */
+    private function getDefaultImage()
+    {
+        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
+            config('filesystems.disks.images.url'), 'default.png');
+    }
 
 }
