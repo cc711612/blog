@@ -122,7 +122,7 @@ class ArticleService
         return $this->getEntity()
             ->with([
                 UserEntity::Table => function ($query) {
-                    $query->select(['id', 'name', 'images']);
+                    $query->select(['id', 'name', 'images','introduction']);
                 },
                 CommentEntity::Table => function ($query) {
                     $query

@@ -50,14 +50,14 @@ function tinymceInit(selector = '#content') {
                 var json;
 
                 if (xhr.status != 200) {
-                    showalert('上傳失敗');
+                    alert('上傳失敗');
                     return;
                 }
 
                 json = JSON.parse(xhr.responseText);
 
                 if (json.status != true) {
-                    showalert('檔案格式僅支援jpg, jpeg 或 png');
+                    alert('檔案格式僅支援jpg, jpeg 或 png');
                     return;
                 }
 
