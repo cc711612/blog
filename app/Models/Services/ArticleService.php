@@ -131,7 +131,9 @@ class ArticleService
                                 $query->select(['id', 'name', 'images']);
                             },
                         ])
-                        ->select(['id', 'user_id', 'article_id', 'content', 'logs', 'updated_at']);
+                        ->select(['id', 'user_id', 'article_id', 'content', 'logs', 'updated_at'])
+                        ->orderBy('id')
+                    ;
                 },
             ])
             ->find($id);
