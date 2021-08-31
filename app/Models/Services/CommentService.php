@@ -104,15 +104,13 @@ class CommentService
         }
 
         $UpdateData = $this->getRequestByKey(CommentEntity::Table);
-        Arr::set($UpdateData, 'logs', array_merge(
-            [
-                'content' => $Entity->logs,
-                'updated_at' => $Entity->updated_at,
-            ],
-            [
-                'content' => Arr::get($UpdateData, 'content'),
-                'updated_at' => Carbon::now()->toDateTimeString(),
-            ]));
+        # 塞log
+        $logs = $Entity->logs;
+        $logs[] = [
+            'content' => Arr::get($UpdateData, 'content'),
+            'updated_at' => Carbon::now()->toDateTimeString(),
+        ];
+        Arr::set($UpdateData, 'logs', $logs);
         return $Entity->update($UpdateData);
     }
 

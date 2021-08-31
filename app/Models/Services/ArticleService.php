@@ -39,7 +39,7 @@ class ArticleService
     }
 
     /**
-     * @param  string  $key
+     * @param string $key
      *
      * @return mixed
      * @Author  : steatng
@@ -51,7 +51,7 @@ class ArticleService
     }
 
     /**
-     * @param  array  $request
+     * @param array $request
      *
      * @return $this
      * @Author  : steatng
@@ -64,7 +64,7 @@ class ArticleService
     }
 
     /**
-     * @param  int  $page_count
+     * @param int $page_count
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      * @Author: Roy
@@ -80,7 +80,7 @@ class ArticleService
         $Result = $this->getEntity()
             ->with([
                 UserEntity::Table => function ($query) {
-                    $query->select(['id', 'name']);
+                    $query->select(['id', 'name','images']);
                 },
             ])
             ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at']);
@@ -111,7 +111,7 @@ class ArticleService
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @Author: Roy
@@ -121,17 +121,17 @@ class ArticleService
     {
         return $this->getEntity()
             ->with([
-                UserEntity::Table    => function ($query) {
+                UserEntity::Table => function ($query) {
                     $query->select(['id', 'name', 'images']);
                 },
                 CommentEntity::Table => function ($query) {
                     $query
                         ->with([
-                            UserEntity::Table    => function ($query) {
+                            UserEntity::Table => function ($query) {
                                 $query->select(['id', 'name', 'images']);
                             },
                         ])
-                        ->select(['id', 'user_id', 'article_id', 'content', 'updated_at']);
+                        ->select(['id', 'user_id', 'article_id', 'content', 'logs', 'updated_at']);
                 },
             ])
             ->find($id);
@@ -154,7 +154,7 @@ class ArticleService
     }
 
     /**
-     * @param  array  $ids
+     * @param array $ids
      *
      * @return mixed
      * @Author: Roy

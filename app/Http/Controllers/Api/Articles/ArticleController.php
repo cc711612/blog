@@ -51,8 +51,11 @@ class ArticleController extends BaseController
                         'title' => Arr::get($article, 'title'),
                         'content' => Arr::get($article, 'content'),
                         'sub_title' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
-                        'user_name' => Arr::get($article, 'users.name'),
-                        'user_id' => Arr::get($article, 'user_id'),
+                        'user'=>[
+                            'id' => Arr::get($article, 'users.id'),
+                            'name' => Arr::get($article, 'users.name'),
+                            'image' => Arr::get($article, 'users.images.cover', $this->getDefaultImage()),
+                        ],
                         'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                     ];
                 }),
@@ -104,7 +107,7 @@ class ArticleController extends BaseController
                         ],
                         'content' => Arr::get($comment, 'content'),
                         'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
-                        'logs' => Arr::get($comment, 'logs'),
+                        'logs' => Arr::get($comment, 'logs',[]),
                     ];
                 }),
             ],
