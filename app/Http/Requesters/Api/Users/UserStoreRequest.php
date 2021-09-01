@@ -15,9 +15,10 @@ class UserStoreRequest extends Request
     protected function schema(): array
     {
         return [
-            'name'     => null,
+            'name' => null,
             'password' => null,
-            'email'    => null,
+            'email' => null,
+            'introduction' => null,
         ];
     }
 
@@ -31,9 +32,10 @@ class UserStoreRequest extends Request
     protected function map($row): array
     {
         return [
-            'name'     => Arr::get($row, 'name'),
+            'name' => Arr::get($row, 'name'),
             'password' => Arr::get($row, 'password'),
-            'email'    => Arr::get($row, 'email'),
+            'email' => Arr::get($row, 'email'),
+            'introduction' => Arr::get($row, 'introduction'),
         ];
     }
 
