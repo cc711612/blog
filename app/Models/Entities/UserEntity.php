@@ -97,6 +97,7 @@ class UserEntity extends Authenticatable
         'email',
         'password',
         'images',
+        'introduction',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -147,7 +148,7 @@ class UserEntity extends Authenticatable
     }
 
     /**
-     * @param  array  $value
+     * @param array $value
      *
      * @Author: Roy
      * @DateTime: 2021/8/7 下午 02:37
@@ -164,7 +165,7 @@ class UserEntity extends Authenticatable
      */
     public function articles()
     {
-        return $this->hasMany(ArticleEntity::class,  'user_id', 'id');
+        return $this->hasMany(ArticleEntity::class, 'user_id', 'id');
     }
 
     /**
@@ -174,7 +175,7 @@ class UserEntity extends Authenticatable
      */
     public function comments()
     {
-        return $this->hasMany(CommentEntity::class,  'user_id', 'id');
+        return $this->hasMany(CommentEntity::class, 'user_id', 'id');
     }
 
     /**
@@ -184,6 +185,6 @@ class UserEntity extends Authenticatable
      */
     public function socials()
     {
-        return $this->belongsToMany(SocialEntity::class,'user_social','user_id','social_id');
+        return $this->belongsToMany(SocialEntity::class, 'user_social', 'user_id', 'social_id');
     }
 }

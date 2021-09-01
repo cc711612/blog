@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\Comments\CommentController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => [],'as'=>'api.'], function () {
+Route::group(['middleware' => [], 'as' => 'api.'], function () {
     # 需要member_token的
     Route::group(['middleware' => ['VerifyApi']], function () {
         # user
@@ -28,7 +28,7 @@ Route::group(['middleware' => [],'as'=>'api.'], function () {
             Route::name("delete")->delete("/{id}", [UserController::class, 'destroy']);
         });
         # 文章
-        Route::resource('article', ArticleController::class)->except(['index','show']);
+        Route::resource('article', ArticleController::class)->except(['index', 'show']);
         # 留言
         Route::resource('comment', CommentController::class)->except(['index']);
         # 登出相關
@@ -62,6 +62,7 @@ Route::group(['middleware' => [],'as'=>'api.'], function () {
 });
 Route::fallback(function () {
     return response([
+        'code' => 400,
         'status' => false,
         'message' => '不支援此方法'
     ]);

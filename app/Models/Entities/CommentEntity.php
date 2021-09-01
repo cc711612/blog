@@ -68,6 +68,7 @@ class CommentEntity extends Model
         'article_id',
         'content',
         'status',
+        'logs',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -79,6 +80,23 @@ class CommentEntity extends Model
     protected $hidden = [
 
     ];
+
+    /**
+     * @param $value
+     * @return array|mixed
+     */
+    public function getLogsAttribute($value)
+    {
+        return empty($value) ? [] : unserialize($value);
+    }
+
+    /**
+     * @param array $value
+     */
+    public function setLogsAttribute(array $value)
+    {
+        $this->attributes['logs'] = serialize($value);
+    }
 
     /**
      * @Author: Roy

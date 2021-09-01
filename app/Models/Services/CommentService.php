@@ -2,6 +2,7 @@
 
 namespace App\Models\Services;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -37,7 +38,7 @@ class CommentService
     }
 
     /**
-     * @param  string  $key
+     * @param string $key
      *
      * @return mixed
      * @Author  : steatng
@@ -49,7 +50,7 @@ class CommentService
     }
 
     /**
-     * @param  array  $request
+     * @param array $request
      *
      * @return $this
      * @Author  : steatng
@@ -68,7 +69,7 @@ class CommentService
     public function getCommentsByArticleId()
     {
         return $this->getEntity()
-            ->where('article_id',$this->getRequestByKey('id'))
+            ->where('article_id', $this->getRequestByKey('id'))
             ->get();
     }
 
@@ -97,10 +98,20 @@ class CommentService
     {
         $Entity = $this->getEntity()
             ->find($this->getRequestByKey('id'));
+
         if (is_null($Entity)) {
             return null;
         }
-        return $Entity->update($this->getRequestByKey(CommentEntity::Table));
+
+        $UpdateData = $this->getRequestByKey(CommentEntity::Table);
+        # 塞log
+        $logs = $Entity->logs;
+        $logs[] = [
+            'content' => Arr::get($UpdateData, 'content'),
+            'updated_at' => Carbon::now()->toDateTimeString(),
+        ];
+        Arr::set($UpdateData, 'logs', $logs);
+        return $Entity->update($UpdateData);
     }
 
     /**

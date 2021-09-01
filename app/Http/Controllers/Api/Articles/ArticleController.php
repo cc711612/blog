@@ -40,19 +40,22 @@ class ArticleController extends BaseController
             ->paginate();
 
         return response()->json([
-            'status'  => true,
-            'code'    => 200,
+            'status' => true,
+            'code' => 200,
             'message' => [],
-            'data'    => [
+            'data' => [
                 'paginate' => $this->handleApiPageInfo($Articles),
                 'articles' => $Articles->getCollection()->map(function ($article) {
                     return [
-                        'id'         => Arr::get($article, 'id'),
-                        'title'      => Arr::get($article, 'title'),
-                        'content'    => Arr::get($article, 'content'),
-                        'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
-                        'user_name'  => Arr::get($article, 'users.name'),
-                        'user_id'    => Arr::get($article, 'user_id'),
+                        'id' => Arr::get($article, 'id'),
+                        'title' => Arr::get($article, 'title'),
+                        'content' => Arr::get($article, 'content'),
+                        'sub_title' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                        'user' => [
+                            'id' => Arr::get($article, 'users.id'),
+                            'name' => Arr::get($article, 'users.name'),
+                            'image' => Arr::get($article, 'users.images.cover', $this->getDefaultImage()),
+                        ],
                         'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                     ];
                 }),
@@ -61,7 +64,7 @@ class ArticleController extends BaseController
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -73,37 +76,39 @@ class ArticleController extends BaseController
         $article = (new ArticleService())->find($id);
         if (is_null($article)) {
             return response()->json([
-                'status'  => false,
-                'code'    => 400,
+                'status' => false,
+                'code' => 400,
                 'message' => [],
-                'data'    => [],
+                'data' => [],
             ]);
         }
         return response()->json([
-            'status'  => true,
-            'code'    => 200,
+            'status' => true,
+            'code' => 200,
             'message' => [],
-            'data'    => [
-                'id'         => Arr::get($article, 'id'),
-                'title'      => Arr::get($article, 'title'),
-                'content'    => Arr::get($article, 'content'),
-                'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
-                'user'       => [
-                    'id'    => Arr::get($article, 'users.id'),
-                    'name'  => Arr::get($article, 'users.name'),
+            'data' => [
+                'id' => Arr::get($article, 'id'),
+                'title' => Arr::get($article, 'title'),
+                'content' => Arr::get($article, 'content'),
+                'sub_title' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                'user' => [
+                    'id' => Arr::get($article, 'users.id'),
+                    'name' => Arr::get($article, 'users.name'),
+                    'introduction' => Arr::get($article, 'users.introduction'),
                     'image' => Arr::get($article, 'users.images.cover', $this->getDefaultImage()),
                 ],
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
-                'comments'   => Arr::get($article, 'comments', collect([]))->map(function ($comment) {
+                'comments' => Arr::get($article, 'comments', collect([]))->map(function ($comment) {
                     return [
-                        'id'         => Arr::get($comment, 'id'),
-                        'user'       => [
-                            'id'    => Arr::get($comment, 'users.id'),
-                            'name'  => Arr::get($comment, 'users.name'),
+                        'id' => Arr::get($comment, 'id'),
+                        'user' => [
+                            'id' => Arr::get($comment, 'users.id'),
+                            'name' => Arr::get($comment, 'users.name'),
                             'image' => Arr::get($comment, 'users.images.cover', $this->getDefaultImage()),
                         ],
-                        'content'    => Arr::get($comment, 'content'),
+                        'content' => Arr::get($comment, 'content'),
                         'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
+                        'logs' => Arr::get($comment, 'logs', []),
                     ];
                 }),
             ],
@@ -111,7 +116,7 @@ class ArticleController extends BaseController
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -124,10 +129,10 @@ class ArticleController extends BaseController
         $Validate = (new ArticleStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'   => false,
-                'code'     => 400,
-                'message'  => $Validate->errors(),
-                'data'     => [],
+                'status' => false,
+                'code' => 400,
+                'message' => $Validate->errors(),
+                'data' => [],
                 'redirect' => '',
             ]);
         }
@@ -135,16 +140,16 @@ class ArticleController extends BaseController
         $Entity = (new ArticleEntity())->create($Requester->toArray());
 
         return response()->json([
-            'status'   => true,
-            'code'     => 200,
-            'message'  => [],
-            'data'     => [],
+            'status' => true,
+            'code' => 200,
+            'message' => [],
+            'data' => [],
             'redirect' => route('article.index'),
         ]);
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -157,10 +162,10 @@ class ArticleController extends BaseController
         $Validate = (new ArticleUpdateValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'   => false,
-                'code'     => 400,
-                'message'  => $Validate->errors(),
-                'data'     => [],
+                'status' => false,
+                'code' => 400,
+                'message' => $Validate->errors(),
+                'data' => [],
                 'redirect' => '',
             ]);
         }
@@ -169,24 +174,24 @@ class ArticleController extends BaseController
             ->update(Arr::get($Requester, ArticleEntity::Table));
         if ($Entity) {
             return response()->json([
-                'status'   => true,
-                'code'     => 200,
-                'message'  => [],
-                'data'     => [],
+                'status' => true,
+                'code' => 200,
+                'message' => [],
+                'data' => [],
                 'redirect' => route('article.index'),
             ]);
         }
         return response()->json([
-            'status'   => false,
-            'code'     => 400,
-            'message'  => ['error' => '系統異常,請重新整理'],
-            'data'     => [],
+            'status' => false,
+            'code' => 400,
+            'message' => ['error' => '系統異常,請重新整理'],
+            'data' => [],
             'redirect' => '',
         ]);
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @Author: Roy
      * @DateTime: 2021/7/30 下午 02:13
@@ -198,30 +203,30 @@ class ArticleController extends BaseController
         $Validate = (new ArticleDestroyValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status'  => false,
-                'code'    => 400,
+                'status' => false,
+                'code' => 400,
                 'message' => $Validate->errors(),
             ]);
         }
         $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'));
         if (is_null($Entity) === true) {
             return response()->json([
-                'status'  => false,
-                'code'    => 400,
+                'status' => false,
+                'code' => 400,
                 'message' => ['id' => 'not exist'],
             ]);
         }
         #刪除
         if ($Entity->update(Arr::get($Requester, ArticleEntity::Table))) {
             return response()->json([
-                'status'  => true,
-                'code'    => 200,
+                'status' => true,
+                'code' => 200,
                 'message' => [],
             ]);
         }
         return response()->json([
-            'status'  => false,
-            'code'    => 400,
+            'status' => false,
+            'code' => 400,
             'message' => ['error' => '系統異常'],
         ]);
     }
