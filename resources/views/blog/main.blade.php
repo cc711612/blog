@@ -34,8 +34,8 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
         rel="stylesheet" type="text/css"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{asset('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="{{asset('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{secure_url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{secure_url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNCGJ1VG5L"></script>
