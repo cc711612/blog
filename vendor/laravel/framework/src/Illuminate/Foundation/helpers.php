@@ -751,7 +751,7 @@ if (!function_exists('secure_url')) {
     function secure_url($path, $parameters = [])
     {
         if (config('app.env') != 'production') {
-            return sprintf('%s/%s', config('app.url'), $path);
+            return sprintf('%s%s', config('app.url'), $path);
         }
         return url($path, $parameters, true);
     }
