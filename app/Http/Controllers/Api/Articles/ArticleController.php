@@ -50,7 +50,7 @@ class ArticleController extends BaseController
                         'id' => Arr::get($article, 'id'),
                         'title' => Arr::get($article, 'title'),
                         'content' => Arr::get($article, 'content'),
-                        'sub_title' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                        'sub_title' => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 80,'...'),
                         'preview_content' => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 180),
                         'user' => [
                             'id' => Arr::get($article, 'users.id'),
@@ -91,7 +91,7 @@ class ArticleController extends BaseController
                 'id' => Arr::get($article, 'id'),
                 'title' => Arr::get($article, 'title'),
                 'content' => Arr::get($article, 'content'),
-                'sub_title' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                'sub_title' => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 80,'...'),
                 'user' => [
                     'id' => Arr::get($article, 'users.id'),
                     'name' => Arr::get($article, 'users.name'),
