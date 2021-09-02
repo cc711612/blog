@@ -2,20 +2,11 @@
 
 namespace App\Http\Controllers\Web\Articles;
 
-use App\Models\UserEntity;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Http\Validators\Api\Users\ArticleStoreValidator;
-use App\Http\Requesters\Api\Users\ArticleStoreRequest;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requesters\Api\Users\UserUpdateRequest;
-use App\Http\Validators\Api\Users\UserUpdateValidator;
-use App\Http\Requesters\Api\Users\UserDestroyRequest;
-use App\Http\Validators\Api\Users\UserDestroyValidator;
 use App\Models\Services\ArticleService;
 use Illuminate\Support\Str;
-use App\Models\Entities\ArticleEntity;
 use Illuminate\Support\Facades\Auth;
 use romanzipp\Seo\Facades\Seo;
 use romanzipp\Seo\Services\SeoService;
@@ -43,7 +34,7 @@ class ArticleController extends BaseController
                     'id'         => Arr::get($article, 'id'),
                     'title'      => Arr::get($article, 'title'),
                     'content'    => Arr::get($article, 'content'),
-                    'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 180,'...'),
+                    'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 65,'...'),
                     'user_name'  => Arr::get($article, 'users.name'),
                     'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                     'actions'    => (object) [
@@ -78,7 +69,7 @@ class ArticleController extends BaseController
             'title'       => Arr::get($article, 'title'),
             'description' => is_null(Arr::get($article, 'seo.description'))
                 ? preg_replace('/\s(?=)/', '',
-                    Str::limit(strip_tags(Arr::get($article, 'content')), 100, '...'))
+                    $this->getShortContent(strip_tags(Arr::get($article, 'content')), 150))
                 : Arr::get($article, 'seo.description'),
             'keyword'     => Arr::get($article, 'seo.keyword'),
         ]);
@@ -87,7 +78,7 @@ class ArticleController extends BaseController
                 'id'         => Arr::get($article, 'id'),
                 'title'      => Arr::get($article, 'title'),
                 'content'    => Arr::get($article, 'content'),
-                'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 60,'...'),
                 'user_name'  => Arr::get($article, 'users.name'),
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                 'comments'   => Arr::get($article, 'comments'),
@@ -212,7 +203,7 @@ class ArticleController extends BaseController
      * @Author: Roy
      * @DateTime: 2021/9/2 下午 10:23
      */
-    private function getShortContent(string $string, int $limit = 0, string $add = "")
+    private function getShortContent(string $string, int $limit = 20, string $add = "")
     {
         return sprintf('%s%s', mb_substr(str_replace(array("\r", "\n", "\r\n", "\n\r",PHP_EOL,"&nbsp"), '', $string), 0, $limit), $add);
     }
