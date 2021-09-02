@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,9 +13,9 @@ use App\Traits\AuthLoginTrait;
 /**
  * Class LoginController
  *
- * @package App\Http\Controllers\Api\Auth
+ * @package App\Http\Controllers\Web\Auth
  * @Author: Roy
- * @DateTime: 2021/8/12 下午 09:14
+ * @DateTime: 2021/9/3 上午 01:19
  */
 class LoginController extends Controller
 {
@@ -48,6 +48,7 @@ class LoginController extends Controller
                 'message' => ['password'=>'密碼有誤'],
             ]);
         }
+        Auth::login(Auth::user());
         # set cache
         $this->MemberTokenCache();
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Articles\ArticleController;
 use App\Http\Controllers\Web\Users\UserController;
 use App\Http\Controllers\Web\Socials\SocialController;
+use App\Http\Controllers\Web\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,6 @@ Route::get('/', function () {
 });
 Route::get('/user', [UserController::class, 'index']);
 Route::resource('article', ArticleController::class)->only(['index', 'create', 'show', 'edit']);
-
 Route::get('/upload', function () {
     return view('upload');
 });
@@ -29,6 +29,9 @@ Route::get('/trigger/{data}', function ($data) {
     echo "<p>You have sent $data</p>";
     event(new App\Events\GetRequestEvent($data));
 });
+# 登入
+Route::post('/login', [LoginController::class, 'login'])->name('login.api');
+# 第三方登入
 Route::group(['as' => 'social.', 'prefix' => 'social'], function () {
     Route::group(['as' => 'line.', 'prefix' => 'line'], function () {
         Route::name("login")->get("/login", [SocialController::class, 'lineLogin']);
