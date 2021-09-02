@@ -43,7 +43,7 @@ class ArticleController extends BaseController
                     'id'         => Arr::get($article, 'id'),
                     'title'      => Arr::get($article, 'title'),
                     'content'    => Arr::get($article, 'content'),
-                    'sub_title'  => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
+                    'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 180,'...'),
                     'user_name'  => Arr::get($article, 'users.name'),
                     'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                     'actions'    => (object) [
@@ -201,5 +201,19 @@ class ArticleController extends BaseController
         seo()->viewport();
         seo()->csrfToken();
         return $this;
+    }
+
+    /**
+     * @param  string  $string
+     * @param  int  $limit
+     * @param  string  $add
+     *
+     * @return string
+     * @Author: Roy
+     * @DateTime: 2021/9/2 下午 10:23
+     */
+    private function getShortContent(string $string, int $limit = 0, string $add = "")
+    {
+        return sprintf('%s%s', mb_substr(str_replace(array("\r", "\n", "\r\n", "\n\r",PHP_EOL,"&nbsp"), '', $string), 0, $limit), $add);
     }
 }

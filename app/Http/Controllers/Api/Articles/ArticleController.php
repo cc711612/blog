@@ -244,13 +244,16 @@ class ArticleController extends BaseController
     }
 
     /**
-     * @param string $string
-     * @param int $limit
-     * @param string $add
+     * @param  string  $string
+     * @param  int  $limit
+     * @param  string  $add
+     *
      * @return string
+     * @Author: Roy
+     * @DateTime: 2021/9/2 下午 10:23
      */
     private function getShortContent(string $string, int $limit = 0, string $add = "")
     {
-        return sprintf('%s%s', mb_substr(str_replace(array("\r", "\n", "\r\n", "\n\r",PHP_EOL), '', $string), 0, $limit), $add);
+        return sprintf('%s%s', mb_substr(str_replace(array("\r", "\n", "\r\n", "\n\r",PHP_EOL,"&nbsp"), '', $string), 0, $limit), $add);
     }
 }
