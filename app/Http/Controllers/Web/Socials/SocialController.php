@@ -17,9 +17,11 @@ use App\Http\Requesters\Api\Users\UserStoreRequest;
 use App\Models\UserEntity;
 use App\Http\Requesters\Web\Socials\SocialLineLoginRequest;
 use App\Models\Entities\SocialEntity;
+use App\Traits\AuthLoginTrait;
 
 class SocialController extends BaseController
 {
+    use AuthLoginTrait;
     /**
      * @param  \Illuminate\Http\Request  $request
      *
@@ -77,6 +79,8 @@ class SocialController extends BaseController
             $Social->update(Arr::get($requester, SocialEntity::Table));
         }
         Auth::login($User);
+        # set cache
+        $this->MemberTokenCache();
         return redirect('/');
     }
 
@@ -149,6 +153,8 @@ class SocialController extends BaseController
 
         }
         Auth::login($User);
+        # set cache
+        $this->MemberTokenCache();
         return redirect('/');
     }
 
