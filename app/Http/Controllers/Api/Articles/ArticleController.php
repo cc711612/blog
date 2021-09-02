@@ -51,7 +51,7 @@ class ArticleController extends BaseController
                         'title' => Arr::get($article, 'title'),
                         'content' => Arr::get($article, 'content'),
                         'sub_title' => Str::limit(strip_tags(Arr::get($article, 'content')), 30, '...'),
-                        'preview_content' => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 40, '...'),
+                        'preview_content' => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 40),
                         'user' => [
                             'id' => Arr::get($article, 'users.id'),
                             'name' => Arr::get($article, 'users.name'),
@@ -251,6 +251,6 @@ class ArticleController extends BaseController
      */
     private function getShortContent(string $string, int $limit = 0, string $add = "")
     {
-        return sprintf('%s%s', mb_substr($string, 0, $limit), $add);
+        return sprintf('%s%s', mb_substr(str_replace(array("\r", "\n", "\r\n", "\n\r",PHP_EOL), '', $string), 0, $limit), $add);
     }
 }
