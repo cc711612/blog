@@ -46,7 +46,7 @@ class PrepareAuthenticatedSession
         $request->session()->regenerate();
 
         $this->limiter->clear($request);
-        # set cache
+        # set cache git
         $this->MemberTokenCache();
         return $next($request);
     }

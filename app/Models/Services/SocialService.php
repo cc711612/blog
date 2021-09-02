@@ -63,11 +63,30 @@ class SocialService
         return $this;
     }
 
+    /**
+     * @return mixed
+     * @Author: Roy
+     * @DateTime: 2021/9/3 上午 01:27
+     */
     public function findFaceBookEmail()
     {
         return $this->getEntity()
             ->where('email',$this->getRequestByKey('socials.email'))
             ->where('social_type',SocialType::Facebook)
+            ->get()
+            ->first();
+    }
+
+    /**
+     * @return mixed
+     * @Author: Roy
+     * @DateTime: 2021/9/3 上午 01:27
+     */
+    public function findLineEmail()
+    {
+        return $this->getEntity()
+            ->where('email',$this->getRequestByKey('socials.email'))
+            ->where('social_type',SocialType::Line)
             ->get()
             ->first();
     }
@@ -91,7 +110,7 @@ class SocialService
     /**
      * @return |null
      * @Author: Roy
-     * @DateTime: 2021/8/11 下午 02:34
+     * @DateTime: 2021/9/3 上午 01:27
      */
     public function update()
     {

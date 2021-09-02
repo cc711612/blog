@@ -48,7 +48,6 @@ class LoginController extends Controller
                 'message' => ['password'=>'密碼有誤'],
             ]);
         }
-
         # set cache
         $this->MemberTokenCache();
 
@@ -62,7 +61,8 @@ class LoginController extends Controller
                 'email' => Arr::get(Auth::user(),'email'),
                 'image' => Arr::get(Auth::user(),'images.cover',$this->getDefaultImage()),
                 'member_token' => Arr::get(Auth::user(),'api_token'),
-            ]
+            ],
+            'redirect' => route('article.index'),
         ]);
     }
 
