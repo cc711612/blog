@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Concerns\Commons\Traits\StatusActiveEntityTrait;
+use App\Scopes\RootStatus;
 
 /**
  * App\Models\Entities\ArticleEntity
@@ -90,6 +92,14 @@ class ArticleEntity extends Model
 
     /**
      * @Author: Roy
+     * @DateTime: 2021/9/3 上午 12:18
+     */
+    protected static function boot()
+    {
+        parent::boot();
+    }
+    /**
+     * @Author: Roy
      * @DateTime: 2021/8/11 下午 03:04
      */
     public function users()
@@ -150,5 +160,18 @@ class ArticleEntity extends Model
     public function setSeoAttribute(array $value)
     {
         $this->attributes['seo'] = serialize($value);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     * @Author: Roy
+     * @DateTime: 2021/9/3 上午 12:22
+     */
+    public function scopeWebArticle($query)
+    {
+        return $query
+            ->where('user_id',32);
     }
 }

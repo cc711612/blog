@@ -23,8 +23,8 @@ trait AuthLoginTrait
     {
         # 更新token
         $this->updateToken();
-        Cache::put(sprintf(config('cache_key.api.member_token'), Arr::get(Auth::user(), 'api_token')), Auth::user(),
-            Carbon::now()->addMonth()->toDateTimeString());
+//        Cache::put(sprintf(config('cache_key.api.member_token'), Arr::get(Auth::user(), 'api_token')), Auth::user(),
+//            Carbon::now()->addMonth()->toDateTimeString());
     }
 
     /**
@@ -41,6 +41,8 @@ trait AuthLoginTrait
         }
         $user = Auth::user();
         $user->api_token = Str::random(20);
+        Cache::put(sprintf(config('cache_key.api.member_token'), $user->api_token), Auth::user(),
+            Carbon::now()->addMonth()->toDateTimeString());
         $user->save();
         return $this;
     }
