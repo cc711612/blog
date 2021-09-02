@@ -5,15 +5,17 @@ namespace App\Http\Controllers\Web\Articles;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Models\Services\ArticleService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use romanzipp\Seo\Facades\Seo;
 use romanzipp\Seo\Services\SeoService;
 use Illuminate\Support\Facades\URL;
+use App\Models\Services\Web\ArticleWebService;
+use App\Traits\AuthLoginTrait;
 
 class ArticleController extends BaseController
 {
+    use AuthLoginTrait;
     /**
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -21,7 +23,7 @@ class ArticleController extends BaseController
      */
     public function index(Request $request)
     {
-        $Articles = (new ArticleService())
+        $Articles = (new ArticleWebService())
             ->setRequest($request->toArray())
             ->paginate();
         $this->setSeo([
@@ -61,7 +63,7 @@ class ArticleController extends BaseController
     public function show(Request $request)
     {
         $id = Arr::get($request, 'article');
-        $article = (new ArticleService())->find($id);
+        $article = (new ArticleWebService())->find($id);
         if (is_null($article) === true) {
             return redirect()->route('article.index');
         }
@@ -106,6 +108,7 @@ class ArticleController extends BaseController
         if (is_null(Auth::id())) {
             return redirect()->route('article.index');
         }
+
         $this->setSeo([
             'title'       => '新增文章',
             'description' => '新增文章',
@@ -137,7 +140,7 @@ class ArticleController extends BaseController
             return redirect()->route('login');
         }
         $id = Arr::get($request, 'article');
-        $article = (new ArticleService())->find($id);
+        $article = (new ArticleWebService())->find($id);
         if (is_null($article) === true || Auth::id() != Arr::get($article, 'user_id')) {
             return redirect()->route('article.index');
         }
