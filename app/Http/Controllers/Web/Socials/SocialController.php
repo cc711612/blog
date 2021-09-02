@@ -119,7 +119,7 @@ class SocialController extends BaseController
         # 檢查DB
         $Social = (new SocialService())
             ->setRequest($requester->toArray())
-            ->findFaceBookEmail();
+            ->findLineEmail();
         # 不存在DB
         if (is_null($Social)) {
             # 先檢查User表Email重複性
