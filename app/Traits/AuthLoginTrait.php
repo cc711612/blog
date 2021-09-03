@@ -35,23 +35,29 @@ trait AuthLoginTrait
      */
     private function updateToken()
     {
-        # 檢查token
-        if ($this->checkToken()) {
-            # 清除cache
-            $this->cleanToken();
+        try {
+            # 檢查token
+            if ($this->checkToken()) {
+                # 清除cache
+                $this->cleanToken();
+            }
+            $user = Auth::user();
+            $user->api_token = Str::random(20);
+            $cache = Cache::add(sprintf(config('cache_key.api.member_token'), $user->api_token), Auth::user(),
+                Carbon::now()->addMonth()->toDateTimeString());
+            # Log
+            if ($cache === true) {
+                Log::channel('token')->info(sprintf("Login info : %s ", json_encode([
+                    'user_id'   => $user->id,
+                    'cache_key' => sprintf(config('cache_key.api.member_token'), $user->api_token),
+                    'token'     => $user->api_token,
+                    'end_time'  => Carbon::now()->addMonth()->toDateTimeString(),
+                ])));
+            }
+            $user->save();
+        } catch (\Tmemberowable $exception) {
+            Log::channel('errorlog')->info(sprintf("Login errors : %s ", json_encode($exception, JSON_UNESCAPED_UNICODE)));
         }
-        $user = Auth::user();
-        $user->api_token = Str::random(20);
-        Cache::put(sprintf(config('cache_key.api.member_token'), $user->api_token), Auth::user(),
-            Carbon::now()->addMonth()->toDateTimeString());
-
-        Log::channel('token')->info(sprintf("Login info : %s ",json_encode([
-            'user_id'   => $user->id,
-            'cache_key' => sprintf(config('cache_key.api.member_token'), $user->api_token),
-            'token'     => $user->api_token,
-            'end_time'  => Carbon::now()->addMonth()->toDateTimeString(),
-        ])));
-        $user->save();
         return $this;
     }
 
