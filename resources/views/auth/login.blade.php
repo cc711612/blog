@@ -31,12 +31,12 @@
             <div class="flex items-center justify-end mt-4">
                 <div class="facebook_login ml-4">
                     <a href="{{route('social.facebook.login')}}" title="facebook登入">
-                        <img src="{{asset('assets/img/auth/btn_facebook_login.png')}}" style="width: 7rem">
+                        <img src="{{asset('assets/img/auth/facebook.png')}}" alt="facebook登入" style="width: 2rem;">
                     </a>
                 </div>
                 <div class="line_login ml-4">
                     <a href="{{route('social.line.login')}}" title="Line登入">
-                        <img src="{{asset('assets/img/auth/btn_line_login.png')}}" style="width: 7rem">
+                        <img src="{{asset('assets/img/auth/line.png')}}" alt="Line登入" style="width: 2rem;">
                     </a>
                 </div>
                 <button type="button" id="login"
