@@ -41,26 +41,26 @@ class LoginController extends Controller
         }
         $credentials = request(['email', 'password']);
         #認證失敗
-        if(!Auth::attempt($credentials)){
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'status'  => false,
                 'code'    => 400,
-                'message' => ['password'=>'密碼有誤'],
+                'message' => ['password' => ['密碼有誤']],
             ]);
         }
         # set cache
         $this->MemberTokenCache();
 
         return response()->json([
-            'status'  => true,
-            'code'    => 200,
-            'message' => [],
-            'data'    => [
-                'id' => Arr::get(Auth::user(),'id'),
-                'name' => Arr::get(Auth::user(),'name'),
-                'email' => Arr::get(Auth::user(),'email'),
-                'image' => Arr::get(Auth::user(),'images.cover',$this->getDefaultImage()),
-                'member_token' => Arr::get(Auth::user(),'api_token'),
+            'status'   => true,
+            'code'     => 200,
+            'message'  => [],
+            'data'     => [
+                'id'           => Arr::get(Auth::user(), 'id'),
+                'name'         => Arr::get(Auth::user(), 'name'),
+                'email'        => Arr::get(Auth::user(), 'email'),
+                'image'        => Arr::get(Auth::user(), 'images.cover', $this->getDefaultImage()),
+                'member_token' => Arr::get(Auth::user(), 'api_token'),
             ],
             'redirect' => route('article.index'),
         ]);
@@ -74,7 +74,8 @@ class LoginController extends Controller
      */
     private function getDefaultImage()
     {
-        return sprintf('%s://%s%s%s',$_SERVER['REQUEST_SCHEME'] ,$_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
+        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
+            config('filesystems.disks.images.url'), 'default.png');
     }
 
 

@@ -12,7 +12,6 @@ function login() {
         ajaxLoadingOpen();
         let form = $("#form");
         $.post(form.attr('action'), form.serialize(), function (Obj) {
-            console.log(Obj);
             ajaxLoadingClose();
             if(Obj.status){
                 if (Obj.redirect != '' && Obj.redirect != undefined) {
@@ -20,7 +19,7 @@ function login() {
                 }
             }else {
                 $.each(Obj.message, function (key, value) {
-                    alert(value.join(','));
+                    alert(value.join('\r'));
                 });
             }
         });
