@@ -12,7 +12,7 @@ function logout()
 {
     $("#logout").click(function (){
         ajaxLoadingOpen();
-        $.post('../logout', {}, function(Obj){
+        $.post(logout_uri, {}, function(Obj){
             ajaxLoadingClose();
             location.reload();
         });
