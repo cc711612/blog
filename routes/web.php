@@ -17,9 +17,7 @@ use App\Http\Controllers\Web\Auth\LoginController;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('article.index');
-});
+Route::get('/', [ArticleController::class, 'index']);
 Route::get('/user', [UserController::class, 'index']);
 Route::resource('article', ArticleController::class)->only(['index', 'create', 'show', 'edit']);
 Route::get('/upload', function () {
