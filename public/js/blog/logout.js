@@ -13,7 +13,6 @@ function logout()
     $("#logout").click(function (){
         ajaxLoadingOpen();
         $.post(logout_uri, {}, function(Obj){
-            ajaxLoadingClose();
             location.reload();
         });
         return false ;
