@@ -19,6 +19,7 @@ use Laravel\Fortify\Http\Requests\LoginRequest;
 use App\Traits\AuthLogoutTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use http\Env\Response;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -106,22 +107,21 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
-     *
      * @param  \Illuminate\Http\Request  $request
      *
-     * @return \Laravel\Fortify\Contracts\LogoutResponse
+     * @return \Illuminate\Http\JsonResponse
+     * @Author: Roy
+     * @DateTime: 2021/9/13 上午 10:35
      */
-    public function destroy(Request $request): LogoutResponse
+    public function destroy(Request $request)
     {
         # clean cache
         $this->cleanToken(Arr::get(Auth::user(), 'api_token'));
         $this->guard->logout();
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-
-        return app(LogoutResponse::class);
+        return response()->json(['status' => true]);
+//        return app(LogoutResponse::class);
     }
 }
