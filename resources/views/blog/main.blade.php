@@ -110,7 +110,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="small text-center text-muted fst-italic">Copyright &copy; Roy 2021</div>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; 2021 Roy</div>
             </div>
         </div>
     </div>
