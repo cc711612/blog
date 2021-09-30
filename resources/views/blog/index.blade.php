@@ -7,7 +7,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
                     <h1>{{ config('app.name', 'Laravel') }}</h1>
-                    <span class="subheading">Do SomeThing</span>
+                    <span class="subheading">Everything be all right</span>
                 </div>
             </div>
         </div>
