@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
-
+    'name'      => env('APP_NAME', 'Laravel'),
+    'sub_title' => env('APP_SUB_TITLE', 'Record'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -240,7 +240,7 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
