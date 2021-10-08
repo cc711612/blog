@@ -168,6 +168,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         #Helper
         App\Providers\HelperServiceProvider::class,
+        // Add View Composer
+        App\Providers\ComposerServiceProvider::class,
 
         /*
          * Package Service Providers...
