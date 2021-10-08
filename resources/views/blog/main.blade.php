@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-<!--
-                         _oo0oo_
-                        o8888888o
-                        88" . "88
-                        (| -_- |)
-                        0\  =  /0
-                    ___/`---'\___
-                    .' \\|     |// '.
-                    / \\|||  :  |||// \
-                / _||||| -:- |||||- \
-                |   | \\\  -  /// |   |
-                | \_|  ''\---/''  |_/ |
-                \  .-\__  '-'  ___/-. /
-                ___'. .'  /--.--\  `. .'___
-            ."" '<  `.___\_<|>_/___.' >' "".
-            | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-            \  \ `_.   \_ __\ /__ _/   .-` /  /
-        =====`-.____`.___ \_____/___.-`___.-'=====
-                        `=---='
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                佛祖保佑         永無bug
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--->
+    <!--
+                             _oo0oo_
+                            o8888888o
+                            88" . "88
+                            (| -_- |)
+                            0\  =  /0
+                        ___/`---'\___
+                        .' \\|     |// '.
+                        / \\|||  :  |||// \
+                    / _||||| -:- |||||- \
+                    |   | \\\  -  /// |   |
+                    | \_|  ''\---/''  |_/ |
+                    \  .-\__  '-'  ___/-. /
+                    ___'. .'  /--.--\  `. .'___
+                ."" '<  `.___\_<|>_/___.' >' "".
+                | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+                \  \ `_.   \_ __\ /__ _/   .-` /  /
+            =====`-.____`.___ \_____/___.-`___.-'=====
+                            `=---='
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    佛祖保佑         永無bug
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    -->
     {{ seo()->render() }}
     <link rel="icon" type="image/x-icon" href="{{asset('/assets/favicon.ico')}}"/>
     <!-- Font Awesome icons (free version)-->
@@ -41,13 +41,23 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNCGJ1VG5L"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-NNCGJ1VG5L');
     </script>
 </head>
 <body>
+<!-- Messenger 洽談外掛程式 Code -->
+<div id="fb-root"></div>
+
+<!-- Your 洽談外掛程式 code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
 <div class="loader" id="loading" style="display:none;">
     <img src="{{asset('/assets/img/loader.gif')}}" alt="Loading..."/>
 </div>
@@ -125,5 +135,28 @@
 <script src="{{asset('/js/blog/global.js')}}"></script>
 <script src="{{asset('/js/blog/logout.js')}}"></script>
 <script src="{{asset('/js/blog/scripts.js')}}"></script>
+@if(config('app.env' )!= 'local')
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "103818151196273");
+        chatbox.setAttribute("attribution", "biz_inbox");
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v12.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+@endif
 </body>
 </html>
