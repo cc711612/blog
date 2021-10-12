@@ -55,7 +55,6 @@
 <body>
 <!-- Messenger 洽談外掛程式 Code -->
 <div id="fb-root"></div>
-
 <!-- Your 洽談外掛程式 code -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
@@ -82,7 +81,6 @@
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" id="logout" href="/logout">LOGOUT</a>
                     </li>
                 @endif
-
             </ul>
         </div>
     </div>
@@ -155,49 +153,44 @@
 <script src="{{asset('/js/blog/logout.js')}}"></script>
 <script src="{{asset('/js/blog/scripts.js')}}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
-
-    <script>
-        @if(config('app.env' )!= 'local')
-        var chatbox = document.getElementById('fb-customer-chat');
-        chatbox.setAttribute("page_id", "103818151196273");
-        chatbox.setAttribute("attribution", "biz_inbox");
-
-        window.fbAsyncInit = function () {
-            FB.init({
-                xfbml: true,
-                version: 'v12.0'
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = 'https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-        @endif
-        // 線上人數
-        let onlineUsers = 0;
-
-        function update_online_counter() {
-            console.log('update_online_counter');
-            document.getElementById('online').textContent = '' + onlineUsers;
-        }
-        window.Echo.join('common_room')
-            .here((users) => {
-                onlineUsers = users.length;
-                update_online_counter();
-            })
-            .joining((user) => {
-                onlineUsers++;
-                update_online_counter();
-            })
-            .leaving((user) => {
-                onlineUsers--;
-                update_online_counter();
-            });
-    </script>
+<script>
+    @if(config('app.env' )!= 'local')
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "103818151196273");
+    chatbox.setAttribute("attribution", "biz_inbox");
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v12.0'
+        });
+    };
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    @endif
+    // 線上人數
+    let onlineUsers = 0;
+    function update_online_counter() {
+        document.getElementById('online').textContent = '' + onlineUsers;
+    }
+    window.Echo.join('common_room')
+        .here((users) => {
+            onlineUsers = users.length;
+            update_online_counter();
+        })
+        .joining((user) => {
+            onlineUsers++;
+            update_online_counter();
+        })
+        .leaving((user) => {
+            onlineUsers--;
+            update_online_counter();
+        });
+</script>
 </body>
 </html>
