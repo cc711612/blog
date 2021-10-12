@@ -50,6 +50,31 @@
 
         gtag('config', 'G-NNCGJ1VG5L');
     </script>
+    <style>
+        .number-of-people {
+            width: 50px;
+            padding: 5px 8px;
+            border-radius: 10px;
+            background-color: black;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .number-of-people .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            background-color: red;
+            color: white;
+            font-size: .8rem;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 10px;
+            padding: 0 3px;
+        }
+    </style>
 </head>
 <body>
 <!-- Messenger 洽談外掛程式 Code -->
@@ -86,6 +111,24 @@
         </div>
     </div>
 </nav>
+<div class="number-of-people">
+    <div class="badge" id="online">
+        0
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="icons" viewBox="0 0 48 48">
+        <defs>
+            <linearGradient id="New_Gradient_Swatch_5" x1="24" y1="47.52" x2="24" y2="0.48"
+                            gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#fd7d47"/>
+                <stop offset="1" stop-color="#ff5099"/>
+            </linearGradient>
+        </defs>
+        <title>user-people-family-house-home</title>
+        <path id="user-people-family-house-home"
+              d="M48,24.48l-8.74-8.74h.12V7.54h-4.1v4.22L24,.48l-24,24,2.9,2.9,1.62-1.63V47.52h39V25.75l1.62,1.63ZM39.38,43.42H8.62V21.65L24,6.28,39.38,21.65ZM26.05,29.07a4.1,4.1,0,0,1,4.1,4.1v6.15H17.85V33.17a4.1,4.1,0,0,1,4.1-4.1ZM24,18.82a4.1,4.1,0,1,1-4.1,4.1A4.1,4.1,0,0,1,24,18.82Z"
+              fill="white"/>
+    </svg>
+</div>
 <!-- jquery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 @yield("content")
@@ -135,8 +178,10 @@
 <script src="{{asset('/js/blog/global.js')}}"></script>
 <script src="{{asset('/js/blog/logout.js')}}"></script>
 <script src="{{asset('/js/blog/scripts.js')}}"></script>
-@if(config('app.env' )!= 'local')
+<script src="{{ asset('js/app.js') }}"></script>
+
     <script>
+        @if(config('app.env' )!= 'local')
         var chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "103818151196273");
         chatbox.setAttribute("attribution", "biz_inbox");
@@ -156,7 +201,27 @@
             js.src = 'https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+        @endif
+        // 線上人數
+        let onlineUsers = 0;
+
+        function update_online_counter() {
+            console.log('update_online_counter');
+            document.getElementById('online').textContent = '' + onlineUsers;
+        }
+        window.Echo.join('common_room')
+            .here((users) => {
+                onlineUsers = users.length;
+                update_online_counter();
+            })
+            .joining((user) => {
+                onlineUsers++;
+                update_online_counter();
+            })
+            .leaving((user) => {
+                onlineUsers--;
+                update_online_counter();
+            });
     </script>
-@endif
 </body>
 </html>

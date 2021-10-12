@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Database\Factories\UserEntityFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|UserEntity newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserEntity newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserEntity query()

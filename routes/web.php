@@ -19,14 +19,13 @@ use App\Http\Controllers\Web\Auth\LoginController;
 
 # Websocket
 Route::group([],function () {
-    Route::get('/user', [UserController::class, 'index']);
+    Route::group(['middleware' => ['SocketOnline','web']], function () {
+        Route::get('/user', [UserController::class, 'index']);
+    });
     Route::get('/trigger/{data}', function ($data) {
         echo "<p>You have sent $data</p>";
         event(new App\Events\GetRequestEvent($data));
     });
-    Broadcast::routes([
-        'middleware' => ['authenticate-guest'],
-    ]);
 });
 # Blog
 Route::group([],function (){
