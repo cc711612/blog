@@ -36,6 +36,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{secure_url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{secure_url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{secure_url('/css/badge.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNCGJ1VG5L"></script>
@@ -50,31 +51,6 @@
 
         gtag('config', 'G-NNCGJ1VG5L');
     </script>
-    <style>
-        .number-of-people {
-            width: 50px;
-            padding: 5px 8px;
-            border-radius: 10px;
-            background-color: black;
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-        }
-
-        .number-of-people .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 20px;
-            background-color: red;
-            color: white;
-            font-size: .8rem;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 10px;
-            padding: 0 3px;
-        }
-    </style>
 </head>
 <body>
 <!-- Messenger 洽談外掛程式 Code -->
