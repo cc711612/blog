@@ -153,6 +153,7 @@
 <script src="{{asset('/js/blog/logout.js')}}"></script>
 <script src="{{asset('/js/blog/scripts.js')}}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{asset('/js/blog/bobee.js')}}"></script>
 <script>
     @if(config('app.env' )!= 'local')
     var chatbox = document.getElementById('fb-customer-chat');
@@ -175,9 +176,11 @@
     @endif
     // 線上人數
     let onlineUsers = 0;
+
     function update_online_counter() {
         document.getElementById('online').textContent = '' + onlineUsers;
     }
+
     window.Echo.join('common_room')
         .here((users) => {
             onlineUsers = users.length;
