@@ -26,6 +26,7 @@ class ArticleController extends BaseController
         $Articles = (new ArticleWebService())
             ->setRequest($request->toArray())
             ->paginate();
+
         $this->setSeo([
             'title'       => config('app.name'),
             'description' => '文章列表',
@@ -39,6 +40,7 @@ class ArticleController extends BaseController
                     'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 65,'...'),
                     'user_name'  => Arr::get($article, 'users.name'),
                     'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
+                    'created_at' => Arr::get($article, 'created_at')->format('Y-m-d H:i:s'),
                     'actions'    => (object) [
                         'show_uri'   => route('article.show', ['article' => Arr::get($article, 'id')]),
                         'edit_uri'   => route('article.edit', ['article' => Arr::get($article, 'id')]),
