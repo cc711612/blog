@@ -126,7 +126,7 @@ return [
 
     'version' => env('APP_VERSION', date("Ymd")),
 
-    'login_timeout' => env('LOGIN_TIMEOUT',43200),
+    'login_timeout' => env('LOGIN_TIMEOUT',2592000),
 
     /*
     |--------------------------------------------------------------------------

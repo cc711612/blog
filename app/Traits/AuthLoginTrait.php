@@ -49,7 +49,7 @@ trait AuthLoginTrait
                     'user_id'   => $user->id,
                     'cache_key' => sprintf(config('cache_key.api.member_token'), $user->api_token),
                     'token'     => $user->api_token,
-                    'end_time'  => Carbon::now()->addMonth()->toDateTimeString(),
+                    'end_time'  => Carbon::now()->addSeconds(config('app.login_timeout'))->toDateTimeString(),
                 ])));
             }
             $user->save();
