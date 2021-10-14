@@ -24,8 +24,6 @@ trait AuthLoginTrait
     {
         # 更新token
         $this->updateToken();
-//        Cache::put(sprintf(config('cache_key.api.member_token'), Arr::get(Auth::user(), 'api_token')), Auth::user(),
-//            Carbon::now()->addMonth()->toDateTimeString());
     }
 
     /**
@@ -83,6 +81,7 @@ trait AuthLoginTrait
      */
     private function cleanToken()
     {
+        Log::channel('token')->info(sprintf("Token Clean info : %s ", $this->getCacheKey()));
         return Cache::forget($this->getCacheKey());
     }
 
