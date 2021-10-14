@@ -53,7 +53,7 @@ trait AuthLoginTrait
                 ])));
             }
             $user->save();
-        } catch (\Tmemberowable $exception) {
+        } catch (\Throwable $exception) {
             Log::channel('errorlog')->info(sprintf("Login errors : %s ", json_encode($exception, JSON_UNESCAPED_UNICODE)));
         }
         return $this;
