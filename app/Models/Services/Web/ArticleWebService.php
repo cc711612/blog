@@ -83,7 +83,7 @@ class ArticleWebService
                     $query->select(['id', 'name','images']);
                 },
             ])
-            ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at']);
+            ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at','created_at']);
         # 作者
         if (is_null($this->getRequestByKey('user')) === false) {
             $Result = $Result->where('user_id', $this->getRequestByKey('user'));
@@ -91,7 +91,8 @@ class ArticleWebService
 
         return $Result
             ->WebArticle()
-            ->orderByDesc('updated_at')
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->paginate($page_count);
     }
 
