@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Cache;
 use App\Traits\AuthLoginTrait;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 
 class VerifyApi
 {
@@ -33,6 +35,7 @@ class VerifyApi
             ]);
         }
         if ($this->checkToken($member_token) === false) {
+            Log::channel('token')->info(sprintf("Verify token is empty info : %s ", $request->member_token));
             return response()->json([
                 'status'   => false,
                 'code'     => 400,
