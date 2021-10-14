@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Cache;
+use Illuminate\Support\Facades\Log;
 
 trait AuthLogoutTrait
 {
@@ -25,6 +26,7 @@ trait AuthLogoutTrait
     {
         if (Cache::has(sprintf(config('cache_key.api.member_token'), $token))) {
             # 清除cache
+            Log::channel('token')->info(sprintf("Token Clean info : %s ", sprintf(config('cache_key.api.member_token'), $token)));
             Cache::forget(sprintf(config('cache_key.api.member_token'), $token));
         }
         return $this;
