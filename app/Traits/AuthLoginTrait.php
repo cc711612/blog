@@ -42,7 +42,7 @@ trait AuthLoginTrait
             $user = Auth::user();
             $user->api_token = Str::random(20);
             $cache = Cache::add(sprintf(config('cache_key.api.member_token'), $user->api_token), Auth::user(),
-                Carbon::now()->addMonth()->toDateTimeString());
+                config('app.login_timeout'));
             # Log
             if ($cache === true) {
                 Log::channel('token')->info(sprintf("Login info : %s ", json_encode([
