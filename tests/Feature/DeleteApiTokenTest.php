@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\UserEntity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
@@ -21,9 +21,9 @@ class DeleteApiTokenTest extends TestCase
         }
 
         if (Features::hasTeamFeatures()) {
-            $this->actingAs($user = User::factory()->withPersonalTeam()->create());
+            $this->actingAs($user = UserEntity::factory()->withPersonalTeam()->create());
         } else {
-            $this->actingAs($user = User::factory()->create());
+            $this->actingAs($user = UserEntity::factory()->create());
         }
 
         $token = $user->tokens()->create([

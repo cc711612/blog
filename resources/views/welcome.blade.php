@@ -5,7 +5,7 @@
 <head>
 
     <title>Laravel WebSocket 示例</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -55,7 +55,7 @@
                 name: e.message.name,
                 email: e.message.email
             });
-        })
+        });
 </script>
 
 </body>

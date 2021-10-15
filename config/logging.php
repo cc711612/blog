@@ -40,7 +40,12 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
-
+        'token' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/member/laravel.log'),
+            'level' => 'info',
+            'days' => 30,
+        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
@@ -89,6 +94,7 @@ return [
 
         'errorlog' => [
             'driver' => 'errorlog',
+            'path' => storage_path('logs/error/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Web\Users;
 
-use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Http\Validators\Api\Users\UserStoreValidator;
-use App\Http\Requesters\Api\Users\UserStoreRequest;
+use App\Http\Validators\Api\Users\ArticleStoreValidator;
+use App\Http\Requesters\Api\Users\ArticleStoreRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requesters\Api\Users\UserUpdateRequest;
 use App\Http\Validators\Api\Users\UserUpdateValidator;
 use App\Http\Requesters\Api\Users\UserDestroyRequest;
 use App\Http\Validators\Api\Users\UserDestroyValidator;
+use App\Models\Entities\UserEntity;
 
 class UserController extends BaseController
 {
@@ -23,7 +23,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $Users = (new User())
+        $Users = (new UserEntity())
             ->all();
         $Users = $Users->map(function ($userEntity) {
             return (object)[
@@ -49,9 +49,9 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-        $Requester = (new UserStoreRequest($request));
+        $Requester = (new ArticleStoreRequest($request));
 
-        $Validate = (new UserStoreValidator($Requester))->validate();
+        $Validate = (new ArticleStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
@@ -62,7 +62,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
         Arr::set($Requester, 'password', Hash::make(Arr::get($Requester, 'password')));
         #Create
-        (new User())->create($Requester);
+        (new UserEntity())->create($Requester);
         return response()->json([
             'status'  => true,
             'code'    => 200,
@@ -92,7 +92,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
         Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
         #Create
-        $Entity = (new User())->find(Arr::get($Requester, 'id'))
+        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'))
             ->update($Requester);
         if ($Entity) {
             return response()->json([
@@ -126,7 +126,7 @@ class UserController extends BaseController
                 'message' => $Validate->errors(),
             ]);
         }
-        $Entity = (new User())->find(Arr::get($Requester, 'id'));
+        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'));
         if(is_null($Entity) === true){
             return response()->json([
                 'status'  => false,
