@@ -101,6 +101,12 @@
             @if(is_null(\Illuminate\Support\Facades\Auth::id()) === false)
             let FormElement = $("#form");
             $("button[data-action='submit']").click(function () {
+                let content = $("#content");
+                if(content.val() == ''){
+                    alert('請填寫留言內容');
+                    content.focus();
+                    return false
+                }
                 ajaxLoadingOpen();
                 $.post(FormElement.attr('action'), FormElement.serialize(), function (Obj) {
                     ajaxLoadingClose();
@@ -108,6 +114,7 @@
                         $.each(Obj.message, function (key, value) {
                             alert(value.join(','));
                         });
+                        return false;
                     } else {
                         alert('留言成功');
                     }
