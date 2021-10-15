@@ -3,19 +3,19 @@
 namespace Database\Factories;
 
 use App\Models\Team;
-use App\Models\User;
+use App\Models\UserEntity;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
-class UserFactory extends Factory
+class UserEntityFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = UserEntity::class;
 
     /**
      * Define the model's default state.
@@ -60,7 +60,7 @@ class UserFactory extends Factory
 
         return $this->has(
             Team::factory()
-                ->state(function (array $attributes, User $user) {
+                ->state(function (array $attributes, UserEntity $user) {
                     return ['name' => $user->name.'\'s Team', 'user_id' => $user->id, 'personal_team' => true];
                 }),
             'ownedTeams'
