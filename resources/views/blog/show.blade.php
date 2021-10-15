@@ -124,6 +124,7 @@
         function getNewComments() {
             ajaxLoadingOpen();
             $.get('{{route('api.comment.index',['article_id'=>$Html->element->id])}}', function (Obj) {
+                console.log(Obj);
                 ajaxLoadingClose();
                 let comments = $("#comments");
                 let content = $("#content");
@@ -139,7 +140,7 @@
                     for (let i = 0; i < Obj.data.length; i++) {
                         html += Mustache.render(template, {
                             content: Obj.data[i].content,
-                            user_name: Obj.data[i].user_name,
+                            user_name: Obj.data[i].user.name,
                             updated_at: Obj.data[i].updated_at
                         });
                     }
