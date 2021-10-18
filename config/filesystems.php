@@ -42,6 +42,13 @@ return [
             'visibility' => 'public',
         ],
 
+        //圖檔
+        'images' => [
+            'driver' => 'local',
+            'root'   => public_path('storage/images'),
+            'url' => '/storage/images/',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
