@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Users;
 
-use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Http\Validators\Api\Users\UserStoreValidator;
-use App\Http\Requesters\Api\Users\UserStoreRequest;
+use App\Http\Validators\Api\Users\ArticleStoreValidator;
+use App\Http\Requesters\Api\Users\ArticleStoreRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requesters\Api\Users\UserUpdateRequest;
 use App\Http\Validators\Api\Users\UserUpdateValidator;
 use App\Http\Requesters\Api\Users\UserDestroyRequest;
 use App\Http\Validators\Api\Users\UserDestroyValidator;
+use App\Models\Entities\UserEntity;
 
 class UserController extends BaseController
 {
@@ -23,10 +23,21 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $Users = (new User())
+        $Users = (new UserEntity())
             ->all();
+        $Users = $Users->map(function ($userEntity) {
+            return (object)[
+                'id'                => Arr::get($userEntity, 'id'),
+                'name'              => Arr::get($userEntity, 'name'),
+                'email'             => Arr::get($userEntity, 'email'),
+                'image'             => Arr::get($userEntity, 'images.cover', $this->getDefaultImage()),
+                'created_at'        => Arr::get($userEntity, 'created_at')->format('Y-m-d H:i:s'),
+                'email_verified_at' => is_null(Arr::get($userEntity,
+                    'email_verified_at')) ? null : Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
+            ];
+        });
 
-        return response()->json($Users);
+        return view('welcome',compact('Users'));
     }
 
     /**
@@ -38,9 +49,9 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-        $Requester = (new UserStoreRequest($request));
+        $Requester = (new ArticleStoreRequest($request));
 
-        $Validate = (new UserStoreValidator($Requester))->validate();
+        $Validate = (new ArticleStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
                 'status'  => false,
@@ -51,7 +62,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
         Arr::set($Requester, 'password', Hash::make(Arr::get($Requester, 'password')));
         #Create
-        (new User())->create($Requester);
+        (new UserEntity())->create($Requester);
         return response()->json([
             'status'  => true,
             'code'    => 200,
@@ -81,7 +92,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
         Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
         #Create
-        $Entity = (new User())->find(Arr::get($Requester, 'id'))
+        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'))
             ->update($Requester);
         if ($Entity) {
             return response()->json([
@@ -115,7 +126,7 @@ class UserController extends BaseController
                 'message' => $Validate->errors(),
             ]);
         }
-        $Entity = (new User())->find(Arr::get($Requester, 'id'));
+        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'));
         if(is_null($Entity) === true){
             return response()->json([
                 'status'  => false,
@@ -136,5 +147,14 @@ class UserController extends BaseController
             'code'    => 400,
             'message' => ['error' => '系統異常'],
         ]);
+    }
+    /**
+     * @return string
+     * @Author: Roy
+     * @DateTime: 2021/8/7 下午 02:32
+     */
+    public function getDefaultImage()
+    {
+        return sprintf('%s://%s%s%s',$_SERVER['REQUEST_SCHEME'] ,$_SERVER["HTTP_HOST"], config('filesystems.disks.images.url'), 'default.png');
     }
 }

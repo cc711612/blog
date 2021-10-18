@@ -1,0 +1,36 @@
+.loader {
+  opacity:0.6;
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff; }
+  .loader img {
+    text-align: center; }
+  .loader.hidden {
+    animation: fadeOut 1s;
+    animation-fill-mode: forwards; 
+  }
+  .loader {
+  opacity:0.6;
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff; }
+  .loader img {
+    text-align: center; }
+  .loader.hidden {
+    animation: fadeOut 1s;
+    animation-fill-mode: forwards; 
+  }
