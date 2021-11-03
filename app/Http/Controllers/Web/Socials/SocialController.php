@@ -81,7 +81,7 @@ class SocialController extends BaseController
         Auth::login($User);
         # set cache
         $this->MemberTokenCache();
-        return redirect('/');
+        return redirect(route('website.index'));
     }
 
     /**
@@ -155,7 +155,7 @@ class SocialController extends BaseController
         Auth::login($User);
         # set cache
         $this->MemberTokenCache();
-        return redirect('/');
+        return redirect(route('website.index'));
     }
 
     /**
