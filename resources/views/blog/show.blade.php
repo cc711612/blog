@@ -13,6 +13,7 @@
                             <a href="{{$Html->element->actions->user_uri}}">{{$Html->element->user_name}}</a>
                             on {{$Html->element->updated_at}}
                         </span>
+                        <span id="busuanzi_value_page_pv"></span> Views
                     </div>
                 </div>
             </div>

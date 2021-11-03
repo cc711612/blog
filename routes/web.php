@@ -29,7 +29,7 @@ Route::group([],function () {
 });
 # Blog
 Route::group([],function (){
-    Route::get('/', [ArticleController::class, 'index']);
+    Route::name("website.index")->get('/', [ArticleController::class, 'index']);
     Route::resource('article', ArticleController::class)->only(['index', 'create', 'show', 'edit']);
     Route::get('/upload', function () {
         return view('upload');
