@@ -137,7 +137,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="small text-center text-muted fst-italic">Copyright &copy; 2021 Roy</div>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; 2021 Roy<p id="busuanzi_value_site_pv"></p></div>
             </div>
         </div>
     </div>
@@ -147,6 +147,7 @@
 </script>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 <!-- Core theme JS-->
 <script src="{{asset('/js/blog/global.js')}}"></script>
