@@ -146,6 +146,8 @@
 </footer>
 <script>
     let logout_uri = '{{route('logout')}}';
+    // 線上人數
+    let onlineUsers = 0;
 </script>
 <!-- jquery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -156,14 +158,14 @@
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 <!-- Core theme JS-->
-<script src="{{asset('/js/blog/logout.js')}}"></script>
-<script src="{{asset('/js/blog/scripts.js')}}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{asset('/js/blog/bobee.js')}}"></script>
-<script src="{{asset('/js/blog/online.js')}}"></script>
+<script src="{{asset('/js/blog/logout.js?v='.config('app.version'))}}"></script>
+<script src="{{asset('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
+<script src="{{ asset('js/app.js?v='.config('app.version')) }}"></script>
+<script src="{{asset('/js/blog/bobee.js?v='.config('app.version'))}}"></script>
+<script src="{{asset('/js/blog/online.js?v='.config('app.version'))}}"></script>
 
 @if(config('app.env' ) == 'production')
-    <script src="{{asset('/js/blog/face-book-chat.js')}}"></script>
+    <script src="{{asset('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>
 @endif
 </body>
 </html>
