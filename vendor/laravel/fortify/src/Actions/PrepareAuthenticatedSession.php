@@ -3,19 +3,9 @@
 namespace Laravel\Fortify\Actions;
 
 use Laravel\Fortify\LoginRateLimiter;
-use Illuminate\Support\Facades\Auth;
-use App\Traits\AuthLoginTrait;
 
-/**
- * Class PrepareAuthenticatedSession
- *
- * @package Laravel\Fortify\Actions
- * @Author: Roy
- * @DateTime: 2021/8/12 下午 09:14
- */
 class PrepareAuthenticatedSession
 {
-    use AuthLoginTrait;
     /**
      * The login rate limiter instance.
      *
@@ -46,8 +36,7 @@ class PrepareAuthenticatedSession
         $request->session()->regenerate();
 
         $this->limiter->clear($request);
-        # set cache git
-        $this->MemberTokenCache();
+
         return $next($request);
     }
 }
