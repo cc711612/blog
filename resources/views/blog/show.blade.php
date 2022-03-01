@@ -82,6 +82,7 @@
             </form>
         </div>
     @endif
+    @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.min.js"></script>
     <script type="text/x-mustache" id="comments_template">
         <div class="container px-4 px-lg-5 comment-element">
@@ -132,7 +133,6 @@
         function getNewComments() {
             ajaxLoadingOpen();
             $.get('{{route('api.comment.index',['article_id'=>$Html->element->id])}}', function (Obj) {
-                console.log(Obj);
                 ajaxLoadingClose();
                 let comments = $("#comments");
                 let content = $("#content");
@@ -160,4 +160,5 @@
             return false;
         }
     </script>
+    @endpush
 @endsection
