@@ -1,7 +1,5 @@
 
 $().ready(function () {
-    // 線上人數
-    let onlineUsers = 0;
     window.Echo.join('common_room')
         .here((users) => {
             onlineUsers = users.length;
