@@ -1,4 +1,7 @@
 @extends("blog.main")
+@push('css-plugins')
+<link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
+@endpush
 @section("content")
     <!-- Page Header-->
     <header class="masthead" style="background-image: url('../assets/img/home-bg.jpg')">
@@ -55,6 +58,8 @@
             </div>
         </div>
     </main>
+@endsection
+@push('scripts')
     <script src="https://cdn.tiny.cloud/1/ma5vlvghjz93fthi8wglhda2j2x1jc9jsit28g74jalc6z2z/tinymce/5/tinymce.min.js"
             referrerpolicy="origin"></script>
     <script src="{{asset('/js/tinymce.js')}}"></script>
@@ -80,4 +85,4 @@
             });
         });
     </script>
-@endsection
+@endpush
