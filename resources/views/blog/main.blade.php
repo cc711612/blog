@@ -37,7 +37,9 @@
     <link href="{{secure_url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{secure_url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{secure_url('/css/badge.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    @stack('css-plugins')
+    <!-- END PAGE LEVEL PLUGINS -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNCGJ1VG5L"></script>
     <script>
@@ -103,8 +105,7 @@
               fill="white"/>
     </svg>
 </div>
-<!-- jquery-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 @yield("content")
 <!-- Footer-->
 <footer class="border-top">
@@ -137,7 +138,8 @@
                         </a>
                     </li>
                 </ul>
-                <div class="small text-center text-muted fst-italic">Copyright &copy; 2021 Roy<p id="busuanzi_value_site_pv"></p></div>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; 2021 Roy<p
+                        id="busuanzi_value_site_pv"></p></div>
             </div>
         </div>
     </div>
@@ -145,56 +147,23 @@
 <script>
     let logout_uri = '{{route('logout')}}';
 </script>
+<!-- jquery-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{{asset('/js/blog/global.js')}}"></script>
+@stack('scripts')
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 <!-- Core theme JS-->
-<script src="{{asset('/js/blog/global.js')}}"></script>
 <script src="{{asset('/js/blog/logout.js')}}"></script>
 <script src="{{asset('/js/blog/scripts.js')}}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{asset('/js/blog/bobee.js')}}"></script>
-<script>
-    @if(config('app.env' )!= 'local')
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "103818151196273");
-    chatbox.setAttribute("attribution", "biz_inbox");
-    window.fbAsyncInit = function () {
-        FB.init({
-            xfbml: true,
-            version: 'v12.0'
-        });
-    };
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = 'https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    @endif
-    // 線上人數
-    let onlineUsers = 0;
+<script src="{{asset('/js/blog/online.js')}}"></script>
 
-    function update_online_counter() {
-        document.getElementById('online').textContent = '' + onlineUsers;
-    }
-
-    window.Echo.join('common_room')
-        .here((users) => {
-            onlineUsers = users.length;
-            update_online_counter();
-        })
-        .joining((user) => {
-            onlineUsers++;
-            update_online_counter();
-        })
-        .leaving((user) => {
-            onlineUsers--;
-            update_online_counter();
-        });
-</script>
+@if(config('app.env' ) == 'production')
+    <script src="{{asset('/js/blog/face-book-chat.js')}}"></script>
+@endif
 </body>
 </html>
