@@ -15,7 +15,7 @@ use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 class LineController extends BaseController
 {
 
-    public function test(Request $request)
+    public function reply(Request $request)
     {
 
         Log::channel()->info(json_encode($request->toArray(), JSON_UNESCAPED_UNICODE));
