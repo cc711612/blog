@@ -13,6 +13,7 @@ use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\GitlabProvider;
 use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
+use Laravel\Socialite\Two\TwitterProvider as TwitterOAuth2Provider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
@@ -35,7 +36,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createGithubDriver()
     {
-        $config = $this->config->get('socialite.github');
+        $config = $this->config->get('services.github');
 
         return $this->buildProvider(
             GithubProvider::class, $config
@@ -49,7 +50,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createFacebookDriver()
     {
-        $config = $this->config->get('socialite.facebook');
+        $config = $this->config->get('services.facebook');
+
         return $this->buildProvider(
             FacebookProvider::class, $config
         );
@@ -62,7 +64,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createGoogleDriver()
     {
-        $config = $this->config->get('socialite.google');
+        $config = $this->config->get('services.google');
 
         return $this->buildProvider(
             GoogleProvider::class, $config
@@ -76,10 +78,10 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createLinkedinDriver()
     {
-        $config = $this->config->get('socialite.linkedin');
+        $config = $this->config->get('services.linkedin');
 
         return $this->buildProvider(
-            LinkedInProvider::class, $config
+          LinkedInProvider::class, $config
         );
     }
 
@@ -90,10 +92,10 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createBitbucketDriver()
     {
-        $config = $this->config->get('socialite.bitbucket');
+        $config = $this->config->get('services.bitbucket');
 
         return $this->buildProvider(
-            BitbucketProvider::class, $config
+          BitbucketProvider::class, $config
         );
     }
 
@@ -104,11 +106,25 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createGitlabDriver()
     {
-        $config = $this->config->get('socialite.gitlab');
+        $config = $this->config->get('services.gitlab');
 
         return $this->buildProvider(
             GitlabProvider::class, $config
         )->setHost($config['host'] ?? null);
+    }
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\Two\AbstractProvider
+     */
+    protected function createTwitterOAuth2Driver()
+    {
+        $config = $this->config->get('services.twitter');
+
+        return $this->buildProvider(
+            TwitterOAuth2Provider::class, $config
+        );
     }
 
     /**
@@ -134,7 +150,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     protected function createTwitterDriver()
     {
-        $config = $this->config->get('socialite.twitter');
+        $config = $this->config->get('services.twitter');
 
         return new TwitterProvider(
             $this->container->make('request'), new TwitterServer($this->formatConfig($config))
@@ -167,8 +183,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $redirect = value($config['redirect']);
 
         return Str::startsWith($redirect, '/')
-            ? $this->container->make('url')->to($redirect)
-            : $redirect;
+                    ? $this->container->make('url')->to($redirect)
+                    : $redirect;
     }
 
     /**
