@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Bots;
 
+use App\Jobs\replyMessage;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -14,23 +15,36 @@ use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 class LineController extends BaseController
 {
 
-    public function test(Request $request){
+    public function test(Request $request)
+    {
+
         Log::channel()->info(json_encode($request->toArray(), JSON_UNESCAPED_UNICODE));
-        //實體化linebot物件
-        $httpClient = new CurlHTTPClient(env('LINEBOT_TOKEN'));
-        $bot = new LINEBot($httpClient, ['channelSecret' => env('LINEBOT_SECRET')]);
+//        $json_data = '{"destination":"U9271924bac0bcd304cd25f15530cc22d","events":[{"type":"message","message":{"type":"text","id":"15719994512281","text":"123123"},"timestamp":1646900701059,"source":{"type":"user","userId":"U1d40789aa8461e74ead62181b1abc442"},"replyToken":"3d9d8f48f9c34b2ca447f3818407f595","mode":"active"}]}';
+//        $result = $this->jsonToArray($json_data);
+//        $result = $request;
+        try {
+            if (is_null(Arr::get($request, 'events')) == false) {
+                //實體化linebot物件
+                //取得使用者id和訊息內容
+                $user_content = Arr::get($request, 'events.0.message.text');
+                $user_id = Arr::get($request, 'events.0.source.userId');
+                $reply_token = Arr::get($request, 'events.0.replyToken');
+                replyMessage::dispatch(
+                    [
+                        'user_id' => $user_id,
+                        'reply_token' => $reply_token,
+                        'user_content' => $user_content,
+                        'events' => Arr::get($request, 'events'),
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+            Log::channel()->info(json_encode($e, JSON_UNESCAPED_UNICODE));
+        }
 
-        //取得使用者id和訊息內容
-        $text = $request->events[0]['message']['text'];
-        $user_id = $request->events[0]['source']['userId'];
-
-        //透過dialogFlow判斷訊息意圖
-        $dialog = $this->dialog($text);
-        $noLimit = !strpos($dialog->content(), 'Vague response');
-
-        //將以上拿到的資訊寫進log裡，debug用
-        Log::info($text);
-        Log::debug($dialog->content());
-        return response('',200);
+        return response('', 200);
     }
+
+
+
 }
