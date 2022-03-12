@@ -23,7 +23,7 @@ class LineController extends BaseController
 //        $result = $this->jsonToArray($json_data);
 //        $result = $request;
         try {
-            if (is_null(Arr::get($request, 'events')) == false) {
+            if (is_null(Arr::get($request, 'events')) == false && empty(Arr::get($request, 'events')) == false) {
                 //實體化linebot物件
                 //取得使用者id和訊息內容
                 $user_content = Arr::get($request, 'events.0.message.text');
@@ -39,12 +39,11 @@ class LineController extends BaseController
                 );
             }
         } catch (\Exception $e) {
-            Log::channel()->info(json_encode($e, JSON_UNESCAPED_UNICODE));
+            Log::channel()->error(json_encode($e, JSON_UNESCAPED_UNICODE));
         }
 
         return response('', 200);
     }
-
 
 
 }
