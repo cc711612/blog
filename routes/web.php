@@ -26,6 +26,9 @@ Route::group([],function () {
         echo "<p>You have sent $data</p>";
         event(new App\Events\GetRequestEvent($data));
     });
+    Route::get('/offline', function () {
+        return response('',200);
+    });
 });
 # Blog
 Route::group([],function (){
