@@ -53,6 +53,7 @@
 
         gtag('config', 'G-NNCGJ1VG5L');
     </script>
+    @laravelPWA
 </head>
 <body>
 <!-- Messenger 洽談外掛程式 Code -->
@@ -162,7 +163,7 @@
 <script src="{{asset('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
 <script src="{{ asset('js/app.js?v='.config('app.version')) }}"></script>
 <script src="{{asset('/js/blog/bobee.js?v='.config('app.version'))}}"></script>
-<script src="{{asset('/js/blog/online.js?v='.config('app.version'))}}"></script>
+{{--<script src="{{asset('/js/blog/online.js?v='.config('app.version'))}}"></script>--}}
 
 @if(config('app.env' ) == 'production')
     <script src="{{asset('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>
