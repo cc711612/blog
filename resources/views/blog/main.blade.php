@@ -33,13 +33,13 @@
 {{--    <link--}}
 {{--        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"--}}
 {{--        rel="stylesheet" type="text/css"/>--}}
-    <!-- Core theme CSS (includes Bootstrap)-->
+<!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{secure_url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{secure_url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{secure_url('/css/badge.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <!-- BEGIN PAGE LEVEL PLUGINS -->
-    @stack('css-plugins')
-    <!-- END PAGE LEVEL PLUGINS -->
+@stack('css-plugins')
+<!-- END PAGE LEVEL PLUGINS -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNCGJ1VG5L"></script>
     <script>
@@ -75,9 +75,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('website.index')}}">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('website.index')}}">Home</a>
+                </li>
                 @if(is_null(\Illuminate\Support\Facades\Auth::user()))
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('login')}}">LOGIN</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('login')}}">LOGIN</a>
+                    </li>
                 @else
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('article.create')}}">POST</a>
                     </li>
@@ -161,9 +163,9 @@
 <!-- Core theme JS-->
 <script src="{{secure_url('/js/blog/logout.js?v='.config('app.version'))}}"></script>
 <script src="{{secure_url('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
-<script src="{{ secure_url('js/app.js?v='.config('app.version')) }}"></script>
+<script src="{{secure_url('js/app.js?v='.config('app.version')) }}"></script>
 <script src="{{secure_url('/js/blog/bobee.js?v='.config('app.version'))}}"></script>
-{{--<script src="{{asset('/js/blog/online.js?v='.config('app.version'))}}"></script>--}}
+<script src="{{secure_url('/js/blog/online.js?v='.config('app.version'))}}"></script>
 
 @if(config('app.env' ) == 'production')
     <script src="{{secure_url('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>
