@@ -17,8 +17,11 @@ use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 class LineController extends BaseController
 {
     /**
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @Author: Roy
+     * @DateTime: 2022/3/15 上午 11:28
      */
     public function reply(Request $request)
     {
@@ -49,8 +52,11 @@ class LineController extends BaseController
     }
 
     /**
-     * @param Request $request
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @Author: Roy
+     * @DateTime: 2022/3/15 上午 11:28
      */
     public function send(Request $request)
     {
@@ -65,7 +71,9 @@ class LineController extends BaseController
     }
 
     /**
-     * @return CurlHTTPClient
+     * @return \LINE\LINEBot\HTTPClient\CurlHTTPClient
+     * @Author: Roy
+     * @DateTime: 2022/3/15 上午 11:28
      */
     private function getHttpClient()
     {
@@ -73,7 +81,9 @@ class LineController extends BaseController
     }
 
     /**
-     * @return LINEBot
+     * @return \LINE\LINEBot
+     * @Author: Roy
+     * @DateTime: 2022/3/15 上午 11:28
      */
     private function getLineBot()
     {
@@ -81,8 +91,11 @@ class LineController extends BaseController
     }
 
     /**
-     * @param string $json
+     * @param  string  $json
+     *
      * @return mixed
+     * @Author: Roy
+     * @DateTime: 2022/3/15 上午 11:28
      */
     private function jsonToArray(string $json)
     {

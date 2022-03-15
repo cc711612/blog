@@ -25,7 +25,7 @@
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -->
     {{ seo()->render() }}
-    <link rel="icon" type="image/x-icon" href="{{asset('/assets/favicon.ico')}}"/>
+    <link rel="icon" type="image/x-icon" href="{{secure_url('/assets/favicon.ico')}}"/>
     <!-- Font Awesome icons (free version)-->
     <!-- Google fonts-->
 {{--    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"--}}
@@ -152,21 +152,21 @@
 </script>
 <!-- jquery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="{{asset('/js/blog/global.js')}}"></script>
+<script src="{{secure_url('/js/blog/global.js')}}"></script>
 @stack('scripts')
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 <!-- Core theme JS-->
-<script src="{{asset('/js/blog/logout.js?v='.config('app.version'))}}"></script>
-<script src="{{asset('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
-<script src="{{ asset('js/app.js?v='.config('app.version')) }}"></script>
-<script src="{{asset('/js/blog/bobee.js?v='.config('app.version'))}}"></script>
+<script src="{{secure_url('/js/blog/logout.js?v='.config('app.version'))}}"></script>
+<script src="{{secure_url('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
+<script src="{{ secure_url('js/app.js?v='.config('app.version')) }}"></script>
+<script src="{{secure_url('/js/blog/bobee.js?v='.config('app.version'))}}"></script>
 {{--<script src="{{asset('/js/blog/online.js?v='.config('app.version'))}}"></script>--}}
 
 @if(config('app.env' ) == 'production')
-    <script src="{{asset('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>
+    <script src="{{secure_url('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>
 @endif
 </body>
 </html>

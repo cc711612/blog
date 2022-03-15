@@ -175,6 +175,13 @@
       'Seo' => 'romanzipp\\Seo\\Facades\\Seo',
     ),
   ),
+  'silviolleite/laravelpwa' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'LaravelPWA\\Providers\\LaravelPWAServiceProvider',
+    ),
+  ),
   'socialiteproviders/manager' => 
   array (
     'providers' => 
