@@ -23,6 +23,7 @@
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "~3.0",
         "romanzipp/laravel-seo": "^2.2",
+        "silviolleite/laravelpwa": "^2.0",
         "socialiteproviders/line": "^4.1"
     },
     "require-dev": {
