@@ -4,6 +4,7 @@ namespace App\Models\Entities;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @Author: Roy
  * @DateTime: 2021/8/20 下午 02:39
  */
-class SocialEntity extends Authenticatable
+class SocialEntity extends Model
 {
     use HasFactory;
     use SoftDeletes;

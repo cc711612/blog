@@ -137,4 +137,15 @@ class SocialService
         return $Entity->update($this->getRequestByKey(SocialEntity::Table));
     }
 
+    /**
+     * @param string $uuid
+     * @return mixed
+     */
+    public function getLineUserByUuid(string $uuid)
+    {
+        return $this->getEntity()
+            ->where('social_type_value',$uuid)
+            ->where('social_type',SocialType::Line)
+            ->first();
+    }
 }

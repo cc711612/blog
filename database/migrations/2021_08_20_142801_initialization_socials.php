@@ -17,7 +17,7 @@ class InitializationSocials extends Migration
         Schema::create('socials', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('第三方姓名');
-            $table->string('email')->comment('第三方Email');
+            $table->string('email')->nullable()->comment('第三方Email');
             $table->unsignedSmallInteger('social_type')->comment('第三方類別');
             $table->string('social_type_value')->comment('第三方ID');
             $table->string('image', 2048)->nullable()->comment('第三方照片');
