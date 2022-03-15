@@ -12,8 +12,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 
-class replyMessage implements ShouldQueue
+class sendLineMessage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -24,15 +25,11 @@ class replyMessage implements ShouldQueue
     /**
      * @var
      */
-    private $reply_token;
+    private $message;
     /**
      * @var
      */
-    private $user_content;
-    /**
-     * @var
-     */
-    private $events;
+    private $params;
 
     /**
      * Create a new job instance.
@@ -43,11 +40,10 @@ class replyMessage implements ShouldQueue
     {
         //
         $this
-            ->onQueue('reply_message');
+            ->onQueue('send_message');
         $this->user_id = Arr::get($params, 'user_id');
-        $this->reply_token = Arr::get($params, 'reply_token');
-        $this->user_content = Arr::get($params, 'user_content');
-        $this->events = Arr::get($params, 'events');
+        $this->message = Arr::get($params, 'message');
+        $this->params = $params;
     }
 
     /**
@@ -69,10 +65,10 @@ class replyMessage implements ShouldQueue
              * "pictureUrl" => "https://sprofile.line-scdn.net/0hE0DiZsyUGh9pEDa-y8xkYBlAGXVKYUMNQ3YCLFtCTXtRKQ8cTCVQfg4QTSkAIg0aEHZcKVsZFy1lA215d0bmK24gRChQJ1VNQ35T_g"
              * "language" => "zh-TW"
              */
-            $bot->replyText($this->reply_token, sprintf("%s 您好 :\n%s", Arr::get($user_info, 'displayName'), $this->user_content));
-            Log::channel('bot')->info(sprintf("SUCCESS params : %s", json_encode($this->events, JSON_UNESCAPED_UNICODE)));
+            $bot->pushMessage($this->user_id, new TextMessageBuilder(sprintf("%s 您好 :\n%s", Arr::get($user_info, 'displayName'), $this->message)));
+            Log::channel('bot')->info(sprintf("%s SUCCESS params : %s", get_class($this), json_encode($this->params, JSON_UNESCAPED_UNICODE)));
         } catch (\Exception $exception) {
-            Log::channel('bot')->info(json_encode($exception, JSON_UNESCAPED_UNICODE));
+            Log::channel('bot')->info(sprintf("&s Error params : %s", get_class($this), json_encode($exception, JSON_UNESCAPED_UNICODE)));
         }
     }
 
