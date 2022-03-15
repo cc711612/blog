@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Bots;
 
 use App\Jobs\replyLineMessage;
 use App\Jobs\sendLineMessage;
+use App\Jobs\socialUpdate;
+use App\Models\Services\SocialService;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -13,11 +15,10 @@ use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 
 
-
 class LineController extends BaseController
 {
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @Author: Roy
@@ -30,19 +31,29 @@ class LineController extends BaseController
 
         try {
             if (is_null(Arr::get($request, 'events')) == false && empty(Arr::get($request, 'events')) == false) {
-                //實體化linebot物件
-                //取得使用者id和訊息內容
-                $user_content = Arr::get($request, 'events.0.message.text');
                 $user_id = Arr::get($request, 'events.0.source.userId');
-                $reply_token = Arr::get($request, 'events.0.replyToken');
-                replyLineMessage::dispatch(
-                    [
-                        'user_id' => $user_id,
-                        'reply_token' => $reply_token,
-                        'user_content' => $user_content,
-                        'events' => Arr::get($request, 'events'),
-                    ]
-                );
+                # reply
+                if (Arr::get($request, 'events.0.type') == 'message') {
+                    $user_content = Arr::get($request, 'events.0.message.text');
+                    $reply_token = Arr::get($request, 'events.0.replyToken');
+                    replyLineMessage::dispatch(
+                        [
+                            'user_id' => $user_id,
+                            'reply_token' => $reply_token,
+                            'user_content' => $user_content,
+                            'events' => Arr::get($request, 'events'),
+                        ]
+                    );
+                } else {
+                    socialUpdate::dispatch(
+                        [
+                            'user_id' => $user_id,
+                            'events' => Arr::get($request, 'events'),
+                        ]
+                    );
+                }
+                # follow
+                Log::channel()->info(Arr::get($request, 'events.0.type'));
             }
         } catch (\Exception $e) {
             Log::channel()->error(json_encode($e, JSON_UNESCAPED_UNICODE));
@@ -52,7 +63,7 @@ class LineController extends BaseController
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @Author: Roy
@@ -91,7 +102,7 @@ class LineController extends BaseController
     }
 
     /**
-     * @param  string  $json
+     * @param string $json
      *
      * @return mixed
      * @Author: Roy
