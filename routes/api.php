@@ -63,6 +63,7 @@ Route::group(['middleware' => [], 'as' => 'api.'], function () {
     Route::group(['as' => 'webhook.', 'prefix' => 'webhook'], function () {
         Route::group(['as' => 'line.', 'prefix' => 'line'], function () {
             Route::name("reply")->any("/", [LineController::class, 'reply']);
+            Route::name("send")->any("/send", [LineController::class, 'send']);
         });
     });
 });

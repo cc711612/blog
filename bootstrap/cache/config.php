@@ -5,7 +5,7 @@
     'sub_title' => 'Record',
     'env' => 'local',
     'debug' => false,
-    'url' => 'https://747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io/',
+    'url' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/',
     'asset_url' => NULL,
     'timezone' => 'Asia/Taipei',
     'locale' => 'en',
@@ -504,7 +504,7 @@
       array (
         'driver' => 'local',
         'root' => 'C:\\project\\local\\blog\\storage\\app/public',
-        'url' => 'https://747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io//storage',
+        'url' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io//storage',
         'visibility' => 'public',
       ),
       'images' => 
@@ -604,7 +604,7 @@
   ),
   'logging' => 
   array (
-    'default' => 'stack',
+    'default' => 'daily',
     'channels' => 
     array (
       'stack' => 
@@ -761,7 +761,7 @@
     'image' => 'https://roy.usongrat.tw/storage/images/2021/08/12/喜勒哈囉.png',
     'locale' => 'zh_tw',
     'type' => 'website',
-    'url' => 'https://747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io/',
+    'url' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/',
   ),
   'queue' => 
   array (
@@ -826,7 +826,7 @@
       2 => '127.0.0.1',
       3 => '127.0.0.1:8000',
       4 => '::1',
-      5 => '747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io',
+      5 => 'b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io',
     ),
     'guard' => 
     array (
@@ -886,13 +886,13 @@
     array (
       'client_id' => '2167858493355820',
       'client_secret' => '5eca3fe3d1b64bb5d38be4ea06174199',
-      'redirect' => 'https://747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io/social/facebook/return',
+      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/facebook/return',
     ),
     'line' => 
     array (
       'client_id' => '1654456595',
       'client_secret' => '52c5f4c5eaec58408bc37f5f8c08394d',
-      'redirect' => 'https://747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io/social/line/return',
+      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/line/return',
     ),
   ),
   'session' => 
@@ -923,13 +923,13 @@
     array (
       'client_id' => '2167858493355820',
       'client_secret' => '5eca3fe3d1b64bb5d38be4ea06174199',
-      'redirect' => 'https://747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io/social/facebook/return',
+      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/facebook/return',
     ),
     'line' => 
     array (
       'client_id' => '1654456595',
       'client_secret' => '52c5f4c5eaec58408bc37f5f8c08394d',
-      'redirect' => 'https://747f-2001-b400-e231-2371-7c9b-7f30-54f2-d3fb.ngrok.io/social/line/return',
+      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/line/return',
     ),
   ),
   'view' => 

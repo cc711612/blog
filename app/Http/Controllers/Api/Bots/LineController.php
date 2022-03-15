@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api\Bots;
 
-use App\Jobs\replyMessage;
+use App\Jobs\replyLineMessage;
+use App\Jobs\sendLineMessage;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -12,16 +13,18 @@ use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 
 
+
 class LineController extends BaseController
 {
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function reply(Request $request)
     {
 
         Log::channel()->info(json_encode($request->toArray(), JSON_UNESCAPED_UNICODE));
-//        $json_data = '{"destination":"U9271924bac0bcd304cd25f15530cc22d","events":[{"type":"message","message":{"type":"text","id":"15719994512281","text":"123123"},"timestamp":1646900701059,"source":{"type":"user","userId":"U1d40789aa8461e74ead62181b1abc442"},"replyToken":"3d9d8f48f9c34b2ca447f3818407f595","mode":"active"}]}';
-//        $result = $this->jsonToArray($json_data);
-//        $result = $request;
+
         try {
             if (is_null(Arr::get($request, 'events')) == false && empty(Arr::get($request, 'events')) == false) {
                 //實體化linebot物件
@@ -29,7 +32,7 @@ class LineController extends BaseController
                 $user_content = Arr::get($request, 'events.0.message.text');
                 $user_id = Arr::get($request, 'events.0.source.userId');
                 $reply_token = Arr::get($request, 'events.0.replyToken');
-                replyMessage::dispatch(
+                replyLineMessage::dispatch(
                     [
                         'user_id' => $user_id,
                         'reply_token' => $reply_token,
@@ -45,5 +48,45 @@ class LineController extends BaseController
         return response('', 200);
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function send(Request $request)
+    {
+
+        sendLineMessage::dispatch(
+            [
+                'user_id' => "U1d40789aa8461e74ead62181b1abc442",
+                'message' => sprintf("此文章有新留言~ %s", route("article.show", ['article' => 53])),
+            ]
+        );
+        return response('', 200);
+    }
+
+    /**
+     * @return CurlHTTPClient
+     */
+    private function getHttpClient()
+    {
+        return (new CurlHTTPClient(config('bot.line.access_token')));
+    }
+
+    /**
+     * @return LINEBot
+     */
+    private function getLineBot()
+    {
+        return (new LINEBot($this->getHttpClient(), ['channelSecret' => config('bot.line.channel_secret')]));
+    }
+
+    /**
+     * @param string $json
+     * @return mixed
+     */
+    private function jsonToArray(string $json)
+    {
+        return json_decode($json, 1);
+    }
 
 }
