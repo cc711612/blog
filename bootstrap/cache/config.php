@@ -5,15 +5,15 @@
     'sub_title' => 'Record',
     'env' => 'local',
     'debug' => false,
-    'url' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/',
+    'url' => 'https://515b-114-34-53-151.ngrok.io/',
     'asset_url' => NULL,
     'timezone' => 'Asia/Taipei',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:6BqbEfsheuBxuDpzDqZbBfDaX6AEIEmu4WTO0SF49o8=',
+    'key' => 'base64:LykqcIRBBqDECPl41Zci30gFla6KRYA+zSH0bEgU6T0=',
     'cipher' => 'AES-256-CBC',
-    'version' => '20220311',
+    'version' => '20220314',
     'login_timeout' => 2592000,
     'providers' => 
     array (
@@ -192,7 +192,7 @@
   ),
   'cache' => 
   array (
-    'default' => 'redis',
+    'default' => 'file',
     'stores' => 
     array (
       'apc' => 
@@ -214,7 +214,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\project\\local\\blog\\storage\\framework/cache/data',
+        'path' => 'C:\\project\\blog_roy\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -396,7 +396,7 @@
     array (
       'enabled' => true,
       'driver' => 'file',
-      'path' => 'C:\\project\\local\\blog\\storage\\debugbar',
+      'path' => 'C:\\project\\blog_roy\\storage\\debugbar',
       'connection' => NULL,
       'provider' => '',
       'hostname' => '127.0.0.1',
@@ -498,19 +498,19 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\project\\local\\blog\\storage\\app',
+        'root' => 'C:\\project\\blog_roy\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\project\\local\\blog\\storage\\app/public',
-        'url' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io//storage',
+        'root' => 'C:\\project\\blog_roy\\storage\\app/public',
+        'url' => 'https://515b-114-34-53-151.ngrok.io//storage',
         'visibility' => 'public',
       ),
       'images' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\project\\local\\blog\\public\\storage/images',
+        'root' => 'C:\\project\\blog_roy\\public\\storage/images',
         'url' => '/storage/images/',
       ),
       's3' => 
@@ -527,7 +527,7 @@
     ),
     'links' => 
     array (
-      'C:\\project\\local\\blog\\public\\storage' => 'C:\\project\\local\\blog\\storage\\app/public',
+      'C:\\project\\blog_roy\\public\\storage' => 'C:\\project\\blog_roy\\storage\\app/public',
     ),
   ),
   'fortify-options' => 
@@ -602,9 +602,103 @@
     ),
     'profile_photo_disk' => 'public',
   ),
+  'laravelpwa' => 
+  array (
+    'name' => 'LaravelPWA',
+    'manifest' => 
+    array (
+      'name' => 'Blog',
+      'short_name' => 'PWA',
+      'start_url' => '/',
+      'background_color' => '#ffffff',
+      'theme_color' => '#000000',
+      'display' => 'standalone',
+      'orientation' => 'any',
+      'status_bar' => 'black',
+      'icons' => 
+      array (
+        '72x72' => 
+        array (
+          'path' => '/images/icons/icon-72x72.png',
+          'purpose' => 'any',
+        ),
+        '96x96' => 
+        array (
+          'path' => '/images/icons/icon-96x96.png',
+          'purpose' => 'any',
+        ),
+        '128x128' => 
+        array (
+          'path' => '/images/icons/icon-128x128.png',
+          'purpose' => 'any',
+        ),
+        '144x144' => 
+        array (
+          'path' => '/images/icons/icon-144x144.png',
+          'purpose' => 'any',
+        ),
+        '152x152' => 
+        array (
+          'path' => '/images/icons/icon-152x152.png',
+          'purpose' => 'any',
+        ),
+        '192x192' => 
+        array (
+          'path' => '/images/icons/icon-192x192.png',
+          'purpose' => 'any',
+        ),
+        '384x384' => 
+        array (
+          'path' => '/images/icons/icon-384x384.png',
+          'purpose' => 'any',
+        ),
+        '512x512' => 
+        array (
+          'path' => '/images/icons/icon-512x512.png',
+          'purpose' => 'any',
+        ),
+      ),
+      'splash' => 
+      array (
+        '640x1136' => '/images/icons/splash-640x1136.png',
+        '750x1334' => '/images/icons/splash-750x1334.png',
+        '828x1792' => '/images/icons/splash-828x1792.png',
+        '1125x2436' => '/images/icons/splash-1125x2436.png',
+        '1242x2208' => '/images/icons/splash-1242x2208.png',
+        '1242x2688' => '/images/icons/splash-1242x2688.png',
+        '1536x2048' => '/images/icons/splash-1536x2048.png',
+        '1668x2224' => '/images/icons/splash-1668x2224.png',
+        '1668x2388' => '/images/icons/splash-1668x2388.png',
+        '2048x2732' => '/images/icons/splash-2048x2732.png',
+      ),
+      'shortcuts' => 
+      array (
+        0 => 
+        array (
+          'name' => 'Shortcut Link 1',
+          'description' => 'Shortcut Link 1 Description',
+          'url' => '/shortcutlink1',
+          'icons' => 
+          array (
+            'src' => '/images/icons/icon-72x72.png',
+            'purpose' => 'any',
+          ),
+        ),
+        1 => 
+        array (
+          'name' => 'Shortcut Link 2',
+          'description' => 'Shortcut Link 2 Description',
+          'url' => '/shortcutlink2',
+        ),
+      ),
+      'custom' => 
+      array (
+      ),
+    ),
+  ),
   'logging' => 
   array (
-    'default' => 'daily',
+    'default' => 'stack',
     'channels' => 
     array (
       'stack' => 
@@ -619,27 +713,27 @@
       'token' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\project\\local\\blog\\storage\\logs/member/laravel.log',
+        'path' => 'C:\\project\\blog_roy\\storage\\logs/member/laravel.log',
         'level' => 'info',
         'days' => 30,
       ),
       'bot' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\project\\local\\blog\\storage\\logs/bot/laravel.log',
+        'path' => 'C:\\project\\blog_roy\\storage\\logs/bot/laravel.log',
         'level' => 'info',
         'days' => 30,
       ),
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\project\\local\\blog\\storage\\logs/laravel.log',
+        'path' => 'C:\\project\\blog_roy\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\project\\local\\blog\\storage\\logs/laravel.log',
+        'path' => 'C:\\project\\blog_roy\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -681,7 +775,7 @@
       'errorlog' => 
       array (
         'driver' => 'errorlog',
-        'path' => 'C:\\project\\local\\blog\\storage\\logs/error/laravel.log',
+        'path' => 'C:\\project\\blog_roy\\storage\\logs/error/laravel.log',
         'level' => 'debug',
       ),
       'null' => 
@@ -691,7 +785,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\project\\local\\blog\\storage\\logs/laravel.log',
+        'path' => 'C:\\project\\blog_roy\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -703,9 +797,9 @@
       'smtp' => 
       array (
         'transport' => 'smtp',
-        'host' => 'smtp.gmail.com',
-        'port' => '587',
-        'encryption' => 'tls',
+        'host' => 'mailhog',
+        'port' => '1025',
+        'encryption' => NULL,
         'username' => NULL,
         'password' => NULL,
         'timeout' => NULL,
@@ -748,7 +842,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\project\\local\\blog\\resources\\views/vendor/mail',
+        0 => 'C:\\project\\blog_roy\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -761,7 +855,7 @@
     'image' => 'https://roy.usongrat.tw/storage/images/2021/08/12/喜勒哈囉.png',
     'locale' => 'zh_tw',
     'type' => 'website',
-    'url' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/',
+    'url' => 'https://515b-114-34-53-151.ngrok.io/',
   ),
   'queue' => 
   array (
@@ -826,7 +920,7 @@
       2 => '127.0.0.1',
       3 => '127.0.0.1:8000',
       4 => '::1',
-      5 => 'b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io',
+      5 => '515b-114-34-53-151.ngrok.io',
     ),
     'guard' => 
     array (
@@ -884,15 +978,15 @@
     ),
     'facebook' => 
     array (
-      'client_id' => '2167858493355820',
-      'client_secret' => '5eca3fe3d1b64bb5d38be4ea06174199',
-      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/facebook/return',
+      'client_id' => NULL,
+      'client_secret' => NULL,
+      'redirect' => 'https://515b-114-34-53-151.ngrok.io/',
     ),
     'line' => 
     array (
-      'client_id' => '1654456595',
-      'client_secret' => '52c5f4c5eaec58408bc37f5f8c08394d',
-      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/line/return',
+      'client_id' => NULL,
+      'client_secret' => NULL,
+      'redirect' => 'https://515b-114-34-53-151.ngrok.io/',
     ),
   ),
   'session' => 
@@ -901,7 +995,7 @@
     'lifetime' => '1440',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\project\\local\\blog\\storage\\framework/sessions',
+    'files' => 'C:\\project\\blog_roy\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -921,24 +1015,24 @@
   array (
     'facebook' => 
     array (
-      'client_id' => '2167858493355820',
-      'client_secret' => '5eca3fe3d1b64bb5d38be4ea06174199',
-      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/facebook/return',
+      'client_id' => NULL,
+      'client_secret' => NULL,
+      'redirect' => 'https://515b-114-34-53-151.ngrok.io/',
     ),
     'line' => 
     array (
-      'client_id' => '1654456595',
-      'client_secret' => '52c5f4c5eaec58408bc37f5f8c08394d',
-      'redirect' => 'https://b732-2001-b400-e231-2371-49f4-92f-8850-c9d1.ngrok.io/social/line/return',
+      'client_id' => NULL,
+      'client_secret' => NULL,
+      'redirect' => 'https://515b-114-34-53-151.ngrok.io/',
     ),
   ),
   'view' => 
   array (
     'paths' => 
     array (
-      0 => 'C:\\project\\local\\blog\\resources\\views',
+      0 => 'C:\\project\\blog_roy\\resources\\views',
     ),
-    'compiled' => 'C:\\project\\local\\blog\\storage\\framework\\views',
+    'compiled' => 'C:\\project\\blog_roy\\storage\\framework\\views',
   ),
   'websockets' => 
   array (
@@ -1057,7 +1151,7 @@
   'livewire' => 
   array (
     'class_namespace' => 'App\\Http\\Livewire',
-    'view_path' => 'C:\\project\\local\\blog\\resources\\views/livewire',
+    'view_path' => 'C:\\project\\blog_roy\\resources\\views/livewire',
     'layout' => 'layouts.app',
     'asset_url' => NULL,
     'app_url' => NULL,
@@ -1112,7 +1206,7 @@
     'include_helpers' => false,
     'helper_files' => 
     array (
-      0 => 'C:\\project\\local\\blog/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+      0 => 'C:\\project\\blog_roy/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
     ),
     'model_locations' => 
     array (
