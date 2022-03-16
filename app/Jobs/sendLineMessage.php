@@ -65,15 +65,19 @@ class sendLineMessage implements ShouldQueue
              * "pictureUrl" => "https://sprofile.line-scdn.net/0hE0DiZsyUGh9pEDa-y8xkYBlAGXVKYUMNQ3YCLFtCTXtRKQ8cTCVQfg4QTSkAIg0aEHZcKVsZFy1lA215d0bmK24gRChQJ1VNQ35T_g"
              * "language" => "zh-TW"
              */
-            $bot->pushMessage($this->user_id, new TextMessageBuilder(sprintf("%s 您好 :\n%s", Arr::get($user_info, 'displayName'), $this->message)));
-            Log::channel('bot')->info(sprintf("%s SUCCESS params : %s", get_class($this), json_encode($this->params, JSON_UNESCAPED_UNICODE)));
+            $bot->pushMessage($this->user_id,
+                new TextMessageBuilder(sprintf("%s 您好 :\n%s", Arr::get($user_info, 'displayName'), $this->message)));
+            Log::channel('bot')->info(sprintf("%s SUCCESS params : %s", get_class($this),
+                json_encode($this->params, JSON_UNESCAPED_UNICODE)));
         } catch (\Exception $exception) {
-            Log::channel('bot')->info(sprintf("&s Error params : %s", get_class($this), json_encode($exception, JSON_UNESCAPED_UNICODE)));
+            Log::channel('bot')->info(sprintf("%s Error params : %s", get_class($this),
+                json_encode($exception, JSON_UNESCAPED_UNICODE)));
         }
     }
 
     /**
-     * @param string $json
+     * @param  string  $json
+     *
      * @return mixed
      */
     private function jsonToArray(string $json)
