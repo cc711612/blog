@@ -46,6 +46,12 @@ return [
             'level' => 'info',
             'days' => 30,
         ],
+        'bot' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/bot/laravel.log'),
+            'level' => 'info',
+            'days' => 30,
+        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),

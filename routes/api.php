@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Articles\ArticleController;
 use App\Http\Controllers\Api\Comments\CommentController;
-
+use App\Http\Controllers\Api\Bots\LineController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -58,6 +58,14 @@ Route::group(['middleware' => [], 'as' => 'api.'], function () {
     # 上傳圖片
     Route::group(['as' => 'image.', 'prefix' => 'image'], function () {
         Route::name("store")->post("/", [ImageController::class, 'store']);
+    });
+    # Webhook
+    Route::group(['as' => 'webhook.', 'prefix' => 'webhook'], function () {
+        Route::group(['as' => 'line.', 'prefix' => 'line'], function () {
+            Route::name("reply")->any("/reply", [LineController::class, 'reply']);
+            Route::name("send")->any("/send", [LineController::class, 'send']);
+            Route::name("test")->any("/test", [LineController::class, 'test']);
+        });
     });
 });
 Route::fallback(function () {

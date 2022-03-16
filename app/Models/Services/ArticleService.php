@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
 use App\Models\Entities\CommentEntity;
+use App\Models\Entities\SocialEntity;
+use App\Models\Supports\SocialType;
 
 /**
  * Class ArticleService
@@ -39,7 +41,7 @@ class ArticleService
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      *
      * @return mixed
      * @Author  : steatng
@@ -51,7 +53,7 @@ class ArticleService
     }
 
     /**
-     * @param array $request
+     * @param  array  $request
      *
      * @return $this
      * @Author  : steatng
@@ -64,7 +66,7 @@ class ArticleService
     }
 
     /**
-     * @param int $page_count
+     * @param  int  $page_count
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      * @Author: Roy
@@ -80,7 +82,7 @@ class ArticleService
         $Result = $this->getEntity()
             ->with([
                 UserEntity::Table => function ($query) {
-                    $query->select(['id', 'name','images']);
+                    $query->select(['id', 'name', 'images']);
                 },
             ])
             ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at']);
@@ -111,7 +113,7 @@ class ArticleService
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      *
      * @return mixed
      * @Author: Roy
@@ -121,8 +123,8 @@ class ArticleService
     {
         return $this->getEntity()
             ->with([
-                UserEntity::Table => function ($query) {
-                    $query->select(['id', 'name', 'images','introduction']);
+                UserEntity::Table    => function ($query) {
+                    $query->select(['id', 'name', 'images', 'introduction']);
                 },
                 CommentEntity::Table => function ($query) {
                     $query
@@ -132,8 +134,7 @@ class ArticleService
                             },
                         ])
                         ->select(['id', 'user_id', 'article_id', 'content', 'logs', 'updated_at'])
-                        ->orderBy('id')
-                    ;
+                        ->orderBy('id');
                 },
             ])
             ->find($id);
@@ -156,7 +157,7 @@ class ArticleService
     }
 
     /**
-     * @param array $ids
+     * @param  array  $ids
      *
      * @return mixed
      * @Author: Roy
@@ -172,4 +173,39 @@ class ArticleService
             ->get();
     }
 
+    /**
+     * @param  int  $id
+     *
+     * @Author: Roy
+     * @DateTime: 2022/3/16 下午 12:35
+     */
+    public function getArticleUserSocialByArticleId(int $id)
+    {
+        return $this->getEntity()
+            ->with([
+                UserEntity::Table => function ($query) {
+                    return $query->with([
+                        SocialEntity::Table => function ($querySocial) {
+                            return $querySocial
+                                ->where('social_type', SocialType::Line)
+                                ->where('followed', 1)
+                                ->whereNotNull('social_type_value')
+                                ->first()
+                            ;
+                        },
+                    ])
+                        ->select(['id']);
+                },
+            ])
+            ->select(['id', 'user_id'])
+            ->whereHas(UserEntity::Table, function ($query) {
+                return $query->whereHas(SocialEntity::Table, function ($querySocial) {
+                    return $querySocial
+                        ->where('social_type', SocialType::Line)
+                        ->where('followed', 1)
+                        ->whereNotNull('social_type_value');
+                });
+            })
+            ->find($id);
+    }
 }
