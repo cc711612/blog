@@ -13,12 +13,13 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use App\Models\Supports\SocialType;
 
 
 class LineController extends BaseController
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @Author: Roy
@@ -38,17 +39,18 @@ class LineController extends BaseController
                     $reply_token = Arr::get($request, 'events.0.replyToken');
                     replyLineMessage::dispatch(
                         [
-                            'user_id' => $user_id,
-                            'reply_token' => $reply_token,
+                            'user_id'      => $user_id,
+                            'reply_token'  => $reply_token,
                             'user_content' => $user_content,
-                            'events' => Arr::get($request, 'events'),
+                            'events'       => Arr::get($request, 'events'),
                         ]
                     );
                 } else {
+                    # 更新資料
                     socialUpdate::dispatch(
                         [
                             'user_id' => $user_id,
-                            'events' => Arr::get($request, 'events'),
+                            'events'  => Arr::get($request, 'events'),
                         ]
                     );
                 }
@@ -63,7 +65,7 @@ class LineController extends BaseController
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @Author: Roy
@@ -79,6 +81,33 @@ class LineController extends BaseController
             ]
         );
         return response('', 200);
+    }
+
+    /**
+     * @Author: Roy
+     * @DateTime: 2022/3/16 上午 11:05
+     */
+    public function test()
+    {
+        $request = $this->jsonToArray('[{"type":"unfollow","timestamp":1647398387076,"source":{"type":"user","userId":"U1d40789aa8461e74ead62181b1abc442"},"mode":"active"}]');
+        dump($request);
+        $bot = $this->getLineBot();
+        dump(Arr::get($request, '0.source.userId'));
+        $data = [
+            'social_type_value' => Arr::get($request, '0.source.userId'),
+            'social_type'       => SocialType::Line,
+            'followed'          => Arr::get($request, '0.type') == 'follow' ? 1 : 0,
+        ];
+        if (Arr::get($request, '0.type') == 'follow') {
+            $user_info = $this->jsonToArray($bot->getProfile(Arr::get($request, '0.source.userId'))->getRawBody());
+            Arr::set($data, 'name', Arr::get($user_info, 'displayName'));
+            Arr::set($data, 'image', Arr::get($user_info, 'pictureUrl'));
+        }
+
+        dump($data);
+
+        $Entity = (new SocialService())->setRequest($data)->updateOrCreate();
+        dd($Entity);
     }
 
     /**
@@ -102,7 +131,7 @@ class LineController extends BaseController
     }
 
     /**
-     * @param string $json
+     * @param  string  $json
      *
      * @return mixed
      * @Author: Roy

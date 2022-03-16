@@ -2,14 +2,8 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -21,9 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SocialEntity extends Model
 {
-    use HasFactory;
     use SoftDeletes;
-
 
     const Table = 'socials';
     /**
@@ -42,6 +34,7 @@ class SocialEntity extends Model
         'social_type_value',
         'image',
         'token',
+        'followed',
     ];
 
     /**
@@ -55,6 +48,6 @@ class SocialEntity extends Model
 
     public function users()
     {
-        return $this->belongsToMany(UserEntity::class,  'user_social', 'social_id','user_id');
+        return $this->belongsToMany(UserEntity::class, 'user_social', 'social_id', 'user_id');
     }
 }

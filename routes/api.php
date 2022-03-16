@@ -64,6 +64,7 @@ Route::group(['middleware' => [], 'as' => 'api.'], function () {
         Route::group(['as' => 'line.', 'prefix' => 'line'], function () {
             Route::name("reply")->any("/reply", [LineController::class, 'reply']);
             Route::name("send")->any("/send", [LineController::class, 'send']);
+            Route::name("test")->any("/test", [LineController::class, 'test']);
         });
     });
 });
