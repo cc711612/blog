@@ -71,8 +71,8 @@ class SocialService
     public function findFaceBookEmail()
     {
         return $this->getEntity()
-            ->where('email',$this->getRequestByKey('socials.email'))
-            ->where('social_type',SocialType::Facebook)
+            ->where('email', $this->getRequestByKey('socials.email'))
+            ->where('social_type', SocialType::Facebook)
             ->get()
             ->first();
     }
@@ -85,8 +85,8 @@ class SocialService
     public function findLineEmail()
     {
         return $this->getEntity()
-            ->where('email',$this->getRequestByKey('socials.email'))
-            ->where('social_type',SocialType::Line)
+            ->where('email', $this->getRequestByKey('socials.email'))
+            ->where('social_type', SocialType::Line)
             ->get()
             ->first();
     }
@@ -137,4 +137,25 @@ class SocialService
         return $Entity->update($this->getRequestByKey(SocialEntity::Table));
     }
 
+    /**
+     * @return |null
+     * @Author: Roy
+     * @DateTime: 2022/3/16 上午 10:37
+     */
+    public function updateOrCreate()
+    {
+        if (is_null($this->getRequestByKey('social_type_value')) === true) {
+            return null;
+        }
+
+        $Entity = $this->getEntity()
+            ->where('social_type_value', $this->getRequestByKey('social_type_value'))
+            ->where('social_type', SocialType::Line)
+            ->first();
+
+        if (is_null($Entity) === true) {
+            return $this->getEntity()->create($this->getRequest());
+        }
+        return $Entity->update($this->getRequest());
+    }
 }
