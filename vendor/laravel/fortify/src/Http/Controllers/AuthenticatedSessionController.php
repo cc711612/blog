@@ -16,15 +16,9 @@ use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest;
-use App\Traits\AuthLogoutTrait;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Arr;
-use http\Env\Response;
 
 class AuthenticatedSessionController extends Controller
 {
-    use AuthLogoutTrait;
-
     /**
      * The guard implementation.
      *
@@ -36,7 +30,6 @@ class AuthenticatedSessionController extends Controller
      * Create a new controller instance.
      *
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
-     *
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -48,18 +41,10 @@ class AuthenticatedSessionController extends Controller
      * Show the login view.
      *
      * @param  \Illuminate\Http\Request  $request
-     *
      * @return \Laravel\Fortify\Contracts\LoginViewResponse
      */
     public function create(Request $request): LoginViewResponse
     {
-        if (is_null(Auth::user()) === false) {
-            $this->cleanToken(Arr::get(Auth::user(), 'api_token'));
-        }
-        # 登出
-        $this->guard->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
         return app(LoginViewResponse::class);
     }
 
@@ -67,7 +52,6 @@ class AuthenticatedSessionController extends Controller
      * Attempt to authenticate a new session.
      *
      * @param  \Laravel\Fortify\Http\Requests\LoginRequest  $request
-     *
      * @return mixed
      */
     public function store(LoginRequest $request)
@@ -81,7 +65,6 @@ class AuthenticatedSessionController extends Controller
      * Get the authentication pipeline instance.
      *
      * @param  \Laravel\Fortify\Http\Requests\LoginRequest  $request
-     *
      * @return \Illuminate\Pipeline\Pipeline
      */
     protected function loginPipeline(LoginRequest $request)
@@ -107,21 +90,19 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * Destroy an authenticated session.
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @Author: Roy
-     * @DateTime: 2021/9/13 上午 10:35
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Laravel\Fortify\Contracts\LogoutResponse
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request): LogoutResponse
     {
-        # clean cache
-        $this->cleanToken(Arr::get(Auth::user(), 'api_token'));
         $this->guard->logout();
+
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
 
-        return response()->json(['status' => true]);
-//        return app(LogoutResponse::class);
+        return app(LogoutResponse::class);
     }
 }
