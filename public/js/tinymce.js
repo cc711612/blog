@@ -8,6 +8,8 @@ function tinymceInit(selector = '#content') {
         height: '800px',
         // content_css: "/front_design/front_end/css/m_video.css?="+ new Date().getTime(),
         // body_class: 'interduce__box',
+        relative_urls: false,
+        convert_urls: false,
         language: "zh_TW",
         //格式全開
         valid_elements: '*[*]',
@@ -24,9 +26,9 @@ function tinymceInit(selector = '#content') {
             editor.on('change', function () {
                 this.save();
                 need_update = true;
-                let target = $('.nav-tabs > li:eq('+$('#'+this.id).parents('div.tab-pane').index()+')').find('a');
+                let target = $('.nav-tabs > li:eq(' + $('#' + this.id).parents('div.tab-pane').index() + ')').find('a');
 
-                if(target.find('i').length === 0){
+                if (target.find('i').length === 0) {
                     target.append(tips);
                 }
             });
