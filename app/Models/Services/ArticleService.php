@@ -92,6 +92,7 @@ class ArticleService
         }
 
         return $Result
+            ->where('status', 1)
             ->orderByDesc('updated_at')
             ->paginate($page_count);
     }

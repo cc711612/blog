@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
 use App\Models\Entities\CommentEntity;
+use const Grpc\STATUS_UNKNOWN;
 
 /**
  * Class ArticleWebService
@@ -39,7 +40,7 @@ class ArticleWebService
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      *
      * @return mixed
      * @Author  : steatng
@@ -51,7 +52,7 @@ class ArticleWebService
     }
 
     /**
-     * @param array $request
+     * @param  array  $request
      *
      * @return $this
      * @Author  : steatng
@@ -64,7 +65,7 @@ class ArticleWebService
     }
 
     /**
-     * @param int $page_count
+     * @param  int  $page_count
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      * @Author: Roy
@@ -80,16 +81,17 @@ class ArticleWebService
         $Result = $this->getEntity()
             ->with([
                 UserEntity::Table => function ($query) {
-                    $query->select(['id', 'name','images']);
+                    $query->select(['id', 'name', 'images']);
                 },
             ])
-            ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at','created_at']);
+            ->select(['id', 'user_id', 'title', 'content', 'status', 'updated_at', 'created_at']);
         # 作者
         if (is_null($this->getRequestByKey('user')) === false) {
             $Result = $Result->where('user_id', $this->getRequestByKey('user'));
         }
 
         return $Result
+            ->where('status', 1)
             ->WebArticle()
             ->orderByDesc('created_at')
             ->orderByDesc('id')
@@ -113,7 +115,7 @@ class ArticleWebService
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      *
      * @return mixed
      * @Author: Roy
@@ -123,8 +125,8 @@ class ArticleWebService
     {
         return $this->getEntity()
             ->with([
-                UserEntity::Table => function ($query) {
-                    $query->select(['id', 'name', 'images','introduction']);
+                UserEntity::Table    => function ($query) {
+                    $query->select(['id', 'name', 'images', 'introduction']);
                 },
                 CommentEntity::Table => function ($query) {
                     $query
@@ -134,10 +136,10 @@ class ArticleWebService
                             },
                         ])
                         ->select(['id', 'user_id', 'article_id', 'content', 'logs', 'updated_at'])
-                        ->orderBy('id')
-                    ;
+                        ->orderBy('id');
                 },
             ])
+            ->where('status', 1)
             ->WebArticle()
             ->find($id);
     }
@@ -159,7 +161,7 @@ class ArticleWebService
     }
 
     /**
-     * @param array $ids
+     * @param  array  $ids
      *
      * @return mixed
      * @Author: Roy

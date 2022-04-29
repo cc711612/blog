@@ -28,6 +28,17 @@
       'WebSocketRouter' => 'BeyondCode\\LaravelWebSockets\\Facades\\WebSocketRouter',
     ),
   ),
+  'encore/laravel-admin' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Encore\\Admin\\AdminServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Admin' => 'Encore\\Admin\\Facades\\Admin',
+    ),
+  ),
   'facade/ignition' => 
   array (
     'providers' => 
@@ -73,6 +84,13 @@
     'aliases' => 
     array (
       'Agent' => 'Jenssegers\\Agent\\Facades\\Agent',
+    ),
+  ),
+  'laravel-admin-ext/ckeditor' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Encore\\CKEditor\\CKEditorServiceProvider',
     ),
   ),
   'laravel/fortify' => 
