@@ -14,10 +14,12 @@ use App\Http\Requesters\Api\Articles\ArticleUpdateRequest;
 use App\Http\Validators\Api\Articles\ArticleUpdateValidator;
 use App\Http\Requesters\Api\Articles\ArticleDestroyRequest;
 use App\Http\Validators\Api\Articles\ArticleDestroyValidator;
+use App\Traits\ImageTrait;
 
 class ArticleController extends BaseController
 {
     use ApiPaginateTrait;
+    use ImageTrait;
 
     /**
      * @param  \Illuminate\Http\Request  $request
@@ -49,7 +51,7 @@ class ArticleController extends BaseController
                         'user'            => [
                             'id'    => Arr::get($article, 'users.id'),
                             'name'  => Arr::get($article, 'users.name'),
-                            'image' => Arr::get($article, 'users.images.cover', $this->getDefaultImage()),
+                            'image' => $this->handleUserImage(Arr::get($article, 'users.images.cover')),
                         ],
                         'updated_at'      => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                     ];
@@ -90,7 +92,7 @@ class ArticleController extends BaseController
                     'id'           => Arr::get($article, 'users.id'),
                     'name'         => Arr::get($article, 'users.name'),
                     'introduction' => Arr::get($article, 'users.introduction'),
-                    'image'        => Arr::get($article, 'users.images.cover', $this->getDefaultImage()),
+                    'image'        => $this->handleUserImage(Arr::get($article, 'users.images.cover')),
                 ],
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                 'comments'   => $this->handleComment(Arr::get($article, 'comments', collect([]))),
@@ -229,7 +231,7 @@ class ArticleController extends BaseController
                 'user'       => [
                     'id'    => Arr::get($comment, 'users.id'),
                     'name'  => Arr::get($comment, 'users.name'),
-                    'image' => Arr::get($comment, 'users.images.cover', $this->getDefaultImage()),
+                    'image' => $this->handleUserImage(Arr::get($comment, 'users.images.cover')),
                 ],
                 'content'    => Arr::get($comment, 'content'),
                 'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
