@@ -7,6 +7,10 @@ $().ready(function () {
     });
     // 隱藏左下角logo
     $(".main-footer").children('strong').hide();
+    // 錯誤圖片
+    $("img").on("error", function () {
+        $(this).attr("src", 'https://via.placeholder.com/300x300/EFEFEF/AAAAAA&text=no+image');
+    });
 });
 
 function ajaxLoadingOpen()
