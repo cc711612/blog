@@ -26,12 +26,12 @@ class UserController extends AdminController
     {
         $grid = new Grid(new UserEntity());
         $grid->model()->orderByDesc('id');
-        $grid->column('id', __('Id'));
+        $grid->column('id', __('Id'))->sortable();
         $grid->column('name', __('Name'));
         $grid->column('email', __('Email'));
         $grid->column('images', 'Images')->display(function ($images) {
-            return sprintf('<img src="%s" style="width: 10rem" onerror="default_user(this)">', Arr::get($images, 'cover'));
-        });
+            return Arr::get($images, 'cover');
+        })->image();
         $grid->column('updated_at', 'Updated at')->display(function ($updated_at) {
             return Carbon::parse($updated_at)->toDateTimeString();
         });
