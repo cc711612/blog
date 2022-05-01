@@ -15,7 +15,7 @@ class UserController extends AdminController
     /**
      * @var string
      */
-    protected $title = 'UserEntity';
+    protected $title = '會員';
 
     /**
      * @return \Encore\Admin\Grid
