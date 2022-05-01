@@ -17,9 +17,12 @@ use App\Http\Validators\Api\Users\UserShowValidator;
 use App\Models\Entities\UserEntity;
 use App\Http\Requesters\Api\Users\UserStoreRequest;
 use App\Http\Validators\Api\Users\UserStoreValidator;
+use App\Traits\ImageTrait;
 
 class UserController extends BaseController
 {
+
+    use ImageTrait;
 
     /**
      * @return \Illuminate\Http\JsonResponse
@@ -32,26 +35,26 @@ class UserController extends BaseController
             ->all();
         $Users = $Users->map(function ($userEntity) {
             return [
-                'id' => Arr::get($userEntity, 'id'),
-                'name' => Arr::get($userEntity, 'name'),
-                'email' => Arr::get($userEntity, 'email'),
-                'introduction' => Arr::get($userEntity, 'introduction'),
-                'image' => Arr::get($userEntity, 'images.cover', $this->getDefaultImage()),
-                'created_at' => Arr::get($userEntity, 'created_at')->format('Y-m-d H:i:s'),
+                'id'                => Arr::get($userEntity, 'id'),
+                'name'              => Arr::get($userEntity, 'name'),
+                'email'             => Arr::get($userEntity, 'email'),
+                'introduction'      => Arr::get($userEntity, 'introduction'),
+                'image'             => $this->handleUserImage(Arr::get($userEntity, 'images.cover')),
+                'created_at'        => Arr::get($userEntity, 'created_at')->format('Y-m-d H:i:s'),
                 'email_verified_at' => is_null(Arr::get($userEntity,
                     'email_verified_at')) ? null : Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
             ];
         });
         return response()->json([
-            'status' => true,
-            'code' => 200,
+            'status'  => true,
+            'code'    => 200,
             'message' => [],
-            'data' => $Users,
+            'data'    => $Users,
         ]);
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -64,24 +67,24 @@ class UserController extends BaseController
         $Validate = (new UserShowValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status' => false,
-                'code' => 400,
+                'status'  => false,
+                'code'    => 400,
                 'message' => $Validate->errors(),
-                'data' => [],
+                'data'    => [],
             ]);
         }
         $User = (new UserEntity())->find(Arr::get($Requester, 'id'));
         return response()->json([
-            'status' => true,
-            'code' => 200,
+            'status'  => true,
+            'code'    => 200,
             'message' => [],
-            'data' => [
-                'id' => Arr::get($User, 'id'),
-                'name' => Arr::get($User, 'name'),
-                'email' => Arr::get($User, 'email'),
-                'image' => Arr::get($User, 'images.cover', $this->getDefaultImage()),
-                'created_at' => Arr::get($User, 'created_at')->format('Y-m-d H:i:s'),
-                'introduction' => Arr::get($User, 'introduction'),
+            'data'    => [
+                'id'                => Arr::get($User, 'id'),
+                'name'              => Arr::get($User, 'name'),
+                'email'             => Arr::get($User, 'email'),
+                'image'             => $this->handleUserImage(Arr::get($User, 'images.cover')),
+                'created_at'        => Arr::get($User, 'created_at')->format('Y-m-d H:i:s'),
+                'introduction'      => Arr::get($User, 'introduction'),
                 'email_verified_at' => is_null(Arr::get($User,
                     'email_verified_at')) ? null : Arr::get($User, 'email_verified_at')->format('Y-m-d H:i:s'),
             ],
@@ -90,7 +93,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -103,10 +106,10 @@ class UserController extends BaseController
         $Validate = (new UserStoreValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status' => false,
-                'code' => 400,
+                'status'  => false,
+                'code'    => 400,
                 'message' => $Validate->errors(),
-                'data' => [],
+                'data'    => [],
             ]);
         }
         $Requester = $Requester->toArray();
@@ -114,15 +117,15 @@ class UserController extends BaseController
         #Create
         (new UserEntity())->create($Requester);
         return response()->json([
-            'status' => true,
-            'code' => 200,
+            'status'  => true,
+            'code'    => 200,
             'message' => [],
-            'data' => [],
+            'data'    => [],
         ]);
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
@@ -134,10 +137,10 @@ class UserController extends BaseController
         $Validate = (new UserUpdateValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status' => false,
-                'code' => 400,
+                'status'  => false,
+                'code'    => 400,
                 'message' => $Validate->errors(),
-                'data' => [],
+                'data'    => [],
             ]);
         }
         $Requester = $Requester->toArray();
@@ -148,22 +151,22 @@ class UserController extends BaseController
 
         if ($Entity) {
             return response()->json([
-                'status' => true,
-                'code' => 200,
+                'status'  => true,
+                'code'    => 200,
                 'message' => [],
-                'data' => [],
+                'data'    => [],
             ]);
         }
         return response()->json([
-            'status' => false,
-            'code' => 400,
+            'status'  => false,
+            'code'    => 400,
             'message' => ['error' => '系統異常'],
-            'data' => [],
+            'data'    => [],
         ]);
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @Author: Roy
      * @DateTime: 2021/7/30 下午 02:13
@@ -174,35 +177,35 @@ class UserController extends BaseController
         $Validate = (new UserDestroyValidator($Requester))->validate();
         if ($Validate->fails() === true) {
             return response()->json([
-                'status' => false,
-                'code' => 400,
+                'status'  => false,
+                'code'    => 400,
                 'message' => $Validate->errors(),
-                'data' => [],
+                'data'    => [],
             ]);
         }
         $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'));
         if (is_null($Entity) === true) {
             return response()->json([
-                'status' => false,
-                'code' => 400,
+                'status'  => false,
+                'code'    => 400,
                 'message' => ['id' => 'not exist'],
-                'data' => [],
+                'data'    => [],
             ]);
         }
         #刪除
         if ($Entity->update(Arr::get($Requester, 'users'))) {
             return response()->json([
-                'status' => true,
-                'code' => 200,
+                'status'  => true,
+                'code'    => 200,
                 'message' => [],
-                'data' => [],
+                'data'    => [],
             ]);
         }
         return response()->json([
-            'status' => false,
-            'code' => 400,
+            'status'  => false,
+            'code'    => 400,
             'message' => ['error' => '系統異常'],
-            'data' => [],
+            'data'    => [],
         ]);
     }
 
