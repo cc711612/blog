@@ -52,7 +52,7 @@ return [
         'admin' => [
             'driver' => 'local',
             'root'   => public_path('storage/admin'),
-            'url' => '/storage/admin/',
+            'url' => env('APP_URL').'storage/admin/',
         ],
 
         's3' => [

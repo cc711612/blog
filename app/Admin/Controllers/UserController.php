@@ -70,8 +70,9 @@ class UserController extends AdminController
         $form->text('name', __('Name'));
         $form->email('email', __('Email'));
         $form->ckeditor('introduction', __('Introduction'));
-//        $form->image('images.cover','Images')->removable();
-        $form->multipleImage('images','Images')->sortable()->removable();
+        $form->embeds('images', function ($form) {
+            $form->image('cover', __('cover'))->removable();
+        });
         $form->tools(function (Form\Tools $tools) {
             // 去掉`列表`按钮
             $tools->disableList();
