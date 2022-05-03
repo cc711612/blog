@@ -81,8 +81,13 @@
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('login')}}">LOGIN</a>
                     </li>
                 @else
+                    @if(in_array(\Illuminate\Support\Facades\Auth::id(),config('admin.user_ids')))
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('admin.home')}}">Admin</a>
+                        </li>
+                    @endif
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('article.create')}}">POST</a>
                     </li>
+
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" id="logout" href="/logout">LOGOUT</a>
                     </li>
                 @endif
