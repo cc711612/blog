@@ -126,7 +126,7 @@ return [
 
     'version' => env('APP_VERSION', date("Ymd")),
 
-    'login_timeout' => env('LOGIN_TIMEOUT',2592000),
+    'login_timeout' => env('LOGIN_TIMEOUT', 2592000),
 
     /*
     |--------------------------------------------------------------------------
@@ -189,6 +189,9 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        # GraphQL
+        Rebing\GraphQL\GraphQLServiceProvider::class,
+        MLL\GraphQLPlayground\GraphQLPlaygroundServiceProvider::class,
 
     ],
 
@@ -232,7 +235,7 @@ return [
         'Queue'        => Illuminate\Support\Facades\Queue::class,
         'RateLimiter'  => Illuminate\Support\Facades\RateLimiter::class,
         'Redirect'     => Illuminate\Support\Facades\Redirect::class,
-        'Redis' => Illuminate\Support\Facades\Redis::class,
+        'Redis'        => Illuminate\Support\Facades\Redis::class,
         'Request'      => Illuminate\Support\Facades\Request::class,
         'Response'     => Illuminate\Support\Facades\Response::class,
         'Route'        => Illuminate\Support\Facades\Route::class,
@@ -245,6 +248,7 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
+        'GraphQL'      => Rebing\GraphQL\Support\Facades\GraphQL::class,
     ],
 
 ];
