@@ -11,12 +11,14 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
 use App\GraphQL\Middleware\ResolvePage;
+use App\GraphQL\Middleware\Logstash;
 
 class UserQuery extends Query
 {
-//    protected $middleware = [
-//        ResolvePage::class,
-//    ];
+    protected $middleware = [
+        ResolvePage::class,
+        Logstash::class,
+    ];
 
     protected $attributes = [
         'name' => UserEntity::Table,
@@ -24,7 +26,6 @@ class UserQuery extends Query
 
     public function type(): Type
     {
-//        return GraphQL::paginate(UserEntity::Table);
         return Type::listOf(GraphQL::type(UserEntity::Table));
     }
 
@@ -54,19 +55,19 @@ class UserQuery extends Query
     {
         $Entity = new UserEntity();
 
-        if(isset($args['limit']) ) {
-            $Entity =  $Entity->limit($args['limit']);
+        if (isset($args['limit'])) {
+            $Entity = $Entity->limit($args['limit']);
         }
 
-        if(isset($args['id']))
-        {
-            $Entity = $Entity->where('id' , $args['id']);
+        if (isset($args['id'])) {
+            $Entity = $Entity->where('id', $args['id']);
         }
 
-        if(isset($args['email']))
-        {
+        if (isset($args['email'])) {
             $Entity = $Entity->where('email', $args['email']);
         }
-        return $Entity->get();
+        return $Entity->paginate($args['limit'], ['*'], 'page',
+            $args['page']);
     }
+
 }

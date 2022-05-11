@@ -12,6 +12,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 use GraphQL\Type\Definition\Type;
 use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
+use App\Models\Entities\CommentEntity;
 
 class ArticleType extends GraphQLType
 {
@@ -25,21 +26,25 @@ class ArticleType extends GraphQLType
     public function fields(): array
     {
         return [
-            'id'      => [
+            'id'                 => [
                 'type'        => Type::nonNull(Type::int()),
                 'description' => 'ID of article',
             ],
-            'title'   => [
+            'title'              => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'title of article',
             ],
-            'content' => [
+            'content'            => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'content of article',
             ],
-            'users'    => [
+            UserEntity::Table    => [
                 'type'        => GraphQL::type(UserEntity::Table),
                 'description' => 'user of article',
+            ],
+            CommentEntity::Table => [
+                'type'        => Type::listOf(GraphQL::type(CommentEntity::Table)),
+                'description' => 'comment of article',
             ],
         ];
     }
