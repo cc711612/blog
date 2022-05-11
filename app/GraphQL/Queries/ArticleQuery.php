@@ -10,9 +10,22 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
 use App\Models\Entities\ArticleEntity;
+use App\GraphQL\Middleware\ResolvePage;
+use Illuminate\Support\Arr;
+use App\GraphQL\Middleware\Logstash;
 
 class ArticleQuery extends Query
 {
+    /**
+     * @var string[]
+     */
+    protected $middleware = [
+        ResolvePage::class,
+        Logstash::class,
+    ];
+    /**
+     * @var array
+     */
     protected $attributes = [
         'name' => ArticleEntity::Table,
     ];
@@ -32,6 +45,7 @@ class ArticleQuery extends Query
         return [
             'id'      => ['name' => 'id', 'type' => Type::int()],
             'limit'   => ['name' => 'limit', 'type' => Type::int()],
+            'page'    => ['name' => 'page', 'type' => Type::int()],
             'user_id' => ['name' => 'user_id', 'type' => Type::int()],
         ];
     }
@@ -59,6 +73,6 @@ class ArticleQuery extends Query
         if (isset($args['user_id'])) {
             $Entity = $Entity->where('user_id', $args['user_id']);
         }
-        return $Entity->get();
+        return $Entity->paginate($args['limit'], ['*'], 'page', $args['page']);
     }
 }

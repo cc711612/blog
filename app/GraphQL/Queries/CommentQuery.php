@@ -6,27 +6,33 @@
 
 namespace App\GraphQL\Queries;
 
-use App\Models\Entities\UserEntity;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
 use App\GraphQL\Middleware\ResolvePage;
+use Illuminate\Support\Arr;
 use App\GraphQL\Middleware\Logstash;
+use App\Models\Entities\CommentEntity;
 
-class UserQuery extends Query
+class CommentQuery extends Query
 {
+    /**
+     * @var string[]
+     */
     protected $middleware = [
         ResolvePage::class,
         Logstash::class,
     ];
-
+    /**
+     * @var array
+     */
     protected $attributes = [
-        'name' => UserEntity::Table,
+        'name' => CommentEntity::Table,
     ];
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type(UserEntity::Table));
+        return Type::listOf(GraphQL::type(CommentEntity::Table));
     }
 
     /**
@@ -37,9 +43,9 @@ class UserQuery extends Query
     public function args(): array
     {
         return [
-            'id'    => ['name' => 'id', 'type' => Type::int()],
-            'email' => ['name' => 'email', 'type' => Type::string()],
-            'limit' => ['name' => 'limit', 'type' => Type::int()],
+            'id'      => ['name' => 'id', 'type' => Type::int()],
+            'limit'   => ['name' => 'limit', 'type' => Type::int()],
+            'page'    => ['name' => 'page', 'type' => Type::int()],
         ];
     }
 
@@ -53,7 +59,8 @@ class UserQuery extends Query
      */
     public function resolve($root, $args)
     {
-        $Entity = new UserEntity();
+
+        $Entity = new CommentEntity();
 
         if (isset($args['limit'])) {
             $Entity = $Entity->limit($args['limit']);
@@ -63,11 +70,6 @@ class UserQuery extends Query
             $Entity = $Entity->where('id', $args['id']);
         }
 
-        if (isset($args['email'])) {
-            $Entity = $Entity->where('email', $args['email']);
-        }
-        return $Entity->paginate($args['limit'], ['*'], 'page',
-            $args['page']);
+        return $Entity->paginate($args['limit'], ['*'], 'page', $args['page']);
     }
-
 }

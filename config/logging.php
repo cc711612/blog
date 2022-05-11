@@ -44,13 +44,19 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/member/laravel.log'),
             'level' => 'info',
-            'days' => 30,
+            'days' => 14,
         ],
         'bot' => [
             'driver' => 'daily',
             'path' => storage_path('logs/bot/laravel.log'),
             'level' => 'info',
-            'days' => 30,
+            'days' => 14,
+        ],
+        'logstash' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/logstash/laravel.log'),
+            'level' => 'info',
+            'days' => 14,
         ],
         'single' => [
             'driver' => 'single',

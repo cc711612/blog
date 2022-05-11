@@ -12,6 +12,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 use GraphQL\Type\Definition\Type;
 use App\Models\Entities\UserEntity;
 use App\Models\Entities\ArticleEntity;
+use App\GraphQL\Fields\ImageField;
 
 class UserType extends GraphQLType
 {
@@ -24,21 +25,26 @@ class UserType extends GraphQLType
     public function fields(): array
     {
         return [
-            'id'     => [
+            'id'           => [
                 'type'        => Type::nonNull(Type::int()),
                 'description' => 'id of user',
             ],
-            'name'  => [
+            'name'         => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'name of user',
             ],
-            'email' => [
+            'email'        => [
                 'type'        => Type::nonNull(Type::string()),
                 'description' => 'email of user',
             ],
-            'articles' => [
-                'type' => Type::listOf(GraphQL::type(ArticleEntity::Table)),
-                'description' => 'email of user',
+            'introduction' => [
+                'type'        => Type::string(),
+                'description' => 'introduction of user',
+            ],
+            'images'       => ImageField::class,
+            'articles'     => [
+                'type'        => Type::listOf(GraphQL::type(ArticleEntity::Table)),
+                'description' => 'articles of user',
             ],
         ];
     }
