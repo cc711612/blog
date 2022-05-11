@@ -92,19 +92,21 @@ class ArticleEntity extends Model
 
     /**
      * @Author: Roy
-     * @DateTime: 2021/9/3 上午 12:18
+     * @DateTime: 2022/5/11 上午 10:37
      */
     protected static function boot()
     {
         parent::boot();
     }
+
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      * @Author: Roy
-     * @DateTime: 2021/8/11 下午 03:04
+     * @DateTime: 2022/5/11 上午 11:48
      */
     public function users()
     {
-        return $this->hasOne(UserEntity::class, 'id', 'user_id');
+        return $this->belongsTo(UserEntity::class, 'user_id', 'id');
     }
 
     /**
