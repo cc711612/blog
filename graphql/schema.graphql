@@ -1,0 +1,18 @@
+type User {
+    id: Int!
+    name: String!
+    email: String!
+    articles: Article! @hasMany(relation: "articles")
+}
+
+type Article {
+    id: Int!
+    title: String!
+    content: String!
+}
+
+type Query  {
+    users: [User!]!@all @find
+    user(id: ID! @eq): User @find(model: "App\\Models\\Entities\\UserEntity")
+    article(id: ID! @eq): Article @find(model: "App\\Models\\Entities\\ArticleEntity")
+}
