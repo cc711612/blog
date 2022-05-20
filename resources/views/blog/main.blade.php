@@ -25,7 +25,7 @@
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -->
     {{ seo()->render() }}
-    <link rel="icon" type="image/x-icon" href="{{secure_url('/assets/favicon.ico')}}"/>
+    <link rel="icon" type="image/x-icon" href="{{secure_url('/favicon.ico')}}"/>
     <!-- Font Awesome icons (free version)-->
     <!-- Google fonts-->
 {{--    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"--}}
