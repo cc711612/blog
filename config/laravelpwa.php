@@ -37,7 +37,7 @@ return [
                 'purpose' => 'any',
             ],
             '384x384' => [
-                'path'    => '/images/icons/icon-384x384.png',
+                'path'    => '/images/icons/blog-icon-384x384.png',
                 'purpose' => 'any',
             ],
             '512x512' => [
