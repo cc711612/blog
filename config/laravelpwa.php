@@ -37,7 +37,7 @@ return [
                 'purpose' => 'any',
             ],
             '384x384' => [
-                'path'    => '/images/icons/icon-384x384.png',
+                'path'    => '/images/icons/blog-icon-384x384.png',
                 'purpose' => 'any',
             ],
             '512x512' => [
@@ -62,15 +62,19 @@ return [
                 'name'        => 'Login',
                 'description' => 'Shortcut Login',
                 'url'         => '/login',
-//                'icons' => [
-//                    "src" => "/images/icons/blog-icon-72x72.png",
-//                    "purpose" => "any"
-//                ]
+                'icons' => [
+                    "src" => "/images/icons/blog-icon-72x72.png",
+                    "purpose" => "any"
+                ]
             ],
             [
                 'name'        => 'Create Post',
                 'description' => 'Shortcut Create Post',
                 'url'         => '/article/create',
+                'icons' => [
+                    "src" => "/images/icons/blog-icon-72x72.png",
+                    "purpose" => "any"
+                ]
             ],
         ],
         'custom'           => [],
