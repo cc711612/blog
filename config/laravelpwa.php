@@ -62,15 +62,19 @@ return [
                 'name'        => 'Login',
                 'description' => 'Shortcut Login',
                 'url'         => '/login',
-//                'icons' => [
-//                    "src" => "/images/icons/blog-icon-72x72.png",
-//                    "purpose" => "any"
-//                ]
+                'icons' => [
+                    "src" => "/images/icons/blog-icon-72x72.png",
+                    "purpose" => "any"
+                ]
             ],
             [
                 'name'        => 'Create Post',
                 'description' => 'Shortcut Create Post',
                 'url'         => '/article/create',
+                'icons' => [
+                    "src" => "/images/icons/blog-icon-72x72.png",
+                    "purpose" => "any"
+                ]
             ],
         ],
         'custom'           => [],
