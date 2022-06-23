@@ -44,7 +44,7 @@ class ArticleController extends BaseController
                     return [
                         'id'              => Arr::get($article, 'id'),
                         'title'           => Arr::get($article, 'title'),
-                        'content'         => Arr::get($article, 'content'),
+//                        'content'         => Arr::get($article, 'content'),
                         'sub_title'       => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 80,
                             '...'),
                         'preview_content' => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 180),
