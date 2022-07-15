@@ -10,6 +10,7 @@ use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
 use App\Models\Entities\CommentEntity;
 use const Grpc\STATUS_UNKNOWN;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class ArticleWebService
@@ -73,11 +74,10 @@ class ArticleWebService
      */
     public function paginate(int $page_count = 10): LengthAwarePaginator
     {
-        # 一頁幾個
-        if (is_null($this->getRequestByKey('per_page')) === false) {
-            $page_count = $this->getRequestByKey('per_page');
+        $cache_key = sprintf('article.list.%s', Arr::get($this->getRequest(), 'page', 1));
+        if (Cache::has($cache_key) === true) {
+            return Cache::get($cache_key);
         }
-
         $Result = $this->getEntity()
             ->with([
                 UserEntity::Table => function ($query) {
@@ -90,12 +90,16 @@ class ArticleWebService
             $Result = $Result->where('user_id', $this->getRequestByKey('user'));
         }
 
-        return $Result
+        $Result = $Result
             ->where('status', 1)
             ->WebArticle()
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->paginate($page_count);
+
+        Cache::add($cache_key, $Result, 604800);
+
+        return $Result;
     }
 
     /**
