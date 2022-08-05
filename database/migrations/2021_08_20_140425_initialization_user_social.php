@@ -14,8 +14,10 @@ class InitializationUserSocial extends Migration
     public function up()
     {
         Schema::create('user_social', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('social_id')->unique();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('social_id')->unique();
+            // 建立索引鍵
+            $table->index(['social_id','user_id'], 'index-user_id-article_id');
         });
     }
 
