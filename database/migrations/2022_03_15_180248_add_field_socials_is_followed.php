@@ -31,7 +31,7 @@ class AddFieldSocialsIsFollowed extends Migration
     {
         Schema::table('socials', function (Blueprint $table) {
             //
-            Schema::dropColumn('followed');
+            $table->dropColumn('followed');
         });
     }
 }

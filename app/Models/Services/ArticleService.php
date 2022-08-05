@@ -11,6 +11,7 @@ use App\Models\Entities\UserEntity;
 use App\Models\Entities\CommentEntity;
 use App\Models\Entities\SocialEntity;
 use App\Models\Supports\SocialType;
+use App\Traits\CacheTrait;
 
 /**
  * Class ArticleService
@@ -21,6 +22,7 @@ use App\Models\Supports\SocialType;
  */
 class ArticleService
 {
+    use CacheTrait;
     /**
      * @return \App\Models\Entities\ArticleEntity
      * @Author: Roy
@@ -44,7 +46,7 @@ class ArticleService
      * @param  string  $key
      *
      * @return mixed
-     * @Author  : steatng
+     * @Author  : Roy
      * @DateTime: 2021/4/19 下午5:55
      */
     private function getRequestByKey(string $key)
@@ -56,7 +58,7 @@ class ArticleService
      * @param  array  $request
      *
      * @return $this
-     * @Author  : steatng
+     * @Author  : Roy
      * @DateTime: 2021/4/19 下午5:55
      */
     public function setRequest(array $request)
@@ -105,6 +107,7 @@ class ArticleService
      */
     public function create()
     {
+        $this->forgetArticleIndexCache(1);
         return DB::transaction(function () {
             $ArticleEntity = $this->getEntity()
                 ->create($this->getRequestByKey(ArticleEntity::Table));
