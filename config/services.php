@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain'   => env('MAILGUN_DOMAIN'),
+        'secret'   => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
 
@@ -25,19 +25,25 @@ return [
     ],
 
     'ses' => [
-        'key' => env('AWS_ACCESS_KEY_ID'),
+        'key'    => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+
+    'google' => [
+        'tag' => env('GOOGLE_TAG', 'GTM-M3QLQXN'),
+    ],
+
     'facebook' => [
         'client_id'     => env('FACEBOOK_KEY'),
         'client_secret' => env('FACEBOOK_SECRET'),
-        'redirect'      => sprintf("%s%s",config('app.url'),env('FACEBOOK_REDIRECT_URI')) ,
+        'redirect'      => sprintf("%s%s", config('app.url'), env('FACEBOOK_REDIRECT_URI')),
     ],
-    'line' => [
+
+    'line'     => [
         'client_id'     => env('LINE_KEY'),
         'client_secret' => env('LINE_SECRET'),
-        'redirect'      => sprintf("%s%s",config('app.url'),env('LINE_REDIRECT_URI')) ,
+        'redirect'      => sprintf("%s%s", config('app.url'), env('LINE_REDIRECT_URI')),
     ],
 
 ];
