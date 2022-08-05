@@ -52,7 +52,7 @@ class ArticleController extends BaseController
             }),
             'page_link' => $Articles->appends(request(['user']))->links()->toHtml(),
         ];
-        return view('blog.index', compact('Html'));
+        return view('blog.articles.index', compact('Html'));
     }
 
     /**
@@ -95,7 +95,7 @@ class ArticleController extends BaseController
             ],
             'member_token' => is_null(Auth::id()) ? '' : Arr::get(Auth::user(), 'api_token'),
         ];
-        return view('blog.show', compact('Html'));
+        return view('blog.articles.show', compact('Html'));
     }
 
     /**
@@ -126,7 +126,7 @@ class ArticleController extends BaseController
             'heading'      => 'Create Article',
             'success_msg'  => '新增成功',
         ];
-        return view('blog.form', compact('Html'));
+        return view('blog.articles.form', compact('Html'));
     }
 
     /**
@@ -165,7 +165,7 @@ class ArticleController extends BaseController
             'heading'      => 'Edit Article',
             'success_msg'  => '更新成功',
         ];
-        return view('blog.form', compact('Html'));
+        return view('blog.articles.form', compact('Html'));
     }
 
     /**
