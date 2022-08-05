@@ -50,7 +50,7 @@ class ArticleController extends BaseController
                     'is_editor'  => Auth::id() === Arr::get($article, 'user_id'),
                 ];
             }),
-            'page_link' => $Articles->appends(request(['user']))->links()->toHtml(),
+            'page_link' => $Articles->links()->toHtml(),
         ];
         return view('blog.articles.index', compact('Html'));
     }
