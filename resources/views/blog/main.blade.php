@@ -86,11 +86,10 @@
 <script src="{{secure_url('/js/blog/logout.js?v='.config('app.version'))}}"></script>
 <script src="{{secure_url('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
 <script src="{{secure_url('js/app.js?v='.config('app.version')) }}"></script>
-<script src="{{secure_url('/js/blog/bobee.js?v='.config('app.version'))}}"></script>
 <script src="{{secure_url('/js/blog/online.js?v='.config('app.version'))}}"></script>
 
-@if(config('app.env' ) == 'production')
-    <script src="{{secure_url('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>
-@endif
+{{--@if(config('app.env' ) == 'production')--}}
+{{--    <script src="{{secure_url('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>--}}
+{{--@endif--}}
 </body>
 </html>
