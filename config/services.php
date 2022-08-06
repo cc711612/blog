@@ -31,7 +31,7 @@ return [
     ],
 
     'google' => [
-        'tag' => env('GOOGLE_TAG', 'GTM-M3QLQXN'),
+        'tag' => env('GOOGLE_TAG'),
     ],
 
     'facebook' => [
