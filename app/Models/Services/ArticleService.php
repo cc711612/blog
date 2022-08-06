@@ -2,69 +2,39 @@
 
 namespace App\Models\Services;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Arr;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
 use App\Models\Entities\CommentEntity;
 use App\Models\Entities\SocialEntity;
 use App\Models\Supports\SocialType;
 use App\Traits\CacheTrait;
+use App\Concerns\Databases\Service;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ArticleService
  *
  * @package App\Models\Services
  * @Author: Roy
- * @DateTime: 2021/8/11 下午 02:57
+ * @DateTime: 2022/8/6 上午 11:54
  */
-class ArticleService
+class ArticleService extends Service
 {
     use CacheTrait;
+
     /**
-     * @return \App\Models\Entities\ArticleEntity
+     * @return \Illuminate\Database\Eloquent\Model
      * @Author: Roy
-     * @DateTime: 2021/8/11 下午 02:33
+     * @DateTime: 2022/8/6 上午 11:54
      */
-    private function getEntity(): ArticleEntity
+    protected function getEntity(): Model
     {
         if (app()->has(ArticleEntity::class) === false) {
             app()->singleton(ArticleEntity::class);
         }
 
         return app(ArticleEntity::class);
-    }
-
-    public function getRequest(): array
-    {
-        return $this->request;
-    }
-
-    /**
-     * @param  string  $key
-     *
-     * @return mixed
-     * @Author  : Roy
-     * @DateTime: 2021/4/19 下午5:55
-     */
-    private function getRequestByKey(string $key)
-    {
-        return Arr::get($this->getRequest(), $key, null);
-    }
-
-    /**
-     * @param  array  $request
-     *
-     * @return $this
-     * @Author  : Roy
-     * @DateTime: 2021/4/19 下午5:55
-     */
-    public function setRequest(array $request)
-    {
-        $this->request = $request;
-        return $this;
     }
 
     /**
@@ -99,22 +69,6 @@ class ArticleService
             ->paginate($page_count);
     }
 
-    /**
-     * @return mixed
-     * @throws \Throwable
-     * @Author: Roy
-     * @DateTime: 2021/8/11 下午 02:34
-     */
-    public function create()
-    {
-        $this->forgetArticleIndexCache(1);
-        return DB::transaction(function () {
-            $ArticleEntity = $this->getEntity()
-                ->create($this->getRequestByKey(ArticleEntity::Table));
-
-            return $ArticleEntity;
-        });
-    }
 
     /**
      * @param  int  $id
@@ -142,22 +96,6 @@ class ArticleService
                 },
             ])
             ->find($id);
-    }
-
-    /**
-     * @return |null
-     * @Author: Roy
-     * @DateTime: 2021/8/11 下午 02:34
-     */
-    public function update()
-    {
-        $Entity = $this->getEntity()
-            ->find($this->getRequestByKey(sprintf("%s.%s", ArticleEntity::Table, 'id')));
-
-        if (is_null($Entity)) {
-            return null;
-        }
-        return $Entity->update($this->getRequestByKey(ArticleEntity::Table));
     }
 
     /**
