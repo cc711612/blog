@@ -2,17 +2,31 @@ type User {
     id: Int!
     name: String!
     email: String!
-    articles: Article! @hasMany(relation: "articles")
+    articles: [Article!] @hasMany(relation: "articles")
 }
 
 type Article {
     id: Int!
+    user_id:Int!
     title: String!
+    content: String!
+    users:User!@belongsTo(relation: "users")
+    comments:[Comment]!@hasMany(relation: "comments")
+}
+type Comment{
+    id: Int!
+    user_id:Int!
+    article_id:Int!
     content: String!
 }
 
 type Query  {
-    users: [User!]!@all @find
+    userPaginate: [User!]!@paginate(model: "App\\Models\\Entities\\UserEntity" defaultCount: 10)
+    articlePaginate: [Article!]!@paginate(model: "App\\Models\\Entities\\ArticleEntity" defaultCount: 10)
+    users: [User!]!@all(model: "App\\Models\\Entities\\UserEntity")
+    articles: [Article!]!@all(model: "App\\Models\\Entities\\ArticleEntity")
+    comments:[Comment!]!@all(model: "App\\Models\\Entities\\CommentEntity")
     user(id: ID! @eq): User @find(model: "App\\Models\\Entities\\UserEntity")
     article(id: ID! @eq): Article @find(model: "App\\Models\\Entities\\ArticleEntity")
 }
+
