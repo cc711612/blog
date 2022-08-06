@@ -1,3 +1,4 @@
+@if(is_null(config('services.google.tag')) === false)
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -6,3 +7,4 @@
     })(window,document,'script','dataLayer','{{config('services.google.tag')}}');
 </script>
 <!-- End Google Tag Manager -->
+@endif
