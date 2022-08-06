@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ec715d029700e0d02bb346573a785f1",
+    "content-hash": "061746f8220db72f79bbbd165bc9a865",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7118,24 +7118,24 @@
         },
         {
             "name": "rebing/graphql-laravel",
-            "version": "8.2.1",
+            "version": "8.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rebing/graphql-laravel.git",
-                "reference": "5658df2b63998f3701d371958ce070747a0b2a3f"
+                "reference": "11f470c2c4f070deb0c613d8ad117133281ee1f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rebing/graphql-laravel/zipball/5658df2b63998f3701d371958ce070747a0b2a3f",
-                "reference": "5658df2b63998f3701d371958ce070747a0b2a3f",
+                "url": "https://api.github.com/repos/rebing/graphql-laravel/zipball/11f470c2c4f070deb0c613d8ad117133281ee1f6",
+                "reference": "11f470c2c4f070deb0c613d8ad117133281ee1f6",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0",
-                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/contracts": "^6.0|^8.0|^9.0",
+                "illuminate/support": "^6.0|^8.0|^9.0",
                 "laragraph/utils": "^1",
-                "php": ">= 7.2",
+                "php": ">= 7.4",
                 "thecodingmachine/safe": "^1.3",
                 "webonyx/graphql-php": "^14.6.4"
             },
@@ -7154,7 +7154,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "8.1-dev"
+                    "dev-master": "8.3-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -7212,7 +7212,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rebing/graphql-laravel/issues",
-                "source": "https://github.com/rebing/graphql-laravel/tree/8.2.1"
+                "source": "https://github.com/rebing/graphql-laravel/tree/8.3.0"
             },
             "funding": [
                 {
@@ -7220,7 +7220,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-30T19:36:07+00:00"
+            "time": "2022-06-11T20:38:16+00:00"
         },
         {
             "name": "ringcentral/psr7",
