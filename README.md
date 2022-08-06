@@ -1,2 +1,6 @@
-<pre class=" language-bash" style="box-sizing: border-box; font-size: 14px; color: #f8f8f2; background-color: #272822; text-shadow: rgba(0, 0, 0, 0.3) 0px 1px; word-spacing: 0px; border-radius: 0.3em;">copy env.example<code class=" language-bash" style="box-sizing: border-box; font-size: inherit; color: #f8f8f2; white-space: pre-wrap; background-image: none; background-position: initial; text-shadow: rgba(0, 0, 0, 0.3) 0px 1px;"><br />composer install<br />php artisan migrate<br />php artisan admin:install<br /></code>php artisan db:seed --class DatabaseSeeder; <br />php artisan db:seed --class TestDatabaseSeeder;</pre>
-<p></p>
+<pre style="box-sizing: border-box; -webkit-font-smoothing: antialiased; background: #2f333d; font-family: Menlo, Monaco, monospace; line-height: 21px; margin-bottom: 1.5em; overflow: auto; padding: 12.3438px 15.4219px; border: 1px solid #292c33; border-radius: 4px; color: #d2d2d2; font-size: 14px;"><span style="color: #d2d2d2; font-family: Menlo, Monaco, monospace;"><span style="font-size: 14px;"><span style="color: #d2d2d2; font-family: Menlo, Monaco, monospace;"><span style="font-size: 14px;"><span style="color: #d2d2d2; font-family: Menlo, Monaco, monospace;"><span style="font-size: 14px;"><span style="color: #99968b; font-family: Menlo, Monaco, monospace;"><span style="font-size: 14px;"><i>copy env.example
+composer install
+php artisan migrate
+php artisan admin:install
+php artisan db:seed --class DatabaseSeeder; 
+php artisan db:seed --class TestDatabaseSeeder;</i></span></span><span style="color: #d2d2d2; font-family: Menlo, Monaco, monospace;"><span style="font-size: 14px;"><br /></span></span></span></span></span></span></span></span></pre>
