@@ -18,6 +18,7 @@ use App\Models\Entities\UserEntity;
 use App\Http\Requesters\Api\Users\UserStoreRequest;
 use App\Http\Validators\Api\Users\UserStoreValidator;
 use App\Traits\ImageTrait;
+use App\Http\Resources\UserApiResource;
 
 class UserController extends BaseController
 {
@@ -25,31 +26,31 @@ class UserController extends BaseController
     use ImageTrait;
 
     /**
+     * @var \App\Models\Entities\UserEntity
+     */
+    private $UserEntity;
+
+    /**
+     * @param  \App\Models\Entities\UserEntity  $UserEntity
+     */
+    public function __construct(UserEntity $UserEntity)
+    {
+        $this->UserEntity = $UserEntity;
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 01:04
+     * @DateTime: 2022/8/6 下午 12:18
      */
     public function index()
     {
-        $Users = (new UserEntity())
-            ->all();
-        $Users = $Users->map(function ($userEntity) {
-            return [
-                'id'                => Arr::get($userEntity, 'id'),
-                'name'              => Arr::get($userEntity, 'name'),
-                'email'             => Arr::get($userEntity, 'email'),
-                'introduction'      => Arr::get($userEntity, 'introduction'),
-                'image'             => $this->handleUserImage(Arr::get($userEntity, 'images.cover')),
-                'created_at'        => Arr::get($userEntity, 'created_at')->format('Y-m-d H:i:s'),
-                'email_verified_at' => is_null(Arr::get($userEntity,
-                    'email_verified_at')) ? null : Arr::get($userEntity, 'email_verified_at')->format('Y-m-d H:i:s'),
-            ];
-        });
+
         return response()->json([
             'status'  => true,
             'code'    => 200,
             'message' => [],
-            'data'    => $Users,
+            'data'    => UserApiResource::collection($this->UserEntity->all()),
         ]);
     }
 
@@ -73,21 +74,12 @@ class UserController extends BaseController
                 'data'    => [],
             ]);
         }
-        $User = (new UserEntity())->find(Arr::get($Requester, 'id'));
+
         return response()->json([
             'status'  => true,
             'code'    => 200,
             'message' => [],
-            'data'    => [
-                'id'                => Arr::get($User, 'id'),
-                'name'              => Arr::get($User, 'name'),
-                'email'             => Arr::get($User, 'email'),
-                'image'             => $this->handleUserImage(Arr::get($User, 'images.cover')),
-                'created_at'        => Arr::get($User, 'created_at')->format('Y-m-d H:i:s'),
-                'introduction'      => Arr::get($User, 'introduction'),
-                'email_verified_at' => is_null(Arr::get($User,
-                    'email_verified_at')) ? null : Arr::get($User, 'email_verified_at')->format('Y-m-d H:i:s'),
-            ],
+            'data'    => (new UserApiResource($this->UserEntity->find(Arr::get($Requester, 'id'))))->show(),
         ]);
 
     }
@@ -115,7 +107,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
         Arr::set($Requester, 'password', Hash::make(Arr::get($Requester, 'password')));
         #Create
-        (new UserEntity())->create($Requester);
+        $this->UserEntity->create($Requester);
         return response()->json([
             'status'  => true,
             'code'    => 200,
@@ -146,7 +138,7 @@ class UserController extends BaseController
         $Requester = $Requester->toArray();
 //        Arr::set($Requester, 'users.password', Hash::make(Arr::get($Requester, 'users.password')));
         #Create
-        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'))
+        $Entity = $this->UserEntity->find(Arr::get($Requester, 'id'))
             ->update(Arr::get($Requester, 'users'));
 
         if ($Entity) {
@@ -168,8 +160,9 @@ class UserController extends BaseController
     /**
      * @param  \Illuminate\Http\Request  $request
      *
+     * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 02:13
+     * @DateTime: 2022/8/6 下午 12:18
      */
     public function destroy(Request $request)
     {
@@ -183,15 +176,8 @@ class UserController extends BaseController
                 'data'    => [],
             ]);
         }
-        $Entity = (new UserEntity())->find(Arr::get($Requester, 'id'));
-        if (is_null($Entity) === true) {
-            return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => ['id' => 'not exist'],
-                'data'    => [],
-            ]);
-        }
+        $Entity = $this->UserEntity->find(Arr::get($Requester, 'id'));
+
         #刪除
         if ($Entity->update(Arr::get($Requester, 'users'))) {
             return response()->json([
@@ -207,16 +193,5 @@ class UserController extends BaseController
             'message' => ['error' => '系統異常'],
             'data'    => [],
         ]);
-    }
-
-    /**
-     * @return string
-     * @Author: Roy
-     * @DateTime: 2021/8/7 下午 02:32
-     */
-    public function getDefaultImage()
-    {
-        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
-            config('filesystems.disks.images.url'), 'default.png');
     }
 }

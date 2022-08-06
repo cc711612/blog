@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\Comments;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use App\Traits\ApiPaginateTrait;
 use App\Http\Requesters\Api\Comments\CommentStoreRequest;
 use App\Http\Validators\Api\Comments\CommentStoreValidator;
 use App\Models\Entities\CommentEntity;
@@ -17,19 +15,40 @@ use App\Http\Requesters\Api\Comments\CommentUpdateRequest;
 use App\Http\Validators\Api\Comments\CommentUpdateValidator;
 use App\Http\Requesters\Api\Comments\CommentDestroyRequest;
 use App\Http\Validators\Api\Comments\CommentDestroyValidator;
-use App\Models\Services\Web\ArticleWebService;
 use App\Models\Services\ArticleService;
 use App\Jobs\sendLineMessage;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\CommentApiResource;
 
 class CommentController extends BaseController
 {
-    use ApiPaginateTrait;
+    /**
+     * @var \App\Models\Services\CommentService
+     */
+    private $CommentService;
+    /**
+     * @var \App\Models\Services\ArticleService
+     */
+    private $ArticleService;
 
     /**
+     * @param  \App\Models\Services\CommentService  $CommentService
+     * @param  \App\Models\Services\ArticleService  $ArticleService
+     */
+    public function __construct(
+        CommentService $CommentService,
+        ArticleService $ArticleService
+    ) {
+        $this->CommentService = $CommentService;
+        $this->ArticleService = $ArticleService;
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 01:04
+     * @DateTime: 2022/8/6 下午 12:57
      */
     public function index(Request $request)
     {
@@ -45,7 +64,7 @@ class CommentController extends BaseController
             ]);
         }
 
-        $Comments = (new CommentService())
+        $Comments = $this->CommentService
             ->setRequest($Requester->toArray())
             ->getCommentsByArticleId();
 
@@ -53,19 +72,7 @@ class CommentController extends BaseController
             'status'  => true,
             'code'    => 200,
             'message' => [],
-            'data'    => $Comments->map(function ($comment) {
-                return [
-                    'id'         => Arr::get($comment, 'id'),
-                    'user'       => [
-                        'id'    => Arr::get($comment, 'users.id'),
-                        'name'  => Arr::get($comment, 'users.name'),
-                        'image' => Arr::get($comment, 'users.images.cover', $this->getDefaultImage()),
-                    ],
-                    'content'    => Arr::get($comment, 'content'),
-                    'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
-                    'logs'       => Arr::get($comment, 'logs', []),
-                ];
-            }),
+            'data'    => CommentApiResource::collection($Comments),
         ]);
     }
 
@@ -75,7 +82,7 @@ class CommentController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 02:01
+     * @DateTime: 2022/8/6 下午 12:58
      */
     public function store(Request $request)
     {
@@ -94,9 +101,11 @@ class CommentController extends BaseController
         }
         try {
             #Create
-            $Entity = (new CommentEntity())->create(Arr::get($Requester, CommentEntity::Table));
+            $Entity = $this->CommentService
+                ->setRequest($Requester->toArray())
+                ->createComment();
             # 傳送LINE給user
-            $ArticleUser = (new ArticleService())->getArticleUserSocialByArticleId(Arr::get($Requester, 'id'));
+            $ArticleUser = $this->ArticleService->getArticleUserSocialByArticleId(Arr::get($Requester, 'id'));
             if (is_null($ArticleUser) === false && is_null(Arr::get($ArticleUser,
                     'users.socials.0')) === false && is_null($Entity) === false) {
                 sendLineMessage::dispatch(
@@ -131,7 +140,7 @@ class CommentController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 02:03
+     * @DateTime: 2022/8/6 下午 12:57
      */
     public function update(Request $request)
     {
@@ -147,7 +156,7 @@ class CommentController extends BaseController
                 'redirect' => '',
             ]);
         }
-        $Entity = (new CommentService())->setRequest($Requester->toArray())->update();
+        $Entity = $this->CommentService->setRequest($Requester->toArray())->updateComment();
         if ($Entity) {
             return response()->json([
                 'status'   => true,
@@ -169,8 +178,9 @@ class CommentController extends BaseController
     /**
      * @param  \Illuminate\Http\Request  $request
      *
+     * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 02:13
+     * @DateTime: 2022/8/6 下午 12:57
      */
     public function destroy(Request $request)
     {
@@ -185,7 +195,7 @@ class CommentController extends BaseController
             ]);
         }
         #刪除
-        if (is_null((new CommentService())
+        if (is_null($this->CommentService
                 ->setRequest($Requester->toArray())
                 ->delete()
             ) === false) {
@@ -203,16 +213,4 @@ class CommentController extends BaseController
             'data'    => [],
         ]);
     }
-
-    /**
-     * @return string
-     * @Author: Roy
-     * @DateTime: 2021/8/19 下午 01:30
-     */
-    private function getDefaultImage()
-    {
-        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
-            config('filesystems.disks.images.url'), 'default.png');
-    }
-
 }

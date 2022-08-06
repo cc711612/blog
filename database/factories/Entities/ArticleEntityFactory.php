@@ -20,7 +20,7 @@ class ArticleEntityFactory extends Factory
      */
     public function definition()
     {
-        $user_id = rand(1, 30);
+        $user_id = rand(1, 10);
         return [
             'user_id'    => $user_id,
             'title'      => $this->faker->text('20'),

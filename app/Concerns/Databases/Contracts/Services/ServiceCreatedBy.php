@@ -15,12 +15,5 @@ namespace App\Concerns\Databases\Contracts\Services;
  */
 interface ServiceCreatedBy
 {
-    /**
-     * @param int $admin_id
-     *
-     * @return mixed
-     * @Author  : ljs
-     * @DateTime: 2019/9/19 上午 9:53
-     */
-    public function setAdminId(int $admin_id);
+
 }

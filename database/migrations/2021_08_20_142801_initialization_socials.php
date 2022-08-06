@@ -15,7 +15,7 @@ class InitializationSocials extends Migration
     {
         //
         Schema::create('socials', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id')->unsigned()->comment('流水號');
             $table->string('name')->comment('第三方姓名');
             $table->string('email')->nullable()->comment('第三方Email');
             $table->unsignedSmallInteger('social_type')->comment('第三方類別');
@@ -24,6 +24,7 @@ class InitializationSocials extends Migration
             $table->string('token',2048)->nullable()->comment('第三方token');
             $table->softDeletes();
             $table->timestamps();
+            $table->index(['email','social_type'], 'index-email-social_type');
         });
     }
 

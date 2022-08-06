@@ -15,7 +15,7 @@ class AddFieldApiToken extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('api_token')->nullable()->after('images');
+//            $table->string('api_token')->nullable()->after('images');
         });
     }
 
