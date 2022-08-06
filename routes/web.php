@@ -18,26 +18,29 @@ use App\Http\Controllers\Web\Auth\LoginController;
 */
 
 # Websocket
-Route::group([],function () {
-    Route::group(['middleware' => ['SocketOnline','web']], function () {
-        Route::get('/user', [UserController::class, 'index']);
-    });
-    Route::get('/trigger/{data}', function ($data) {
-        echo "<p>You have sent $data</p>";
-        event(new App\Events\GetRequestEvent($data));
-    });
+Route::group([], function () {
+    if (config('app.env') == 'local') {
+        #測資
+        Route::group(['middleware' => ['SocketOnline', 'web']], function () {
+            Route::get('/user', [UserController::class, 'index']);
+        });
+        Route::get('/trigger/{data}', function ($data) {
+            echo "<p>You have sent $data</p>";
+            event(new App\Events\GetRequestEvent($data));
+        });
+    }
+    # PWA
     Route::get('/offline', function () {
-        return response('',200);
+        return response('', 200);
     });
 });
 # Blog
-Route::group([],function (){
+Route::group([], function () {
     Route::name("website.index")->get('/', [ArticleController::class, 'index']);
     Route::resource('article', ArticleController::class)->only(['index', 'create', 'show', 'edit']);
     Route::get('/upload', function () {
         return view('upload');
     });
-
 # 登入
     Route::post('/login', [LoginController::class, 'login'])->name('login.api');
 # 第三方登入
@@ -55,8 +58,5 @@ Route::group([],function (){
             Route::name("delete")->get("/delete", [SocialController::class, 'facebookDelete']);
         });
     });
-    Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 });
 

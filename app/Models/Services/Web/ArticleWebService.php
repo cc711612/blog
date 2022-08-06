@@ -10,6 +10,8 @@ use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
 use App\Models\Entities\CommentEntity;
 use const Grpc\STATUS_UNKNOWN;
+use Illuminate\Support\Facades\Cache;
+use App\Traits\CacheTrait;
 
 /**
  * Class ArticleWebService
@@ -20,6 +22,7 @@ use const Grpc\STATUS_UNKNOWN;
  */
 class ArticleWebService
 {
+    use CacheTrait;
     /**
      * @return \App\Models\Entities\ArticleEntity
      * @Author: Roy
@@ -43,7 +46,7 @@ class ArticleWebService
      * @param  string  $key
      *
      * @return mixed
-     * @Author  : steatng
+     * @Author  : Roy
      * @DateTime: 2021/4/19 下午5:55
      */
     private function getRequestByKey(string $key)
@@ -55,7 +58,7 @@ class ArticleWebService
      * @param  array  $request
      *
      * @return $this
-     * @Author  : steatng
+     * @Author  : Roy
      * @DateTime: 2021/4/19 下午5:55
      */
     public function setRequest(array $request)
@@ -73,11 +76,10 @@ class ArticleWebService
      */
     public function paginate(int $page_count = 10): LengthAwarePaginator
     {
-        # 一頁幾個
-        if (is_null($this->getRequestByKey('per_page')) === false) {
-            $page_count = $this->getRequestByKey('per_page');
+        $cache_key = $this->getArticleIndexCacheKey(Arr::get($this->getRequest(), 'page', 1));
+        if (Cache::has($cache_key) === true) {
+            return Cache::get($cache_key);
         }
-
         $Result = $this->getEntity()
             ->with([
                 UserEntity::Table => function ($query) {
@@ -90,12 +92,16 @@ class ArticleWebService
             $Result = $Result->where('user_id', $this->getRequestByKey('user'));
         }
 
-        return $Result
+        $Result = $Result
             ->where('status', 1)
             ->WebArticle()
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->paginate($page_count);
+
+        Cache::add($cache_key, $Result, 604800);
+
+        return $Result;
     }
 
     /**
@@ -106,6 +112,7 @@ class ArticleWebService
      */
     public function create()
     {
+        $this->forgetArticleIndexCache(1);
         return DB::transaction(function () {
             $ArticleEntity = $this->getEntity()
                 ->create($this->getRequestByKey(ArticleEntity::Table));

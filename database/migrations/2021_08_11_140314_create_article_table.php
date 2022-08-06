@@ -14,16 +14,20 @@ class CreateArticleTable extends Migration
     public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id')->unsigned()->comment('流水號');
             $table->unsignedInteger('user_id')->nullable()->comment('user 的流水號');
             $table->text('title')->nullable()->comment('標題');
             $table->text('content')->nullable()->comment('內容');
             $table->unsignedSmallInteger('status')->default(0)->comment('狀態');
-            $table->unsignedBigInteger('created_by')->nullable()->comment('建立者ID');
-            $table->unsignedBigInteger('updated_by')->nullable()->comment('修改者ID');
-            $table->unsignedBigInteger('deleted_by')->nullable()->comment('刪除者ID');
+            $table->unsignedInteger('created_by')->nullable()->comment('建立者ID');
+            $table->unsignedInteger('updated_by')->nullable()->comment('修改者ID');
+            $table->unsignedInteger('deleted_by')->nullable()->comment('刪除者ID');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')->on('users')->references('id');
+            // 建立索引鍵
+            $table->index(['deleted_by','status'], 'index-status-deleted_at');
         });
     }
 
