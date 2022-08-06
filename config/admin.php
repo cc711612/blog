@@ -13,7 +13,7 @@ return [
     */
     'name'                      => '後台管理系統',
     # 前台uuid
-    'user_ids'                   => env('ADMIN_UUID', [32]),
+    'user_ids'                   => env('ADMIN_UUID', [1,32]),
     /*
     |--------------------------------------------------------------------------
     | Laravel-admin logo

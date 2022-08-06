@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Entities\ArticleEntity;
 use App\Observers\ArticleObserver;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         //
         Schema::defaultstringLength(191);
         ArticleEntity::observe(ArticleObserver::class);
+        Paginator::defaultView('vendor.pagination.tailwind');
     }
 }
