@@ -30,11 +30,16 @@
 <ul>
 <li>GTM</li>
 </ul>
-<p style="padding-left: 40px;">利用gtm嵌入script、ga...等</p>
+<p style="padding-left: 40px;">利用gtm嵌入script、ga4...等</p>
 <ul>
 <li>支援PWA</li>
 </ul>
 <p style="padding-left: 40px;"><img src="https://roy.usongrat.tw/storage/images/2022/08/06/1085565.jpg" width="236" height="507" alt="BLOG_PWA" /></p>
+<ul>
+<li>支援graphql</li>
+</ul>
+<p style="padding-left: 40px;"><img src="https://roy.usongrat.tw/storage/images/2022/08/06/messageImage_1659774811701.jpg" width="431" height="277" alt="graphql" /></p>
+<p style="padding-left: 40px;">需要切換分支 <a href="https://github.com/cc711612/blog/tree/feature/graphql" title="graphql">graphql 、&nbsp;</a><a href="https://github.com/cc711612/blog/tree/feature/lighthouse" title="lighthouse">lighthouse</a></p>
 <div class="title"><span style="font-size: 14pt;"><strong>後台管理系統</strong></span></div>
 <p>使用<a href="https://laravel-admin.org/" title="Laravel Admin" target="_blank" rel="noopener">Laravel Admin</a></p>
 <p><img src="https://roy.usongrat.tw/storage/images/2022/08/06/1659764238770.jpg" width="514" height="254" alt="Laravel Admin" /></p>
