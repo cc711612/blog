@@ -9,17 +9,26 @@ use App\Http\Validators\Api\Articles\ArticleStoreValidator;
 use App\Models\Services\ArticleService;
 use App\Models\Entities\ArticleEntity;
 use App\Http\Requesters\Api\Articles\ArticleStoreRequest;
-use App\Traits\ApiPaginateTrait;
 use App\Http\Requesters\Api\Articles\ArticleUpdateRequest;
 use App\Http\Validators\Api\Articles\ArticleUpdateValidator;
 use App\Http\Requesters\Api\Articles\ArticleDestroyRequest;
 use App\Http\Validators\Api\Articles\ArticleDestroyValidator;
-use App\Traits\ImageTrait;
+use App\Http\Resources\ArticleApiResource;
 
 class ArticleController extends BaseController
 {
-    use ApiPaginateTrait;
-    use ImageTrait;
+    /**
+     * @var \App\Models\Services\ArticleService
+     */
+    private $ArticleApiService;
+
+    /**
+     * @param  \App\Models\Services\ArticleService  $ArticleService
+     */
+    public function __construct(ArticleService $ArticleService)
+    {
+        $this->ArticleApiService = $ArticleService;
+    }
 
     /**
      * @param  \Illuminate\Http\Request  $request
@@ -30,33 +39,15 @@ class ArticleController extends BaseController
      */
     public function index(Request $request)
     {
-        $Articles = (new ArticleService())
-            ->setRequest($request->toArray())
-            ->paginate();
-
         return response()->json([
             'status'  => true,
             'code'    => 200,
             'message' => [],
-            'data'    => [
-                'paginate' => $this->handleApiPageInfo($Articles),
-                'articles' => $Articles->getCollection()->map(function ($article) {
-                    return [
-                        'id'              => Arr::get($article, 'id'),
-                        'title'           => Arr::get($article, 'title'),
-                        'content'         => Arr::get($article, 'content'),
-                        'sub_title'       => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 80,
-                            '...'),
-                        'preview_content' => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 180),
-                        'user'            => [
-                            'id'    => Arr::get($article, 'users.id'),
-                            'name'  => Arr::get($article, 'users.name'),
-                            'image' => $this->handleUserImage(Arr::get($article, 'users.images.cover')),
-                        ],
-                        'updated_at'      => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
-                    ];
-                }),
-            ],
+            'data'    => (new ArticleApiResource(
+                $this->ArticleApiService
+                    ->setRequest($request->toArray())
+                    ->paginate()
+            ))->paginate(),
         ]);
     }
 
@@ -70,8 +61,8 @@ class ArticleController extends BaseController
     public function show(Request $request)
     {
         $id = Arr::get($request, 'article');
-        $article = (new ArticleService())->find($id);
-        if (is_null($article)) {
+        $Article = $this->ArticleApiService->find($id);
+        if (is_null($Article)) {
             return response()->json([
                 'status'  => false,
                 'code'    => 400,
@@ -83,20 +74,7 @@ class ArticleController extends BaseController
             'status'  => true,
             'code'    => 200,
             'message' => [],
-            'data'    => [
-                'id'         => Arr::get($article, 'id'),
-                'title'      => Arr::get($article, 'title'),
-                'content'    => Arr::get($article, 'content'),
-                'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 80, '...'),
-                'user'       => [
-                    'id'           => Arr::get($article, 'users.id'),
-                    'name'         => Arr::get($article, 'users.name'),
-                    'introduction' => Arr::get($article, 'users.introduction'),
-                    'image'        => $this->handleUserImage(Arr::get($article, 'users.images.cover')),
-                ],
-                'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
-                'comments'   => $this->handleComment(Arr::get($article, 'comments', collect([]))),
-            ],
+            'data'    => (new ArticleApiResource($Article))->show(),
         ]);
     }
 
@@ -122,7 +100,7 @@ class ArticleController extends BaseController
             ]);
         }
         #Create
-        $Entity = (new ArticleEntity())->create($Requester->toArray());
+        $Entity = $this->ArticleApiService->create($Requester->toArray());
 
         return response()->json([
             'status'   => true,
@@ -155,7 +133,7 @@ class ArticleController extends BaseController
             ]);
         }
         $Requester = $Requester->toArray();
-        $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'))
+        $Entity = $this->ArticleApiService->find(Arr::get($Requester, 'id'))
             ->update(Arr::get($Requester, ArticleEntity::Table));
         if ($Entity) {
             return response()->json([
@@ -193,7 +171,7 @@ class ArticleController extends BaseController
                 'message' => $Validate->errors(),
             ]);
         }
-        $Entity = (new ArticleEntity())->find(Arr::get($Requester, 'id'));
+        $Entity = $this->ArticleApiService->find(Arr::get($Requester, 'id'));
         if (is_null($Entity) === true) {
             return response()->json([
                 'status'  => false,
@@ -214,55 +192,5 @@ class ArticleController extends BaseController
             'code'    => 400,
             'message' => ['error' => '系統異常'],
         ]);
-    }
-
-    /**
-     * @param $Comments
-     *
-     * @return mixed
-     * @Author: Roy
-     * @DateTime: 2022/4/29 下午 09:49
-     */
-    private function handleComment($Comments)
-    {
-        return $Comments->map(function ($comment) {
-            return [
-                'id'         => Arr::get($comment, 'id'),
-                'user'       => [
-                    'id'    => Arr::get($comment, 'users.id'),
-                    'name'  => Arr::get($comment, 'users.name'),
-                    'image' => $this->handleUserImage(Arr::get($comment, 'users.images.cover')),
-                ],
-                'content'    => Arr::get($comment, 'content'),
-                'updated_at' => Arr::get($comment, 'updated_at')->format('Y-m-d H:i:s'),
-                'logs'       => Arr::get($comment, 'logs', []),
-            ];
-        });
-    }
-
-    /**
-     * @return string
-     * @Author: Roy
-     * @DateTime: 2021/8/19 下午 01:30
-     */
-    private function getDefaultImage()
-    {
-        return sprintf('%s://%s%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER["HTTP_HOST"],
-            config('filesystems.disks.images.url'), 'default.png');
-    }
-
-    /**
-     * @param  string  $string
-     * @param  int  $limit
-     * @param  string  $add
-     *
-     * @return string
-     * @Author: Roy
-     * @DateTime: 2021/9/2 下午 10:23
-     */
-    private function getShortContent(string $string, int $limit = 0, string $add = "")
-    {
-        return sprintf('%s%s',
-            mb_substr(str_replace(["\r", "\n", "\r\n", "\n\r", PHP_EOL, "&nbsp"], '', $string), 0, $limit), $add);
     }
 }

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name'      => env('APP_NAME', 'Laravel'),
+    'name'      => env('APP_NAME', 'Blog'),
     'sub_title' => env('APP_SUB_TITLE', 'Record'),
     /*
     |--------------------------------------------------------------------------
@@ -56,6 +56,7 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'user_id' => env('APP_USERID', 1),
 
     /*
     |--------------------------------------------------------------------------

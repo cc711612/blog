@@ -174,6 +174,6 @@ class ArticleEntity extends Model
     public function scopeWebArticle($query)
     {
         return $query
-            ->where('user_id',32);
+            ->where('user_id',config('app.user_id'));
     }
 }
