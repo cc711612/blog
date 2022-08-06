@@ -29,6 +29,9 @@
 <p style="padding-left: 40px;">使用FACEBOOK套件</p>
 <ul>
 <li>GTM</li>
+</ul>
+<p style="padding-left: 40px;">利用gtm嵌入script、ga...等</p>
+<ul>
 <li>支援PWA</li>
 </ul>
 <p style="padding-left: 40px;"><img src="https://roy.usongrat.tw/storage/images/2022/08/06/1085565.jpg" width="236" height="507" alt="BLOG_PWA" /></p>
