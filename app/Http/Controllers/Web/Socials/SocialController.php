@@ -22,6 +22,29 @@ use App\Traits\AuthLoginTrait;
 class SocialController extends BaseController
 {
     use AuthLoginTrait;
+
+    /**
+     * @var \App\Models\Services\SocialService
+     */
+    private $SocialService;
+    /**
+     * @var \App\Models\Services\UserService
+     */
+    private $UserService;
+
+    /**
+     * @param  \App\Models\Services\SocialService  $SocialService
+     * @param  \App\Models\Services\UserService  $UserService
+     */
+    public function __construct
+    (
+        SocialService $SocialService,
+        UserService $UserService
+    ) {
+        $this->SocialService = $SocialService;
+        $this->UserService = $UserService;
+    }
+
     /**
      * @param  \Illuminate\Http\Request  $request
      *
@@ -44,17 +67,17 @@ class SocialController extends BaseController
         $userInfo = Socialite::driver('facebook')->stateless()->user();
         $requester = (new SocialFacebookLoginRequest($this->object2array($userInfo)));
         # 檢查DB
-        $Social = (new SocialService())
+        $Social = $this->SocialService
             ->setRequest($requester->toArray())
             ->findFaceBookEmail();
         # 不存在DB
         if (is_null($Social)) {
             # 先檢查User表Email重複性
-            $User = (new UserService())
+            $User = $this->UserService
                 ->checkUserEmail(Arr::get($requester, 'email'));
             if (is_null($User)) {
                 # 新增
-                $User = (new UserService())
+                $User = $this->UserService
                     ->setRequest([
                         UserEntity::Table => [
                             'name'     => Arr::get($requester, 'name'),
@@ -68,7 +91,7 @@ class SocialController extends BaseController
                     ->create();
             }
             # 新增
-            $Social = (new SocialService())
+            $Social = $this->SocialService
                 ->setRequest($requester->toArray())
                 ->create();
 
@@ -117,17 +140,17 @@ class SocialController extends BaseController
         $userInfo = Socialite::driver('line')->user();
         $requester = (new SocialLineLoginRequest($this->object2array($userInfo)));
         # 檢查DB
-        $Social = (new SocialService())
+        $Social = $this->SocialService
             ->setRequest($requester->toArray())
             ->findLineEmail();
         # 不存在DB
         if (is_null($Social)) {
             # 先檢查User表Email重複性
-            $User = (new UserService())
+            $User = $this->UserService
                 ->checkUserEmail(Arr::get($requester, 'email'));
             if (is_null($User)) {
                 # 新增
-                $User = (new UserService())
+                $User = $this->UserService
                     ->setRequest([
                         UserEntity::Table => [
                             'name'     => Arr::get($requester, 'name'),
@@ -141,7 +164,7 @@ class SocialController extends BaseController
                     ->create();
             }
             # 新增
-            $Social = (new SocialService())
+            $Social = $this->SocialService
                 ->setRequest($requester->toArray())
                 ->create();
 
