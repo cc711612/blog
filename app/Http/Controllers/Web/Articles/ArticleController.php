@@ -16,14 +16,30 @@ use App\Traits\AuthLoginTrait;
 class ArticleController extends BaseController
 {
     use AuthLoginTrait;
+
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @var \App\Models\Services\Web\ArticleWebService
+     */
+    private $ArticleWebService;
+
+    /**
+     * @param  \App\Models\Services\Web\ArticleWebService  $ArticleWebService
+     */
+    public function __construct(ArticleWebService $ArticleWebService)
+    {
+        $this->ArticleWebService = $ArticleWebService;
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      * @Author: Roy
-     * @DateTime: 2021/7/30 下午 01:04
+     * @DateTime: 2022/8/6 上午 11:37
      */
     public function index(Request $request)
     {
-        $Articles = (new ArticleWebService())
+        $Articles = $this->ArticleWebService
             ->setRequest($request->toArray())
             ->paginate();
 
@@ -37,7 +53,7 @@ class ArticleController extends BaseController
                     'id'         => Arr::get($article, 'id'),
                     'title'      => Arr::get($article, 'title'),
                     'content'    => Arr::get($article, 'content'),
-                    'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 65,'...'),
+                    'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 65, '...'),
                     'user_name'  => Arr::get($article, 'users.name'),
                     'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                     'created_at' => Arr::get($article, 'created_at')->format('Y-m-d H:i:s'),
@@ -50,7 +66,7 @@ class ArticleController extends BaseController
                     'is_editor'  => Auth::id() === Arr::get($article, 'user_id'),
                 ];
             }),
-            'page_link' => $Articles->appends(request(['user']))->links()->toHtml(),
+            'page_link' => $Articles->links()->toHtml(),
         ];
         return view('blog.articles.index', compact('Html'));
     }
@@ -65,7 +81,7 @@ class ArticleController extends BaseController
     public function show(Request $request)
     {
         $id = Arr::get($request, 'article');
-        $article = (new ArticleWebService())->find($id);
+        $article = $this->ArticleWebService->find($id);
         if (is_null($article) === true) {
             return redirect()->route('article.index');
         }
@@ -82,7 +98,7 @@ class ArticleController extends BaseController
                 'id'         => Arr::get($article, 'id'),
                 'title'      => Arr::get($article, 'title'),
                 'content'    => Arr::get($article, 'content'),
-                'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 60,'...'),
+                'sub_title'  => $this->getShortContent(strip_tags(Arr::get($article, 'content')), 60, '...'),
                 'user_name'  => Arr::get($article, 'users.name'),
                 'updated_at' => Arr::get($article, 'updated_at')->format('Y-m-d H:i:s'),
                 'comments'   => Arr::get($article, 'comments'),
@@ -142,7 +158,7 @@ class ArticleController extends BaseController
             return redirect()->route('login');
         }
         $id = Arr::get($request, 'article');
-        $article = (new ArticleWebService())->find($id);
+        $article = $this->ArticleWebService->find($id);
         if (is_null($article) === true || Auth::id() != Arr::get($article, 'user_id')) {
             return redirect()->route('article.index');
         }
@@ -210,6 +226,7 @@ class ArticleController extends BaseController
      */
     private function getShortContent(string $string, int $limit = 20, string $add = "")
     {
-        return sprintf('%s%s', mb_substr(str_replace(array("\r", "\n", "\r\n", "\n\r",PHP_EOL,"&nbsp"), '', $string), 0, $limit), $add);
+        return sprintf('%s%s',
+            mb_substr(str_replace(["\r", "\n", "\r\n", "\n\r", PHP_EOL, "&nbsp"], '', $string), 0, $limit), $add);
     }
 }

@@ -32,7 +32,7 @@ class AddFieldUsersApiToken extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            Schema::dropColumn('api_token');
+            $table->dropColumn('api_token');
         });
     }
 }

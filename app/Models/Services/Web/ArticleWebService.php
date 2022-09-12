@@ -11,6 +11,7 @@ use App\Models\Entities\UserEntity;
 use App\Models\Entities\CommentEntity;
 use const Grpc\STATUS_UNKNOWN;
 use Illuminate\Support\Facades\Cache;
+use App\Traits\CacheTrait;
 
 /**
  * Class ArticleWebService
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class ArticleWebService
 {
+    use CacheTrait;
     /**
      * @return \App\Models\Entities\ArticleEntity
      * @Author: Roy
@@ -44,7 +46,7 @@ class ArticleWebService
      * @param  string  $key
      *
      * @return mixed
-     * @Author  : steatng
+     * @Author  : Roy
      * @DateTime: 2021/4/19 下午5:55
      */
     private function getRequestByKey(string $key)
@@ -56,7 +58,7 @@ class ArticleWebService
      * @param  array  $request
      *
      * @return $this
-     * @Author  : steatng
+     * @Author  : Roy
      * @DateTime: 2021/4/19 下午5:55
      */
     public function setRequest(array $request)
@@ -74,7 +76,7 @@ class ArticleWebService
      */
     public function paginate(int $page_count = 10): LengthAwarePaginator
     {
-        $cache_key = sprintf('article.list.%s', Arr::get($this->getRequest(), 'page', 1));
+        $cache_key = $this->getArticleIndexCacheKey(Arr::get($this->getRequest(), 'page', 1));
         if (Cache::has($cache_key) === true) {
             return Cache::get($cache_key);
         }
@@ -110,6 +112,7 @@ class ArticleWebService
      */
     public function create()
     {
+        $this->forgetArticleIndexCache(1);
         return DB::transaction(function () {
             $ArticleEntity = $this->getEntity()
                 ->create($this->getRequestByKey(ArticleEntity::Table));

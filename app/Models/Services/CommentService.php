@@ -3,11 +3,11 @@
 namespace App\Models\Services;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Entities\CommentEntity;
+use App\Concerns\Databases\Service;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CommentService
@@ -16,50 +16,20 @@ use App\Models\Entities\CommentEntity;
  * @Author: Roy
  * @DateTime: 2021/8/14 上午 11:04
  */
-class CommentService
+class CommentService extends Service
 {
     /**
-     * @return \App\Models\Entities\CommentEntity
+     * @return \Illuminate\Database\Eloquent\Model
      * @Author: Roy
-     * @DateTime: 2021/8/14 上午 11:04
+     * @DateTime: 2022/8/6 下午 12:59
      */
-    private function getEntity(): CommentEntity
+    protected function getEntity(): Model
     {
         if (app()->has(CommentEntity::class) === false) {
             app()->singleton(CommentEntity::class);
         }
 
         return app(CommentEntity::class);
-    }
-
-    public function getRequest(): array
-    {
-        return $this->request;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     * @Author  : steatng
-     * @DateTime: 2021/4/19 下午5:55
-     */
-    private function getRequestByKey(string $key)
-    {
-        return Arr::get($this->getRequest(), $key, null);
-    }
-
-    /**
-     * @param array $request
-     *
-     * @return $this
-     * @Author  : steatng
-     * @DateTime: 2021/4/19 下午5:55
-     */
-    public function setRequest(array $request)
-    {
-        $this->request = $request;
-        return $this;
     }
 
     /**
@@ -79,7 +49,7 @@ class CommentService
      * @Author: Roy
      * @DateTime: 2021/8/14 上午 11:06
      */
-    public function create()
+    public function createComment()
     {
         return DB::transaction(function () {
             $CommentEntity = $this->getEntity()
@@ -94,7 +64,7 @@ class CommentService
      * @Author: Roy
      * @DateTime: 2021/8/11 下午 02:34
      */
-    public function update()
+    public function updateComment()
     {
         $Entity = $this->getEntity()
             ->find($this->getRequestByKey('id'));
@@ -107,7 +77,7 @@ class CommentService
         # 塞log
         $logs = $Entity->logs;
         $logs[] = [
-            'content' => Arr::get($UpdateData, 'content'),
+            'content'    => Arr::get($UpdateData, 'content'),
             'updated_at' => Carbon::now()->toDateTimeString(),
         ];
         Arr::set($UpdateData, 'logs', $logs);
