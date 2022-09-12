@@ -23,6 +23,7 @@ use App\Traits\CacheTrait;
 class ArticleWebService
 {
     use CacheTrait;
+
     /**
      * @return \App\Models\Entities\ArticleEntity
      * @Author: Roy
@@ -99,7 +100,9 @@ class ArticleWebService
             ->orderByDesc('id')
             ->paginate($page_count);
 
-        Cache::add($cache_key, $Result, 604800);
+        if ($Result->getCollection()->isNotEmpty() === true) {
+            Cache::add($cache_key, $Result, 604800);
+        }
 
         return $Result;
     }
