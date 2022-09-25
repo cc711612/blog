@@ -142,9 +142,9 @@ abstract class Request implements ArrayAccess, RequestContract
      *
      * @return array
      */
-    public function __set($key, $value): array
+    public function __set($key, $value): void
     {
-        return $this->setAttribute($key, $value);
+        $this->setAttribute($key, $value);
     }
 
     /**
