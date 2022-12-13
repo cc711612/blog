@@ -133,15 +133,18 @@ class ArticleController extends BaseController
             ]);
         }
         $Requester = $Requester->toArray();
-        $Entity = $this->ArticleApiService->find(Arr::get($Requester, 'id'))
-            ->update(Arr::get($Requester, ArticleEntity::Table));
-        if ($Entity) {
+
+        if ($this->ArticleApiService
+            ->find(Arr::get($Requester, 'id'))
+            ->update(Arr::get($Requester, ArticleEntity::Table))) {
             return response()->json([
                 'status'   => true,
                 'code'     => 200,
                 'message'  => [],
                 'data'     => [],
-                'redirect' => route('article.index'),
+                'redirect' => route('article.show', [
+                    'article' => Arr::get($Requester, 'id'),
+                ]),
             ]);
         }
         return response()->json([
@@ -171,22 +174,18 @@ class ArticleController extends BaseController
                 'message' => $Validate->errors(),
             ]);
         }
-        $Entity = $this->ArticleApiService->find(Arr::get($Requester, 'id'));
-        if (is_null($Entity) === true) {
-            return response()->json([
-                'status'  => false,
-                'code'    => 400,
-                'message' => ['id' => 'not exist'],
-            ]);
-        }
-        #刪除
-        if ($Entity->update(Arr::get($Requester, ArticleEntity::Table))) {
+        if (
+            $this->ArticleApiService
+                ->find(Arr::get($Requester, 'id'))
+                ->update(Arr::get($Requester, ArticleEntity::Table))
+        ) {
             return response()->json([
                 'status'  => true,
                 'code'    => 200,
                 'message' => [],
             ]);
         }
+
         return response()->json([
             'status'  => false,
             'code'    => 400,
