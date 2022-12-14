@@ -61,15 +61,6 @@ class UserService
         return $this;
     }
 
-    public function findFaceBookEmail()
-    {
-        return $this->getEntity()
-            ->where('email', $this->getRequestByKey('socials.email'))
-            ->where('social_type', UserEntity::Facebook)
-            ->get()
-            ->first();
-    }
-
     /**
      * @return mixed
      * @throws \Throwable
@@ -119,15 +110,14 @@ class UserService
     /**
      * @param  string|null  $email
      *
+     * @return \App\Models\UserEntity|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      * @Author: Roy
-     * @DateTime: 2021/8/20 下午 04:36
+     * @DateTime: 2022/12/14 上午 10:02
      */
     public function checkUserEmail(string $email = null)
     {
-
         return $this->getEntity()
             ->where('email', $email)
-            ->get()
             ->first();
     }
 }
