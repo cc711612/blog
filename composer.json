@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "beyondcode/laravel-websockets": "^1.12",
+        "beyondcode/laravel-websockets": "^1.13",
         "encore/laravel-admin": "^1.8",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -24,7 +24,7 @@
         "mll-lab/laravel-graphql-playground": "^2.6",
         "php-http/curl-client": "^2.2",
         "predis/predis": "^1.1",
-        "pusher/pusher-php-server": "~3.0",
+        "pusher/pusher-php-server": "^7.2",
         "rebing/graphql-laravel": "^8.3",
         "romanzipp/laravel-seo": "^2.2",
         "silviolleite/laravelpwa": "^2.0",
