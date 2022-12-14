@@ -9,6 +9,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Entities\SocialEntity;
+use App\Models\Entities\ArticleEntity;
 
 /**
  * App\Models\Entities\User
@@ -26,7 +28,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property-read string $profile_photo_url
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[]
+ *     $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
@@ -159,6 +162,16 @@ class UserEntity extends Authenticatable
      */
     public function articles()
     {
-        return $this->hasMany(ArticleEntity::class,  'user_id', 'id');
+        return $this->hasMany(ArticleEntity::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @Author: Roy
+     * @DateTime: 2022/12/14 上午 10:22
+     */
+    public function socials()
+    {
+        return $this->belongsToMany(SocialEntity::class, 'user_social', 'user_id', 'social_id');
     }
 }
