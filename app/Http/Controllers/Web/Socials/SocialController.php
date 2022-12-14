@@ -4,16 +4,11 @@ namespace App\Http\Controllers\Web\Socials;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Socialite;
 use App\Http\Requesters\Web\Socials\SocialFacebookLoginRequest;
 use App\Models\Services\SocialService;
 use App\Models\Services\UserService;
-use App\Models\UserEntity;
 use App\Http\Requesters\Web\Socials\SocialLineLoginRequest;
-use App\Models\Entities\SocialEntity;
 use App\Traits\AuthLoginTrait;
 use App\Macros\Auth\Contracts\LoginAdapter;
 use App\Macros\Auth\Adapters\FacebookLoginAdapter;
@@ -68,12 +63,12 @@ class SocialController extends BaseController
      */
     public function facebookReturn(Request $request)
     {
-        $userInfo = Socialite::driver('facebook')->stateless()->user();
-        $requester = (new SocialFacebookLoginRequest($this->object2array($userInfo)));
-        $container = Container::getInstance();
-        $container->bind(LoginAdapter::class, FacebookLoginAdapter::class);
         $status = false;
         try {
+            $userInfo = Socialite::driver('facebook')->stateless()->user();
+            $requester = (new SocialFacebookLoginRequest($this->object2array($userInfo)));
+            $container = Container::getInstance();
+            $container->bind(LoginAdapter::class, FacebookLoginAdapter::class);
             $status = $container->make(LoginMacro::class)
                 ->setParams($requester->toArray())
                 ->login();
@@ -94,12 +89,15 @@ class SocialController extends BaseController
     /**
      * @param  \Illuminate\Http\Request  $request
      *
+     * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/8/20 上午 11:35
+     * @DateTime: 2022/12/14 下午 02:19
      */
     public function facebookDelete(Request $request)
     {
-
+        return response()->json([
+            'status' => true,
+        ]);
     }
 
     /**
@@ -122,12 +120,12 @@ class SocialController extends BaseController
      */
     public function lineReturn(Request $request)
     {
-        $userInfo = Socialite::driver('line')->user();
-        $requester = (new SocialLineLoginRequest($this->object2array($userInfo)));
-        $container = Container::getInstance();
-        $container->bind(LoginAdapter::class, LineLoginAdapter::class);
         $status = false;
         try {
+            $userInfo = Socialite::driver('line')->user();
+            $requester = (new SocialLineLoginRequest($this->object2array($userInfo)));
+            $container = Container::getInstance();
+            $container->bind(LoginAdapter::class, LineLoginAdapter::class);
             $status = $container->make(LoginMacro::class)
                 ->setParams($requester->toArray())
                 ->login();
@@ -141,7 +139,6 @@ class SocialController extends BaseController
             $this->MemberTokenCache();
             return redirect(route('website.index'));
         }
-
         return redirect(route('login', ['message' => "登入發生錯誤"]));
     }
 
