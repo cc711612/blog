@@ -38,7 +38,7 @@
             <h2>View Comments</h2>
         </div>
         <div class="comment" id="comments">
-            @if($Html->element->comments->isEmpty())
+            @if(empty($Html->element->comments))
                 <div class="container px-4 px-lg-5">
                     <p class="post-meta">
                         No comment! <br>
@@ -64,7 +64,7 @@
             @endif
         </div>
     </article>
-    @if(is_null(\Illuminate\Support\Facades\Auth::id()) === false)
+    @if(is_null($Html->member_token) === false)
         <div class="container px-4 px-lg-5">
             <h2 class="subheading">Comment</h2>
             <form id="form" method="POST" action="{{route('api.comment.store')}}">

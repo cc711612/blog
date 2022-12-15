@@ -4,20 +4,18 @@ namespace App\Http\Controllers\Web\Socials;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
 use Socialite;
 use App\Http\Requesters\Web\Socials\SocialFacebookLoginRequest;
 use App\Models\Services\SocialService;
 use App\Models\Services\UserService;
-use App\Http\Requesters\Api\Users\UserStoreRequest;
-use App\Models\UserEntity;
 use App\Http\Requesters\Web\Socials\SocialLineLoginRequest;
-use App\Models\Entities\SocialEntity;
 use App\Traits\AuthLoginTrait;
+use App\Macros\Auth\Contracts\LoginAdapter;
+use App\Macros\Auth\Adapters\FacebookLoginAdapter;
+use App\Macros\Auth\LoginMacro;
+use Illuminate\Container\Container;
+use App\Macros\Auth\Adapters\LineLoginAdapter;
+use Illuminate\Support\Facades\Log;
 
 class SocialController extends BaseController
 {
@@ -59,63 +57,47 @@ class SocialController extends BaseController
     /**
      * @param  \Illuminate\Http\Request  $request
      *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @Author: Roy
-     * @DateTime: 2021/8/20 上午 11:34
+     * @DateTime: 2022/12/14 上午 11:37
      */
     public function facebookReturn(Request $request)
     {
-        $userInfo = Socialite::driver('facebook')->stateless()->user();
-        $requester = (new SocialFacebookLoginRequest($this->object2array($userInfo)));
-        # 檢查DB
-        $Social = $this->SocialService
-            ->setRequest($requester->toArray())
-            ->findFaceBookEmail();
-        # 不存在DB
-        if (is_null($Social)) {
-            # 先檢查User表Email重複性
-            $User = $this->UserService
-                ->checkUserEmail(Arr::get($requester, 'email'));
-            if (is_null($User)) {
-                # 新增
-                $User = $this->UserService
-                    ->setRequest([
-                        UserEntity::Table => [
-                            'name'     => Arr::get($requester, 'name'),
-                            'email'    => Arr::get($requester, 'email'),
-                            'password' => Hash::make(Str::random(10)),
-                            'images'   => [
-                                'cover' => Arr::get($requester, 'image'),
-                            ],
-                        ],
-                    ])
-                    ->create();
-            }
-            # 新增
-            $Social = $this->SocialService
-                ->setRequest($requester->toArray())
-                ->create();
-
-            $Social->users()->sync(['user_id' => $User->id]);
-        } else {
-            $User = $Social->users()->get()->first();
-            # 更新
-            $Social->update(Arr::get($requester, SocialEntity::Table));
+        $status = false;
+        try {
+            $userInfo = Socialite::driver('facebook')->stateless()->user();
+            $requester = (new SocialFacebookLoginRequest($this->object2array($userInfo)));
+            $container = Container::getInstance();
+            $container->bind(LoginAdapter::class, FacebookLoginAdapter::class);
+            $status = $container->make(LoginMacro::class)
+                ->setParams($requester->toArray())
+                ->login();
+        } catch (\Exception $exception) {
+            Log::channel('errorlog')->info(sprintf("LineLogin errors : %s ",
+                json_encode($exception, JSON_UNESCAPED_UNICODE)));
         }
-        Auth::login($User);
-        # set cache
-        $this->MemberTokenCache();
-        return redirect(route('website.index'));
+
+        if ($status) {
+            # set cache
+            $this->MemberTokenCache();
+            return redirect(route('website.index'));
+        }
+
+        return redirect(route('login', ['message' => "登入發生錯誤"]));
     }
 
     /**
      * @param  \Illuminate\Http\Request  $request
      *
+     * @return \Illuminate\Http\JsonResponse
      * @Author: Roy
-     * @DateTime: 2021/8/20 上午 11:35
+     * @DateTime: 2022/12/14 下午 02:19
      */
     public function facebookDelete(Request $request)
     {
-
+        return response()->json([
+            'status' => true,
+        ]);
     }
 
     /**
@@ -132,53 +114,32 @@ class SocialController extends BaseController
     /**
      * @param  \Illuminate\Http\Request  $request
      *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @Author: Roy
-     * @DateTime: 2021/8/20 上午 11:35
+     * @DateTime: 2022/12/14 上午 11:37
      */
     public function lineReturn(Request $request)
     {
-        $userInfo = Socialite::driver('line')->user();
-        $requester = (new SocialLineLoginRequest($this->object2array($userInfo)));
-        # 檢查DB
-        $Social = $this->SocialService
-            ->setRequest($requester->toArray())
-            ->findLineEmail();
-        # 不存在DB
-        if (is_null($Social)) {
-            # 先檢查User表Email重複性
-            $User = $this->UserService
-                ->checkUserEmail(Arr::get($requester, 'email'));
-            if (is_null($User)) {
-                # 新增
-                $User = $this->UserService
-                    ->setRequest([
-                        UserEntity::Table => [
-                            'name'     => Arr::get($requester, 'name'),
-                            'email'    => Arr::get($requester, 'email'),
-                            'password' => Hash::make(Str::random(10)),
-                            'images'   => [
-                                'cover' => Arr::get($requester, 'image'),
-                            ],
-                        ],
-                    ])
-                    ->create();
-            }
-            # 新增
-            $Social = $this->SocialService
-                ->setRequest($requester->toArray())
-                ->create();
-
-            $Social->users()->sync(['user_id' => $User->id]);
-        } else {
-            $User = $Social->users()->get()->first();
-            # 更新
-            $Social->update(Arr::get($requester, SocialEntity::Table));
-
+        $status = false;
+        try {
+            $userInfo = Socialite::driver('line')->user();
+            $requester = (new SocialLineLoginRequest($this->object2array($userInfo)));
+            $container = Container::getInstance();
+            $container->bind(LoginAdapter::class, LineLoginAdapter::class);
+            $status = $container->make(LoginMacro::class)
+                ->setParams($requester->toArray())
+                ->login();
+        } catch (\Exception $exception) {
+            Log::channel('errorlog')->info(sprintf("LineLogin errors : %s ",
+                json_encode($exception, JSON_UNESCAPED_UNICODE)));
         }
-        Auth::login($User);
-        # set cache
-        $this->MemberTokenCache();
-        return redirect(route('website.index'));
+
+        if ($status) {
+            # set cache
+            $this->MemberTokenCache();
+            return redirect(route('website.index'));
+        }
+        return redirect(route('login', ['message' => "登入發生錯誤"]));
     }
 
     /**
