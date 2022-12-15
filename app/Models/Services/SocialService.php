@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Entities\CommentEntity;
 use App\Models\Entities\SocialEntity;
 use App\Models\Supports\SocialType;
+use App\Models\Entities\UserEntity;
 
 /**
  * Class SocialService
@@ -73,7 +74,7 @@ class SocialService
         return $this->getEntity()
             ->where('email', $this->getRequestByKey('socials.email'))
             ->where('social_type', SocialType::Facebook)
-            ->get()
+            ->limit(1)
             ->first();
     }
 
@@ -85,9 +86,15 @@ class SocialService
     public function findLineEmail()
     {
         return $this->getEntity()
+            ->with([
+                UserEntity::Table => function ($query) {
+                    return $query
+                        ->select(['id']);
+                },
+            ])
             ->where('email', $this->getRequestByKey('socials.email'))
             ->where('social_type', SocialType::Line)
-            ->get()
+            ->limit(1)
             ->first();
     }
 

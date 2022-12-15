@@ -2,9 +2,7 @@
 
 namespace App\Models\Services\Web;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Entities\ArticleEntity;
 use App\Models\Entities\UserEntity;
@@ -12,6 +10,7 @@ use App\Models\Entities\CommentEntity;
 use const Grpc\STATUS_UNKNOWN;
 use Illuminate\Support\Facades\Cache;
 use App\Traits\CacheTrait;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class ArticleWebService
@@ -23,6 +22,7 @@ use App\Traits\CacheTrait;
 class ArticleWebService
 {
     use CacheTrait;
+
     /**
      * @return \App\Models\Entities\ArticleEntity
      * @Author: Roy
@@ -70,9 +70,9 @@ class ArticleWebService
     /**
      * @param  int  $page_count
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      * @Author: Roy
-     * @DateTime: 2021/8/11 下午 02:53
+     * @DateTime: 2022/12/15 上午 11:25
      */
     public function paginate(int $page_count = 10): LengthAwarePaginator
     {
@@ -99,7 +99,9 @@ class ArticleWebService
             ->orderByDesc('id')
             ->paginate($page_count);
 
-        Cache::add($cache_key, $Result, 604800);
+        if ($Result->getCollection()->isNotEmpty() === true) {
+            Cache::add($cache_key, $Result, 604800);
+        }
 
         return $Result;
     }
