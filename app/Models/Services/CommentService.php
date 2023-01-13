@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Entities\CommentEntity;
 use App\Concerns\Databases\Service;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Entities\UserEntity;
 
 /**
  * Class CommentService
@@ -39,6 +40,9 @@ class CommentService extends Service
     public function getCommentsByArticleId()
     {
         return $this->getEntity()
+            ->with([
+                UserEntity::Table
+            ])
             ->where('article_id', $this->getRequestByKey('id'))
             ->get();
     }
