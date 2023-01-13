@@ -101,21 +101,10 @@ class CommentController extends BaseController
         }
         try {
             #Create
-            $Entity = $this->CommentService
+          $this->CommentService
                 ->setRequest($Requester->toArray())
                 ->createComment();
-            # 傳送LINE給user
-            $ArticleUser = $this->ArticleService->getArticleUserSocialByArticleId(Arr::get($Requester, 'id'));
-            if (is_null($ArticleUser) === false && is_null(Arr::get($ArticleUser,
-                    'users.socials.0')) === false && is_null($Entity) === false) {
-                sendLineMessage::dispatch(
-                    [
-                        'user_id' => Arr::get($ArticleUser, 'users.socials.0.social_type_value'),
-                        'message' => sprintf("此文章有新留言~\n%s\n留言內容為:\n%s",
-                            route("article.show", ['article' => Arr::get($Requester, 'id')]), $Entity->content),
-                    ]
-                );
-            }
+
         } catch (\Exception $exception) {
             Log::channel()->error(sprintf("%s error params : %s", get_class($this),
                 json_encode($exception, JSON_UNESCAPED_UNICODE)));
