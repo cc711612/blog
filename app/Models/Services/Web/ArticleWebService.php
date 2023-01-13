@@ -137,16 +137,16 @@ class ArticleWebService
                 UserEntity::Table    => function ($query) {
                     $query->select(['id', 'name', 'images', 'introduction']);
                 },
-                CommentEntity::Table => function ($query) {
-                    $query
-                        ->with([
-                            UserEntity::Table => function ($query) {
-                                $query->select(['id', 'name', 'images']);
-                            },
-                        ])
-                        ->select(['id', 'user_id', 'article_id', 'content', 'logs', 'updated_at'])
-                        ->orderBy('id');
-                },
+//                CommentEntity::Table => function ($query) {
+//                    $query
+//                        ->with([
+//                            UserEntity::Table => function ($query) {
+//                                $query->select(['id', 'name', 'images']);
+//                            },
+//                        ])
+//                        ->select(['id', 'user_id', 'article_id', 'content', 'logs', 'updated_at'])
+//                        ->orderBy('id');
+//                },
             ])
             ->where('status', 1)
             ->WebArticle()
