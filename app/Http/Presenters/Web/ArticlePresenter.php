@@ -82,7 +82,6 @@ class ArticlePresenter extends PresenterAbstract
             'sub_title'  => $this->getShortContent(strip_tags(Arr::get($Article, 'content')), 60, '...'),
             'user_name'  => Arr::get($Article, 'users.name'),
             'updated_at' => Arr::get($Article, 'updated_at')->format('Y-m-d H:i:s'),
-            'comments'   => Arr::get($Article, 'comments'),
             'actions'    => (object) [
                 'show_uri'   => route('article.show', ['article' => Arr::get($Article, 'id')]),
                 'edit_uri'   => route('article.edit', ['article' => Arr::get($Article, 'id')]),
