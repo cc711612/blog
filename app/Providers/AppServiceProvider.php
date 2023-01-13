@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Entities\ArticleEntity;
 use App\Observers\ArticleObserver;
 use Illuminate\Pagination\Paginator;
+use App\Models\Entities\CommentEntity;
+use App\Observers\CommentObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         //
         Schema::defaultstringLength(191);
         ArticleEntity::observe(ArticleObserver::class);
+        CommentEntity::observe(CommentObserver::class);
         Paginator::defaultView('vendor.pagination.tailwind');
     }
 }
