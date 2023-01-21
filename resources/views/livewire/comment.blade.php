@@ -4,11 +4,11 @@
             <h2>View Comments</h2>
         </div>
         <div class="comment" id="comments">
-            @if(empty($comments))
+            @if($comments->isEmpty())
                 <div class="container px-4 px-lg-5">
                     <p class="post-meta">
-                        No comment! <br>
-                        Join us discuss
+                        No Comment! <br>
+                        Join Us Discuss
                     </p>
                 </div>
             @else
