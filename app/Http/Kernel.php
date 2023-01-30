@@ -64,6 +64,5 @@ class Kernel extends HttpKernel
         'verified'           => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'VerifyApi'          => \App\Http\Middleware\VerifyApi::class,
         'SocketOnline'       => \App\Http\Middleware\SocketOnline::class,
-        'authenticate-guest' => \App\Http\Middleware\AuthenticateGuest::class,
     ];
 }
