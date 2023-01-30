@@ -6,6 +6,7 @@ use App\Cookies\ClientIdCookie;
 use App\Events\GetOnlineEvent;
 use App\Models\UserEntity;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class SocketOnline
 {
@@ -21,14 +22,17 @@ class SocketOnline
     public function handle($request, \Closure $next)
     {
 //        event(new GetOnlineEvent(app(ClientIdCookie::class)->get()));
-        $fakeUser = new UserEntity();
-        $fakeUser->virtual_client = true;
-        $fakeUser->id = rand(100,1000);
-        $fakeUser->name = Str::random('10');
+        $user = Auth::user();
+        if (is_null(Auth::id())) {
+            $user = new UserEntity();
+            $user->virtual_client = true;
+            $user->id = rand(100, 1000);
+            $user->name = Str::random('10');
+        }
 
-        $request->merge(['user' => $fakeUser]);
-        $request->setUserResolver(function () use ($fakeUser) {
-            return $fakeUser;
+        $request->merge(['user' => $user]);
+        $request->setUserResolver(function () use ($user) {
+            return $user;
         });
         return $next($request);
     }
