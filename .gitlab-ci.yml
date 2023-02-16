@@ -10,6 +10,7 @@ unit-test-job:   # This job runs in the test stage.
   only:
     - master
   script:
+    - cd /var/www/blog
     - php artisan test
 cac-job:   # This job runs in the test stage.
   stage: cache    # It only starts when the job in the build stage completes successfully.
@@ -19,6 +20,7 @@ cac-job:   # This job runs in the test stage.
   only:
     - master
   script:
+    - cd /var/www/blog
     - php artisan cache:clear
     - php artisan optimize
     - php artisan view:cache
@@ -34,6 +36,7 @@ laravel-build:
     - master
   # 最後是此 job 要執行哪些動作
   script:
+    - cd /var/www/blog
     - git checkout master
     - git pull origin master
     - composer install
