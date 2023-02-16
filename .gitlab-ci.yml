@@ -12,7 +12,7 @@ unit-test-job:   # This job runs in the test stage.
   script:
     - cd /var/www/blog
     - php artisan test
-cac-job:   # This job runs in the test stage.
+cache-job:   # This job runs in the test stage.
   stage: cache    # It only starts when the job in the build stage completes successfully.
   tags:
     - "runner_tag"
@@ -25,7 +25,7 @@ cac-job:   # This job runs in the test stage.
     - php artisan optimize
     - php artisan view:cache
 # 首先宣告 job 的名稱
-laravel-build:
+deploy-job:
   # 宣告此 job 屬於哪一個 stage
   stage: deploy
   # gitlab runner 的 tags
