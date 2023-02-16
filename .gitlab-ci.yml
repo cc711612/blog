@@ -1,0 +1,20 @@
+stages:
+  - deploy
+
+# 首先宣告 job 的名稱
+laravel-build:
+  # 宣告此 job 屬於哪一個 stage
+  stage: deploy
+  # gitlab runner 的 tags
+  tags:
+    - "runner_tag"
+  # 限制只有 master branch 會執行此 job
+  only:
+    - master
+  # 最後是此 job 要執行哪些動作
+  script:
+    - envoy run deploy
+  artifacts:
+    paths:
+      - ./
+    expire_in: 1 week
