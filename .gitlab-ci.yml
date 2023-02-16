@@ -1,6 +1,27 @@
 stages:
+  - test
   - deploy
-
+  - cache
+unit-test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  tags:
+    - "runner_tag"
+  # 限制只有 master branch 會執行此 job
+  only:
+    - master
+  script:
+    - php artisan test
+cac-job:   # This job runs in the test stage.
+  stage: cache    # It only starts when the job in the build stage completes successfully.
+  tags:
+    - "runner_tag"
+  # 限制只有 master branch 會執行此 job
+  only:
+    - master
+  script:
+    - php artisan cache:clear
+    - php artisan optimize
+    - php artisan view:cache
 # 首先宣告 job 的名稱
 laravel-build:
   # 宣告此 job 屬於哪一個 stage
@@ -13,8 +34,11 @@ laravel-build:
     - master
   # 最後是此 job 要執行哪些動作
   script:
-    - envoy run deploy
+    - git checkout master
+    - git pull origin master
+    - composer install
   artifacts:
     paths:
       - ./
     expire_in: 1 week
+
