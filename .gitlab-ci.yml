@@ -11,7 +11,7 @@ unit-test-job:   # This job runs in the test stage.
     - master
   script:
     - cd /var/www/blog
-    - sudo php artisan test
+    - php artisan test
 cac-job:   # This job runs in the test stage.
   stage: cache    # It only starts when the job in the build stage completes successfully.
   tags:
@@ -21,9 +21,9 @@ cac-job:   # This job runs in the test stage.
     - master
   script:
     - cd /var/www/blog
-    - sudo php artisan cache:clear
-    - sudo php artisan optimize
-    - sudo php artisan view:cache
+    - php artisan cache:clear
+    - php artisan optimize
+    - php artisan view:cache
 # 首先宣告 job 的名稱
 laravel-build:
   # 宣告此 job 屬於哪一個 stage
@@ -37,9 +37,9 @@ laravel-build:
   # 最後是此 job 要執行哪些動作
   script:
     - cd /var/www/blog
-    - sudo git checkout master
-    - sudo git pull origin master
-    - sudo composer install
+    - git checkout master
+    - git pull origin master
+    - composer install
   artifacts:
     paths:
       - ./
