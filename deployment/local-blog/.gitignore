@@ -1,0 +1,6 @@
+/mysql/data
+/mysql/logs
+/nginx/logs
+.env
+!.gitignore
+!.env.example
