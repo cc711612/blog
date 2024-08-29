@@ -1,5 +1,6 @@
 @extends("blog.main")
 @push('css-plugins')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/github-dark.min.css" rel="stylesheet">
 <link href="https://cdn.ckeditor.com/4.8.0/standard/skins/moono-lisa/editor.css" rel="stylesheet"/>
 @endpush
 @section("content")
@@ -60,6 +61,10 @@
     </main>
 @endsection
 @push('scripts')
+    <!-- 引入 Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <!-- 啟用 Highlight.js -->
+    <script>hljs.highlightAll();</script>
     <script src="https://cdn.tiny.cloud/1/ma5vlvghjz93fthi8wglhda2j2x1jc9jsit28g74jalc6z2z/tinymce/5/tinymce.min.js"
             referrerpolicy="origin"></script>
     <script src="{{asset('/js/tinymce.js')}}"></script>
