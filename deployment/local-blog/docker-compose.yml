@@ -1,0 +1,56 @@
+version: '3' # 目前使用的版本
+services:
+    # services 關鍵字後面列出 web, redis 兩項專案中的服務
+    php:
+        image: cc711612/php8.1-fpm-alpine:1.0
+        restart: always
+        container_name: ${PROJECT_NAME}-php-fpm
+        links:
+            - "mysql"
+            - "redis"
+        environment:
+            - TZ=Asia/Taipei
+        volumes:
+            - ${PROJECT_PATH}:/var/www/html
+            - ./entrypoint.sh:/entrypoint.sh
+            - ./main_crontabs/schedule:/etc/crontabs/schedule # alpine crontab 使用
+            - ./main_crontabs/root:/etc/crontabs/root # alpine crontab 使用
+            - ./supervisor/supervisor.d:/etc/supervisor.d
+            - ./supervisor/supervisord.conf:/etc/supervisord.conf
+        command: /bin/sh -c "/entrypoint.sh"
+        dns:
+            - 8.8.8.8
+    nginx:
+        image: nginx
+        restart: always
+        container_name: ${PROJECT_NAME}-nginx
+        ports:
+            - "${NGINX_HTTP_PORT}:80"
+            - "${NGINX_HTTPS_PORT}:443"
+            - "6001:6001"
+        links:
+            - "php"
+        volumes:
+            - ${PROJECT_PATH}:/usr/share/nginx/html
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ./nginx/ssl:/etc/nginx/ssl
+    redis:
+        image: redis:latest
+        restart: always
+        container_name: ${PROJECT_NAME}-redis
+        environment:
+            - TZ=Asia/Taipei
+    mysql:
+        image: mariadb
+        container_name: ${PROJECT_NAME}-mysql
+        volumes:
+            - "./mysql/data:/var/lib/mysql"
+            - "./mysql/logs:/logs"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - TZ=Asia/Taipei
+        ports:
+            - "${MYSQL_PORT}:3306"
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
