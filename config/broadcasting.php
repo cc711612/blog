@@ -44,18 +44,21 @@ return [
         //             ],
         //         ],
         'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
-            'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => false,
-                'host' => env('PUSHER_APP_HOST'),
-                'port' => env('PUSHER_APP_PORT'),
-                'scheme' => env('PUSHER_APP_SCHEME'),
-                'encrypted' => env('PUSHER_APP_ENCRYPTED'),
-            ],
+            'driver'  => 'pusher',
+            'key'     => env('PUSHER_APP_KEY'),
+            'secret'  => env('PUSHER_APP_SECRET'),
+            'app_id'  => env('PUSHER_APP_ID'),
+            'options' => config('app.env') == 'production'
+                ? [
+                    'cluster' => env('PUSHER_APP_CLUSTER'),
+                    'host'    => '127.0.0.1',
+                    // 'encrypted' => false,
+                    'port'    => env('PUSHER_APP_PORT', 6001),
+                    // 'scheme' => 'http'
+                ]
+                : [
+                    'cluster' => env('PUSHER_APP_CLUSTER'),
+                ],
         ],
 
         'ably' => [
