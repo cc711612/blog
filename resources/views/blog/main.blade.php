@@ -25,11 +25,11 @@
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -->
     {{ seo()->render() }}
-    <link rel="icon" type="image/x-icon" href="{{secure_url('/favicon.ico')}}"/>
+    <link rel="icon" type="image/x-icon" href="{{url('/favicon.ico')}}"/>
 <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{secure_url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="{{secure_url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="{{secure_url('/css/badge.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{url('/css/badge.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     @stack('css-plugins')
     @livewireStyles
@@ -77,7 +77,7 @@
 </script>
 <!-- jquery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="{{secure_url('/js/blog/global.js')}}"></script>
+<script src="{{url('/js/blog/global.js')}}"></script>
 @livewireScripts
 @stack('scripts')
 <!-- Bootstrap core JS-->
@@ -85,13 +85,13 @@
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 <!-- Core theme JS-->
-<script src="{{secure_url('/js/blog/logout.js?v='.config('app.version'))}}"></script>
-<script src="{{secure_url('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
-<script src="{{secure_url('js/app.js?v='.config('app.version')) }}"></script>
-<script src="{{secure_url('/js/blog/online.js?v='.config('app.version'))}}"></script>
+<script src="{{url('/js/blog/logout.js?v='.config('app.version'))}}"></script>
+<script src="{{url('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
+<script src="{{url('js/app.js?v='.config('app.version')) }}"></script>
+<script src="{{url('/js/blog/online.js?v='.config('app.version'))}}"></script>
 
 {{--@if(config('app.env' ) == 'production')--}}
-{{--    <script src="{{secure_url('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>--}}
+{{--    <script src="{{url('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>--}}
 {{--@endif--}}
 </body>
 </html>
