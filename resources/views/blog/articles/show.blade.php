@@ -1,4 +1,13 @@
 @extends("blog.main")
+@push('css-plugins')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/github-dark.min.css" rel="stylesheet">
+@endpush
+@push('scripts')
+    <!-- 引入 Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <!-- 啟用 Highlight.js -->
+    <script>hljs.highlightAll();</script>
+@endpush
 @section("content")
     <!-- Page Header-->
     <header class="masthead" style="background-image: url('{{config('app.url')."assets/img/home-bg.webp"}}')">

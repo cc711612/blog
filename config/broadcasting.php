@@ -30,31 +30,35 @@ return [
 
     'connections' => [
 
-//         'pusher' => [
-//             'driver' => 'pusher',
-//             'key' => env('PUSHER_APP_KEY'),
-//             'secret' => env('PUSHER_APP_SECRET'),
-//             'app_id' => env('PUSHER_APP_ID'),
-//             'options' => [
-//                 'cluster' => env('PUSHER_APP_CLUSTER'),
-// //                'encrypted' => true,
-//                 'host' => '127.0.0.1',
-//                 'port' => 6001,
-//                 'scheme' => 'http'
-//             ],
-//         ],
+        //         'pusher' => [
+        //             'driver' => 'pusher',
+        //             'key' => env('PUSHER_APP_KEY'),
+        //             'secret' => env('PUSHER_APP_SECRET'),
+        //             'app_id' => env('PUSHER_APP_ID'),
+        //             'options' => [
+        //                 'cluster' => env('PUSHER_APP_CLUSTER'),
+        // //                'encrypted' => true,
+        //                 'host' => '127.0.0.1',
+        //                 'port' => 6001,
+        //                 'scheme' => 'http'
+        //             ],
+        //         ],
         'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
-            'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'host' => '127.0.0.1',
-                'encrypted' => false,
-                'port' => 6001,
-                'scheme' => 'http'
-            ],
+            'driver'  => 'pusher',
+            'key'     => env('PUSHER_APP_KEY'),
+            'secret'  => env('PUSHER_APP_SECRET'),
+            'app_id'  => env('PUSHER_APP_ID'),
+            'options' => config('app.env') == 'production'
+                ? [
+                    'cluster' => env('PUSHER_APP_CLUSTER'),
+                    'host'    => '127.0.0.1',
+                    // 'encrypted' => false,
+                    'port'    => env('PUSHER_APP_PORT', 6001),
+                    // 'scheme' => 'http'
+                ]
+                : [
+                    'cluster' => env('PUSHER_APP_CLUSTER'),
+                ],
         ],
 
         'ably' => [

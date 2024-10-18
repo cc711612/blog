@@ -11,7 +11,6 @@ class ArticleTest extends TestCase
      */
     public function test_article_index()
     {
-        $this->withoutExceptionHandling();
         $response = $this->get('/');
         $response->assertStatus(200);
     }
@@ -21,9 +20,7 @@ class ArticleTest extends TestCase
      */
     public function test_article_api_index()
     {
-        $this->withoutExceptionHandling();
         $response = $this->get(route('api.article.index'));
-        dd($response);
         $response->assertStatus(200);
     }
 }
