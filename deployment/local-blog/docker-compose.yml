@@ -2,7 +2,7 @@ version: '3' # 目前使用的版本
 services:
     # services 關鍵字後面列出 web, redis 兩項專案中的服務
     php:
-        image: cc711612/php8.1-fpm-alpine:1.0
+        image: cc711612/php8.1-fpm-alpine:1.3
         restart: always
         container_name: ${PROJECT_NAME}-php-fpm
         links:
