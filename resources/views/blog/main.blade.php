@@ -45,7 +45,7 @@
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
 <div class="loader" id="loading" style="display:none;">
-    <img src="{{asset('/assets/img/loader.gif')}}" alt="Loading..."/>
+    <img src="{{config('filesystems.disks.s3.url') . 'assets/img/loader.gif'}}" alt="Loading..."/>
 </div>
 <!-- Navigation-->
 @include("layouts.header")
