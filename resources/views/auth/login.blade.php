@@ -2,7 +2,7 @@
     <x-jet-authentication-card>
         <x-slot name="logo">
             <a href="{{config('app.url')}}" title="index">
-                <img src="https://roy.usongrat.tw/storage/images/2021/08/19/gotogoogle.png" alt="Logo"
+                <img src="{{ config('filesystems.disks.s3.url') }}/storage/images/2021/08/19/gotogoogle.png" alt="Logo"
                      style="height: 20rem;">
             </a>
         </x-slot>
