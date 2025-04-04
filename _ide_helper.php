@@ -1,9 +1,10 @@
 <?php
 // @formatter:off
+// phpcs:ignoreFile
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.52.0.
+ * Generated for Laravel 8.83.27.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -129,7 +130,7 @@
                     /**
          * Get the base path of the Laravel installation.
          *
-         * @param string $path Optionally, a path to append to the base path
+         * @param string $path
          * @return string 
          * @static 
          */ 
@@ -141,7 +142,7 @@
                     /**
          * Get the path to the bootstrap directory.
          *
-         * @param string $path Optionally, a path to append to the bootstrap path
+         * @param string $path
          * @return string 
          * @static 
          */ 
@@ -153,7 +154,7 @@
                     /**
          * Get the path to the application configuration files.
          *
-         * @param string $path Optionally, a path to append to the config path
+         * @param string $path
          * @return string 
          * @static 
          */ 
@@ -165,7 +166,7 @@
                     /**
          * Get the path to the database directory.
          *
-         * @param string $path Optionally, a path to append to the database path
+         * @param string $path
          * @return string 
          * @static 
          */ 
@@ -395,6 +396,17 @@
                         return $instance->runningUnitTests();
         }
                     /**
+         * Determine if the application is running with debug mode enabled.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasDebugModeEnabled()
+        {
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        return $instance->hasDebugModeEnabled();
+        }
+                    /**
          * Register all of the configured providers.
          *
          * @return void 
@@ -564,6 +576,7 @@
                     /**
          * {@inheritdoc}
          *
+         * @return \Symfony\Component\HttpFoundation\Response 
          * @static 
          */ 
         public static function handle($request, $type = 1, $catch = true)
@@ -699,7 +712,7 @@
          * @param int $code
          * @param string $message
          * @param array $headers
-         * @return void 
+         * @return \Illuminate\Foundation\never 
          * @throws \Symfony\Component\HttpKernel\Exception\HttpException
          * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
          * @static 
@@ -707,7 +720,7 @@
         public static function abort($code, $message = '', $headers = [])
         {
                         /** @var \Illuminate\Foundation\Application $instance */
-                        $instance->abort($code, $message, $headers);
+                        return $instance->abort($code, $message, $headers);
         }
                     /**
          * Register a terminating callback with the application.
@@ -937,6 +950,7 @@
          * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
          * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
          *
+         * @return bool 
          * @param string $id Identifier of the entry to look for.
          * @return bool 
          * @static 
@@ -1265,6 +1279,7 @@
                     /**
          * Finds an entry of the container by its identifier and returns it.
          *
+         * @return mixed 
          * @param string $id Identifier of the entry to look for.
          * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
          * @throws ContainerExceptionInterface Error while retrieving the entry.
@@ -1807,7 +1822,7 @@
                     /**
          * Get the currently authenticated user.
          *
-         * @return \App\Models\UserEntity|null 
+         * @return \App\Models\Entities\UserEntity|null 
          * @static 
          */ 
         public static function user()
@@ -1842,7 +1857,7 @@
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \App\Models\UserEntity|false 
+         * @return \App\Models\Entities\UserEntity|false 
          * @static 
          */ 
         public static function onceUsingId($id)
@@ -1920,7 +1935,7 @@
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \App\Models\UserEntity|false 
+         * @return \App\Models\Entities\UserEntity|false 
          * @static 
          */ 
         public static function loginUsingId($id, $remember = false)
@@ -1972,7 +1987,7 @@
          *
          * @param string $password
          * @param string $attribute
-         * @return \App\Models\UserEntity|null 
+         * @return \App\Models\Entities\UserEntity|null 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */ 
@@ -1996,7 +2011,7 @@
                     /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \App\Models\UserEntity 
+         * @return \App\Models\Entities\UserEntity 
          * @static 
          */ 
         public static function getLastAttempted()
@@ -2036,6 +2051,18 @@
         {
                         /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->viaRemember();
+        }
+                    /**
+         * Set the number of minutes the remember me cookie should be valid for.
+         *
+         * @param int $minutes
+         * @return \Illuminate\Auth\SessionGuard 
+         * @static 
+         */ 
+        public static function setRememberDuration($minutes)
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->setRememberDuration($minutes);
         }
                     /**
          * Get the cookie creator instance used by the guard.
@@ -2098,7 +2125,7 @@
                     /**
          * Return the currently cached user.
          *
-         * @return \App\Models\UserEntity|null 
+         * @return \App\Models\Entities\UserEntity|null 
          * @static 
          */ 
         public static function getUser()
@@ -2142,9 +2169,20 @@
                         return $instance->setRequest($request);
         }
                     /**
+         * Get the timebox instance used by the guard.
+         *
+         * @return \Illuminate\Support\Timebox 
+         * @static 
+         */ 
+        public static function getTimebox()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getTimebox();
+        }
+                    /**
          * Determine if the current user is authenticated. If not, throw an exception.
          *
-         * @return \App\Models\UserEntity 
+         * @return \App\Models\Entities\UserEntity 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */ 
@@ -2245,6 +2283,16 @@
         {
                         return \Illuminate\Auth\SessionGuard::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Auth\SessionGuard::flushMacros();
+        }
          
     }
             /**
@@ -2299,6 +2347,30 @@
         {
                         /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
                         return $instance->compileString($value);
+        }
+                    /**
+         * Evaluate and render a Blade string to HTML.
+         *
+         * @param string $string
+         * @param array $data
+         * @param bool $deleteCachedView
+         * @return string 
+         * @static 
+         */ 
+        public static function render($string, $data = [], $deleteCachedView = false)
+        {
+                        return \Illuminate\View\Compilers\BladeCompiler::render($string, $data, $deleteCachedView);
+        }
+                    /**
+         * Render a component instance to HTML.
+         *
+         * @param \Illuminate\View\Component $component
+         * @return string 
+         * @static 
+         */ 
+        public static function renderComponent($component)
+        {
+                        return \Illuminate\View\Compilers\BladeCompiler::renderComponent($component);
         }
                     /**
          * Strip the parentheses from the given expression.
@@ -2654,7 +2726,7 @@
                     /**
          * Apply the echo handler for the value if it exists.
          *
-         * @param $value string
+         * @param string $value
          * @return string 
          * @static 
          */ 
@@ -3025,6 +3097,17 @@
                         $instance->assertNotDispatched($command, $callback);
         }
                     /**
+         * Assert that no jobs were dispatched.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function assertNothingDispatched()
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertNothingDispatched();
+        }
+                    /**
          * Assert if a job was explicitly dispatched synchronously based on a truth-test callback.
          *
          * @param string|\Closure $command
@@ -3138,6 +3221,18 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
                         $instance->assertBatched($callback);
+        }
+                    /**
+         * Assert the number of batches that have been dispatched.
+         *
+         * @param int $count
+         * @return void 
+         * @static 
+         */ 
+        public static function assertBatchCount($count)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertBatchCount($count);
         }
                     /**
          * Get all of the jobs matching a truth-test callback.
@@ -3408,6 +3503,7 @@
                     /**
          * Obtains multiple cache items by their unique keys.
          *
+         * @return \Illuminate\Cache\iterable 
          * @param \Psr\SimpleCache\iterable $keys A list of keys that can obtained in a single operation.
          * @param mixed $default Default value to return for keys that do not exist.
          * @return \Psr\SimpleCache\iterable A list of key => value pairs. Cache keys that do not exist or are stale will have $default as value.
@@ -3451,6 +3547,7 @@
                     /**
          * Persists data in the cache, uniquely referenced by a key with an optional expiration TTL time.
          *
+         * @return bool 
          * @param string $key The key of the item to store.
          * @param mixed $value The value of the item to store, must be serializable.
          * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
@@ -3482,6 +3579,7 @@
                     /**
          * Persists a set of key => value pairs in the cache, with an optional TTL.
          *
+         * @return bool 
          * @param \Psr\SimpleCache\iterable $values A list of key => value pairs for a multiple-set operation.
          * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
          *                                       the driver supports TTL then the library may set a default value
@@ -3554,7 +3652,7 @@
          * Get an item from the cache, or execute the given Closure and store the result.
          *
          * @param string $key
-         * @param \DateTimeInterface|\DateInterval|int|null $ttl
+         * @param \Closure|\DateTimeInterface|\DateInterval|int|null $ttl
          * @param \Closure $callback
          * @return mixed 
          * @static 
@@ -3605,6 +3703,7 @@
                     /**
          * Delete an item from the cache by its unique key.
          *
+         * @return bool 
          * @param string $key The unique cache key of the item to delete.
          * @return bool True if the item was successfully removed. False if there was an error.
          * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -3619,6 +3718,7 @@
                     /**
          * Deletes multiple cache items in a single operation.
          *
+         * @return bool 
          * @param \Psr\SimpleCache\iterable $keys A list of string-based keys to be deleted.
          * @return bool True if the items were successfully removed. False if there was an error.
          * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -3634,6 +3734,7 @@
                     /**
          * Wipes clean the entire cache's keys.
          *
+         * @return bool 
          * @return bool True on success and false on failure.
          * @static 
          */ 
@@ -3807,6 +3908,16 @@
         public static function hasMacro($name)
         {
                         return \Illuminate\Cache\Repository::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Cache\Repository::flushMacros();
         }
                     /**
          * Dynamically handle calls to the class.
@@ -4284,6 +4395,16 @@
         {
                         return \Illuminate\Cookie\CookieJar::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Cookie\CookieJar::flushMacros();
+        }
          
     }
             /**
@@ -4407,7 +4528,7 @@
      * @method static \Illuminate\Support\Carbon now($tz = null)
      * @method static \Illuminate\Support\Carbon parse($time = null, $tz = null)
      * @method static \Illuminate\Support\Carbon setHumanDiffOptions($humanDiffOptions)
-     * @method static \Illuminate\Support\Carbon setTestNow($testNow = null)
+     * @method static void setTestNow($testNow = null)
      * @method static \Illuminate\Support\Carbon setUtf8($utf8)
      * @method static \Illuminate\Support\Carbon today($tz = null)
      * @method static \Illuminate\Support\Carbon tomorrow($tz = null)
@@ -4535,6 +4656,22 @@
         {
                         /** @var \Illuminate\Database\DatabaseManager $instance */
                         return $instance->connection($name);
+        }
+                    /**
+         * Register a custom Doctrine type.
+         *
+         * @param string $class
+         * @param string $name
+         * @param string $type
+         * @return void 
+         * @throws \Doctrine\DBAL\DBALException
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function registerDoctrineType($class, $name, $type)
+        {
+                        /** @var \Illuminate\Database\DatabaseManager $instance */
+                        $instance->registerDoctrineType($class, $name, $type);
         }
                     /**
          * Disconnect from the given database and remove from local cache.
@@ -4952,6 +5089,18 @@
         {            //Method inherited from \Illuminate\Database\Connection         
                         /** @var \Illuminate\Database\MySqlConnection $instance */
                         $instance->logQuery($query, $bindings, $time);
+        }
+                    /**
+         * Register a hook to be run just before a database query is executed.
+         *
+         * @param \Closure $callback
+         * @return \Illuminate\Database\MySqlConnection 
+         * @static 
+         */ 
+        public static function beforeExecuting($callback)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        return $instance->beforeExecuting($callback);
         }
                     /**
          * Register a database query listener with the connection.
@@ -5678,7 +5827,7 @@
                     /**
          * Register an event listener with the dispatcher.
          *
-         * @param \Closure|string $listener
+         * @param \Closure|string|array $listener
          * @param bool $wildcard
          * @return \Closure 
          * @static 
@@ -5771,6 +5920,16 @@
         public static function hasMacro($name)
         {
                         return \Illuminate\Events\Dispatcher::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Events\Dispatcher::flushMacros();
         }
                     /**
          * Assert if an event has a listener attached to it.
@@ -6456,6 +6615,16 @@
         {
                         return \Illuminate\Filesystem\Filesystem::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Filesystem\Filesystem::flushMacros();
+        }
          
     }
             /**
@@ -6475,6 +6644,36 @@
         {
                         /** @var \Illuminate\Auth\Access\Gate $instance */
                         return $instance->has($ability);
+        }
+                    /**
+         * Perform an on-demand authorization check. Throw an authorization exception if the condition or callback is false.
+         *
+         * @param \Illuminate\Auth\Access\Response|\Closure|bool $condition
+         * @param string|null $message
+         * @param string|null $code
+         * @return \Illuminate\Auth\Access\Response 
+         * @throws \Illuminate\Auth\Access\AuthorizationException
+         * @static 
+         */ 
+        public static function allowIf($condition, $message = null, $code = null)
+        {
+                        /** @var \Illuminate\Auth\Access\Gate $instance */
+                        return $instance->allowIf($condition, $message, $code);
+        }
+                    /**
+         * Perform an on-demand authorization check. Throw an authorization exception if the condition or callback is true.
+         *
+         * @param \Illuminate\Auth\Access\Response|\Closure|bool $condition
+         * @param string|null $message
+         * @param string|null $code
+         * @return \Illuminate\Auth\Access\Response 
+         * @throws \Illuminate\Auth\Access\AuthorizationException
+         * @static 
+         */ 
+        public static function denyIf($condition, $message = null, $code = null)
+        {
+                        /** @var \Illuminate\Auth\Access\Gate $instance */
+                        return $instance->denyIf($condition, $message, $code);
         }
                     /**
          * Define a new ability.
@@ -6923,7 +7122,7 @@
      * @method static \Illuminate\Http\Client\PendingRequest contentType(string $contentType)
      * @method static \Illuminate\Http\Client\PendingRequest dd()
      * @method static \Illuminate\Http\Client\PendingRequest dump()
-     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0)
+     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0, ?callable $when = null)
      * @method static \Illuminate\Http\Client\PendingRequest sink(string|resource $to)
      * @method static \Illuminate\Http\Client\PendingRequest stub(callable $callback)
      * @method static \Illuminate\Http\Client\PendingRequest timeout(int $seconds)
@@ -7152,6 +7351,16 @@
         public static function hasMacro($name)
         {
                         return \Illuminate\Http\Client\Factory::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Http\Client\Factory::flushMacros();
         }
                     /**
          * Dynamically handle calls to the class.
@@ -7415,6 +7624,17 @@
                         $instance->setParsedKey($key, $parsed);
         }
                     /**
+         * Flush the cache of parsed keys.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushParsedKeys()
+        {            //Method inherited from \Illuminate\Support\NamespacedItemResolver         
+                        /** @var \Illuminate\Translation\Translator $instance */
+                        $instance->flushParsedKeys();
+        }
+                    /**
          * Register a custom macro.
          *
          * @param string $name
@@ -7450,6 +7670,16 @@
         {
                         return \Illuminate\Translation\Translator::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Translation\Translator::flushMacros();
+        }
          
     }
             /**
@@ -7462,6 +7692,18 @@
      * @see \Illuminate\Log\Logger
      */ 
         class Log {
+                    /**
+         * Build an on-demand log channel.
+         *
+         * @param array $config
+         * @return \Psr\Log\LoggerInterface 
+         * @static 
+         */ 
+        public static function build($config)
+        {
+                        /** @var \Illuminate\Log\LogManager $instance */
+                        return $instance->build($config);
+        }
                     /**
          * Create a new, on-demand aggregate logger instance.
          *
@@ -7500,20 +7742,9 @@
                         return $instance->driver($driver);
         }
                     /**
-         * 
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getChannels()
-        {
-                        /** @var \Illuminate\Log\LogManager $instance */
-                        return $instance->getChannels();
-        }
-                    /**
          * Get the default log driver name.
          *
-         * @return string 
+         * @return string|null 
          * @static 
          */ 
         public static function getDefaultDriver()
@@ -7557,6 +7788,17 @@
         {
                         /** @var \Illuminate\Log\LogManager $instance */
                         return $instance->forgetChannel($driver);
+        }
+                    /**
+         * Get all of the resolved log channels.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getChannels()
+        {
+                        /** @var \Illuminate\Log\LogManager $instance */
+                        return $instance->getChannels();
         }
                     /**
          * System is unusable.
@@ -7692,6 +7934,10 @@
             /**
      * 
      *
+     * @method static void alwaysFrom(string $address, string|null $name = null)
+     * @method static void alwaysReplyTo(string $address, string|null $name = null)
+     * @method static void alwaysReturnPath(string $address)
+     * @method static void alwaysTo(string $address, string|null $name = null)
      * @method static mixed laterOn(string $queue, \DateTimeInterface|\DateInterval|int $delay, \Illuminate\Contracts\Mail\Mailable|string|array $view)
      * @method static mixed queueOn(string $queue, \Illuminate\Contracts\Mail\Mailable|string|array $view)
      * @method static void plain(string $view, array $data, $callback)
@@ -7833,9 +8079,22 @@
                         $instance->assertSent($mailable, $callback);
         }
                     /**
+         * Determine if a mailable was not sent or queued to be sent based on a truth-test callback.
+         *
+         * @param string|\Closure $mailable
+         * @param callable|null $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function assertNotOutgoing($mailable, $callback = null)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
+                        $instance->assertNotOutgoing($mailable, $callback);
+        }
+                    /**
          * Determine if a mailable was not sent based on a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return void 
          * @static 
@@ -7844,6 +8103,17 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
                         $instance->assertNotSent($mailable, $callback);
+        }
+                    /**
+         * Assert that no mailables were sent or queued to be sent.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function assertNothingOutgoing()
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
+                        $instance->assertNothingOutgoing();
         }
                     /**
          * Assert that no mailables were sent.
@@ -7872,7 +8142,7 @@
                     /**
          * Determine if a mailable was not queued based on a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return void 
          * @static 
@@ -7896,7 +8166,7 @@
                     /**
          * Get all of the mailables matching a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return \Illuminate\Support\Collection 
          * @static 
@@ -7921,7 +8191,7 @@
                     /**
          * Get all of the queued mailables matching a truth-test callback.
          *
-         * @param string $mailable
+         * @param string|\Closure $mailable
          * @param callable|null $callback
          * @return \Illuminate\Support\Collection 
          * @static 
@@ -8197,6 +8467,20 @@
                         return $instance->forgetDrivers();
         }
                     /**
+         * Assert if a notification was sent on-demand based on a truth-test callback.
+         *
+         * @param string|\Closure $notification
+         * @param callable|null $callback
+         * @return void 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function assertSentOnDemand($notification, $callback = null)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
+                        $instance->assertSentOnDemand($notification, $callback);
+        }
+                    /**
          * Assert if a notification was sent based on a truth-test callback.
          *
          * @param mixed $notifiable
@@ -8210,6 +8494,19 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
                         $instance->assertSentTo($notifiable, $notification, $callback);
+        }
+                    /**
+         * Assert if a notification was sent on-demand a number of times.
+         *
+         * @param string $notification
+         * @param int $times
+         * @return void 
+         * @static 
+         */ 
+        public static function assertSentOnDemandTimes($notification, $times = 1)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
+                        $instance->assertSentOnDemandTimes($notification, $times);
         }
                     /**
          * Assert if a notification was sent a number of times.
@@ -8254,9 +8551,23 @@
                     /**
          * Assert the total amount of times a notification was sent.
          *
+         * @param string $notification
+         * @param int $expectedCount
+         * @return void 
+         * @static 
+         */ 
+        public static function assertSentTimes($notification, $expectedCount)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
+                        $instance->assertSentTimes($notification, $expectedCount);
+        }
+                    /**
+         * Assert the total amount of times a notification was sent.
+         *
          * @param int $expectedCount
          * @param string $notification
          * @return void 
+         * @deprecated Use the assertSentTimes method instead
          * @static 
          */ 
         public static function assertTimesSent($expectedCount, $notification)
@@ -8327,6 +8638,16 @@
         {
                         return \Illuminate\Support\Testing\Fakes\NotificationFake::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Support\Testing\Fakes\NotificationFake::flushMacros();
+        }
          
     }
             /**
@@ -8382,7 +8703,6 @@
             /**
      * 
      *
-     * @method static void popUsing(string $workerName, callable $callback)
      * @see \Illuminate\Queue\QueueManager
      * @see \Illuminate\Queue\Queue
      */ 
@@ -8685,7 +9005,7 @@
                     /**
          * Push a new job onto the queue.
          *
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @param string|null $queue
          * @return mixed 
@@ -8714,7 +9034,7 @@
          * Push a new job onto the queue after a delay.
          *
          * @param \DateTimeInterface|\DateInterval|int $delay
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @param string|null $queue
          * @return mixed 
@@ -8729,7 +9049,7 @@
          * Push a new job onto the queue.
          *
          * @param string $queue
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @return mixed 
          * @static 
@@ -8744,7 +9064,7 @@
          *
          * @param string $queue
          * @param \DateTimeInterface|\DateInterval|int $delay
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @return mixed 
          * @static 
@@ -8906,6 +9226,21 @@
                         return $instance->limiter($name);
         }
                     /**
+         * Attempts to execute a callback if it's not limited.
+         *
+         * @param string $key
+         * @param int $maxAttempts
+         * @param \Closure $callback
+         * @param int $decaySeconds
+         * @return mixed 
+         * @static 
+         */ 
+        public static function attempt($key, $maxAttempts, $callback, $decaySeconds = 60)
+        {
+                        /** @var \Illuminate\Cache\RateLimiter $instance */
+                        return $instance->attempt($key, $maxAttempts, $callback, $decaySeconds);
+        }
+                    /**
          * Determine if the given key has been "accessed" too many times.
          *
          * @param string $key
@@ -8963,6 +9298,19 @@
          * @return int 
          * @static 
          */ 
+        public static function remaining($key, $maxAttempts)
+        {
+                        /** @var \Illuminate\Cache\RateLimiter $instance */
+                        return $instance->remaining($key, $maxAttempts);
+        }
+                    /**
+         * Get the number of retries left for the given key.
+         *
+         * @param string $key
+         * @param int $maxAttempts
+         * @return int 
+         * @static 
+         */ 
         public static function retriesLeft($key, $maxAttempts)
         {
                         /** @var \Illuminate\Cache\RateLimiter $instance */
@@ -8991,6 +9339,18 @@
         {
                         /** @var \Illuminate\Cache\RateLimiter $instance */
                         return $instance->availableIn($key);
+        }
+                    /**
+         * Clean the rate limiter key from unicode characters.
+         *
+         * @param string $key
+         * @return string 
+         * @static 
+         */ 
+        public static function cleanRateLimiterKey($key)
+        {
+                        /** @var \Illuminate\Cache\RateLimiter $instance */
+                        return $instance->cleanRateLimiterKey($key);
         }
          
     }
@@ -9245,6 +9605,122 @@
         {
                         return \Illuminate\Routing\Redirector::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Routing\Redirector::flushMacros();
+        }
+         
+    }
+            /**
+     * 
+     *
+     * @method static \Illuminate\Redis\Limiters\ConcurrencyLimiterBuilder funnel(string $name)
+     * @method static \Illuminate\Redis\Limiters\DurationLimiterBuilder throttle(string $name)
+     * @see \Illuminate\Redis\RedisManager
+     * @see \Illuminate\Contracts\Redis\Factory
+     */ 
+        class Redis {
+                    /**
+         * Get a Redis connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */ 
+        public static function connection($name = null)
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        return $instance->connection($name);
+        }
+                    /**
+         * Resolve the given connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function resolve($name = null)
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        return $instance->resolve($name);
+        }
+                    /**
+         * Return all of the created connections.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function connections()
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        return $instance->connections();
+        }
+                    /**
+         * Enable the firing of Redis command events.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function enableEvents()
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        $instance->enableEvents();
+        }
+                    /**
+         * Disable the firing of Redis command events.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function disableEvents()
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        $instance->disableEvents();
+        }
+                    /**
+         * Set the default driver.
+         *
+         * @param string $driver
+         * @return void 
+         * @static 
+         */ 
+        public static function setDriver($driver)
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        $instance->setDriver($driver);
+        }
+                    /**
+         * Disconnect the given connection and remove from local cache.
+         *
+         * @param string|null $name
+         * @return void 
+         * @static 
+         */ 
+        public static function purge($name = null)
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        $instance->purge($name);
+        }
+                    /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return \Illuminate\Redis\RedisManager 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        return $instance->extend($driver, $callback);
+        }
          
     }
             /**
@@ -9330,6 +9806,18 @@
         {
                         /** @var \Illuminate\Http\Request $instance */
                         return $instance->fullUrlWithQuery($query);
+        }
+                    /**
+         * Get the full URL for the request without the given query string parameters.
+         *
+         * @param array|string $query
+         * @return string 
+         * @static 
+         */ 
+        public static function fullUrlWithoutQuery($keys)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->fullUrlWithoutQuery($keys);
         }
                     /**
          * Get the current path info for the request.
@@ -9503,6 +9991,18 @@
                         return $instance->merge($input);
         }
                     /**
+         * Merge new input into the request's input, but only when that key is missing from the request.
+         *
+         * @param array $input
+         * @return \Illuminate\Http\Request 
+         * @static 
+         */ 
+        public static function mergeIfMissing($input)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->mergeIfMissing($input);
+        }
+                    /**
          * Replace the input for the current request.
          *
          * @param array $input
@@ -9568,6 +10068,7 @@
                     /**
          * Clones a request and overrides some of its parameters.
          *
+         * @return static 
          * @param array $query The GET parameters
          * @param array $request The POST parameters
          * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
@@ -9863,7 +10364,7 @@
                     /**
          * Gets the list of trusted proxies.
          *
-         * @return array An array of trusted proxies
+         * @return array 
          * @static 
          */ 
         public static function getTrustedProxies()
@@ -9895,7 +10396,7 @@
                     /**
          * Gets the list of trusted host patterns.
          *
-         * @return array An array of trusted host patterns
+         * @return array 
          * @static 
          */ 
         public static function getTrustedHosts()
@@ -9908,7 +10409,7 @@
          * It builds a normalized query string, where keys/value pairs are alphabetized,
          * have consistent escaping and unneeded delimiters are removed.
          *
-         * @return string A normalized query string for the Request
+         * @return string 
          * @static 
          */ 
         public static function normalizeQueryString($qs)
@@ -9935,7 +10436,7 @@
                     /**
          * Checks whether support for the _method request parameter is enabled.
          *
-         * @return bool True when the _method request parameter is enabled, false otherwise
+         * @return bool 
          * @static 
          */ 
         public static function getHttpMethodParameterOverride()
@@ -9961,7 +10462,8 @@
          * like whether the session is started or not. It is just a way to check if this Request
          * is associated with a Session instance.
          *
-         * @return bool true when the Request contains a Session object, false otherwise
+         * @param bool $skipIfUninitialized When true, ignores factories injected by `setSessionFactory`
+         * @return bool 
          * @static 
          */ 
         public static function hasSession()
@@ -9983,6 +10485,7 @@
          * 
          *
          * @internal 
+         * @param \Symfony\Component\HttpFoundation\callable():  SessionInterface $factory
          * @static 
          */ 
         public static function setSessionFactory($factory)
@@ -9999,7 +10502,7 @@
          * 
          * Use this method carefully; you should use getClientIp() instead.
          *
-         * @return array The client IP addresses
+         * @return array 
          * @see getClientIp()
          * @static 
          */ 
@@ -10021,7 +10524,7 @@
          * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
          * argument of the Request::setTrustedProxies() method instead.
          *
-         * @return string|null The client IP address
+         * @return string|null 
          * @see getClientIps()
          * @see https://wikipedia.org/wiki/X-Forwarded-For
          * @static 
@@ -10115,7 +10618,7 @@
          * 
          * The "X-Forwarded-Port" header must contain the client port.
          *
-         * @return int|string can be a string if fetched from the server bag
+         * @return int|string|null Can be a string if fetched from the server bag
          * @static 
          */ 
         public static function getPort()
@@ -10148,7 +10651,7 @@
                     /**
          * Gets the user info.
          *
-         * @return string A user name and, optionally, scheme-specific information about how to gain authorization to access the server
+         * @return string|null A user name if any and, optionally, scheme-specific information about how to gain authorization to access the server
          * @static 
          */ 
         public static function getUserInfo()
@@ -10186,7 +10689,7 @@
          * If the URL was called with basic authentication, the user
          * and the password are not added to the generated string.
          *
-         * @return string The scheme and HTTP host
+         * @return string 
          * @static 
          */ 
         public static function getSchemeAndHttpHost()
@@ -10197,7 +10700,7 @@
                     /**
          * Generates a normalized URI (URL) for the Request.
          *
-         * @return string A normalized URI (URL) for the Request
+         * @return string 
          * @see getQueryString()
          * @static 
          */ 
@@ -10210,7 +10713,7 @@
          * Generates a normalized URI for the given path.
          *
          * @param string $path A path to use instead of the current one
-         * @return string The normalized URI for the path
+         * @return string 
          * @static 
          */ 
         public static function getUriForPath($path)
@@ -10233,7 +10736,7 @@
          * - "/a/b/c/other" -> "other"
          * - "/a/x/y"       -> "../../x/y"
          *
-         * @return string The relative target path
+         * @return string 
          * @static 
          */ 
         public static function getRelativeUriForPath($path)
@@ -10247,7 +10750,7 @@
          * It builds a normalized query string, where keys/value pairs are alphabetized
          * and have consistent escaping.
          *
-         * @return string|null A normalized query string for the Request
+         * @return string|null 
          * @static 
          */ 
         public static function getQueryString()
@@ -10309,7 +10812,7 @@
          * 
          * The method is always an uppercased string.
          *
-         * @return string The request method
+         * @return string 
          * @see getRealMethod()
          * @static 
          */ 
@@ -10321,7 +10824,7 @@
                     /**
          * Gets the "real" request method.
          *
-         * @return string The request method
+         * @return string 
          * @see getMethod()
          * @static 
          */ 
@@ -10333,7 +10836,7 @@
                     /**
          * Gets the mime type associated with the format.
          *
-         * @return string|null The associated mime type (null if not found)
+         * @return string|null 
          * @static 
          */ 
         public static function getMimeType($format)
@@ -10344,7 +10847,7 @@
                     /**
          * Gets the mime types associated with the format.
          *
-         * @return array The associated mime types
+         * @return array 
          * @static 
          */ 
         public static function getMimeTypes($format)
@@ -10354,7 +10857,7 @@
                     /**
          * Gets the format associated with the mime type.
          *
-         * @return string|null The format (null if not found)
+         * @return string|null 
          * @static 
          */ 
         public static function getFormat($mimeType)
@@ -10383,7 +10886,7 @@
          *  * $default
          *
          * @see getPreferredFormat
-         * @return string|null The request format
+         * @return string|null 
          * @static 
          */ 
         public static function getRequestFormat($default = 'html')
@@ -10404,7 +10907,7 @@
                     /**
          * Gets the format associated with the request.
          *
-         * @return string|null The format (null if no content type is present)
+         * @return string|null 
          * @static 
          */ 
         public static function getContentType()
@@ -10493,7 +10996,7 @@
          * Checks whether the method is cacheable or not.
          *
          * @see https://tools.ietf.org/html/rfc7231#section-4.2.3
-         * @return bool True for GET and HEAD, false otherwise
+         * @return bool 
          * @static 
          */ 
         public static function isMethodCacheable()
@@ -10522,7 +11025,7 @@
          * Returns the request body content.
          *
          * @param bool $asResource If true, a resource will be returned
-         * @return string|resource The request body content or a resource to read the body stream
+         * @return string|resource 
          * @static 
          */ 
         public static function getContent($asResource = false)
@@ -10533,7 +11036,7 @@
                     /**
          * Gets the Etags.
          *
-         * @return array The entity tags
+         * @return array 
          * @static 
          */ 
         public static function getETags()
@@ -10571,7 +11074,7 @@
          * Returns the preferred language.
          *
          * @param string[] $locales An array of ordered available locales
-         * @return string|null The preferred locale
+         * @return string|null 
          * @static 
          */ 
         public static function getPreferredLanguage($locales = null)
@@ -10580,9 +11083,9 @@
                         return $instance->getPreferredLanguage($locales);
         }
                     /**
-         * Gets a list of languages acceptable by the client browser.
+         * Gets a list of languages acceptable by the client browser ordered in the user browser preferences.
          *
-         * @return array Languages ordered in the user browser preferences
+         * @return array 
          * @static 
          */ 
         public static function getLanguages()
@@ -10591,9 +11094,9 @@
                         return $instance->getLanguages();
         }
                     /**
-         * Gets a list of charsets acceptable by the client browser.
+         * Gets a list of charsets acceptable by the client browser in preferable order.
          *
-         * @return array List of charsets in preferable order
+         * @return array 
          * @static 
          */ 
         public static function getCharsets()
@@ -10602,9 +11105,9 @@
                         return $instance->getCharsets();
         }
                     /**
-         * Gets a list of encodings acceptable by the client browser.
+         * Gets a list of encodings acceptable by the client browser in preferable order.
          *
-         * @return array List of encodings in preferable order
+         * @return array 
          * @static 
          */ 
         public static function getEncodings()
@@ -10613,9 +11116,9 @@
                         return $instance->getEncodings();
         }
                     /**
-         * Gets a list of content types acceptable by the client browser.
+         * Gets a list of content types acceptable by the client browser in preferable order.
          *
-         * @return array List of content types in preferable order
+         * @return array 
          * @static 
          */ 
         public static function getAcceptableContentTypes()
@@ -10630,7 +11133,7 @@
          * It is known to work with common JavaScript frameworks:
          *
          * @see https://wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
-         * @return bool true if the request is an XMLHttpRequest, false otherwise
+         * @return bool 
          * @static 
          */ 
         public static function isXmlHttpRequest()
@@ -10655,7 +11158,7 @@
          * This can be useful to determine whether or not to trust the
          * contents of a proxy-specific header.
          *
-         * @return bool true if the request came from a trusted proxy, false otherwise
+         * @return bool 
          * @static 
          */ 
         public static function isFromTrustedProxy()
@@ -11049,6 +11552,32 @@
                         return $instance->boolean($key, $default);
         }
                     /**
+         * Retrieve input from the request as a Carbon instance.
+         *
+         * @param string $key
+         * @param string|null $format
+         * @param string|null $tz
+         * @return \Illuminate\Support\Carbon|null 
+         * @static 
+         */ 
+        public static function date($key, $format = null, $tz = null)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->date($key, $format, $tz);
+        }
+                    /**
+         * Retrieve input from the request as a collection.
+         *
+         * @param array|string|null $key
+         * @return \Illuminate\Support\Collection 
+         * @static 
+         */ 
+        public static function collect($key = null)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->collect($key);
+        }
+                    /**
          * Get a subset containing the provided keys with values from the input data.
          *
          * @param array|mixed $keys
@@ -11162,7 +11691,7 @@
                     /**
          * Dump the request items and end the script.
          *
-         * @param array|mixed $keys
+         * @param mixed $keys
          * @return void 
          * @static 
          */ 
@@ -11174,7 +11703,7 @@
                     /**
          * Dump the items.
          *
-         * @param array $keys
+         * @param mixed $keys
          * @return \Illuminate\Http\Request 
          * @static 
          */ 
@@ -11218,6 +11747,16 @@
         public static function hasMacro($name)
         {
                         return \Illuminate\Http\Request::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Http\Request::flushMacros();
         }
                     /**
          * 
@@ -11276,7 +11815,7 @@
                     /**
          * Create a new response instance.
          *
-         * @param string $content
+         * @param mixed $content
          * @param int $status
          * @param array $headers
          * @return \Illuminate\Http\Response 
@@ -11514,18 +12053,31 @@
         {
                         return \Illuminate\Routing\ResponseFactory::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Routing\ResponseFactory::flushMacros();
+        }
          
     }
             /**
      * 
      *
      * @method static \Illuminate\Routing\RouteRegistrar as(string $value)
+     * @method static \Illuminate\Routing\RouteRegistrar controller(string $controller)
      * @method static \Illuminate\Routing\RouteRegistrar domain(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar middleware(array|string|null $middleware)
      * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar namespace(string|null $value)
      * @method static \Illuminate\Routing\RouteRegistrar prefix(string $prefix)
+     * @method static \Illuminate\Routing\RouteRegistrar scopeBindings()
      * @method static \Illuminate\Routing\RouteRegistrar where(array $where)
+     * @method static \Illuminate\Routing\RouteRegistrar withoutMiddleware(array|string $middleware)
      * @see \Illuminate\Routing\Router
      */ 
         class Route {
@@ -12376,6 +12928,16 @@
                         return \Illuminate\Routing\Router::hasMacro($name);
         }
                     /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Routing\Router::flushMacros();
+        }
+                    /**
          * Dynamically handle calls to the class.
          *
          * @param string $method
@@ -12388,6 +12950,33 @@
         {
                         /** @var \Illuminate\Routing\Router $instance */
                         return $instance->macroCall($method, $parameters);
+        }
+                    /**
+         * 
+         *
+         * @see \Encore\Admin\AdminServiceProvider::macroRouter()
+         * @param mixed $uri
+         * @param mixed $content
+         * @param mixed $options
+         * @static 
+         */ 
+        public static function content($uri, $content, $options = [])
+        {
+                        return \Illuminate\Routing\Router::content($uri, $content, $options);
+        }
+                    /**
+         * 
+         *
+         * @see \Encore\Admin\AdminServiceProvider::macroRouter()
+         * @param mixed $uri
+         * @param mixed $component
+         * @param mixed $data
+         * @param mixed $options
+         * @static 
+         */ 
+        public static function component($uri, $component, $data = [], $options = [])
+        {
+                        return \Illuminate\Routing\Router::component($uri, $component, $data, $options);
         }
          
     }
@@ -12678,8 +13267,6 @@
          * @param string $name
          * @param string $type
          * @return void 
-         * @throws \Doctrine\DBAL\DBALException
-         * @throws \RuntimeException
          * @static 
          */ 
         public static function registerCustomDoctrineType($class, $name, $type)
@@ -13556,6 +14143,18 @@
                         return $instance->extend($driver, $callback);
         }
                     /**
+         * Set the application instance used by the manager.
+         *
+         * @param \Illuminate\Contracts\Foundation\Application $app
+         * @return \Illuminate\Filesystem\FilesystemManager 
+         * @static 
+         */ 
+        public static function setApplication($app)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemManager $instance */
+                        return $instance->setApplication($app);
+        }
+                    /**
          * Assert that the given file exists.
          *
          * @param string|array $path
@@ -13662,7 +14261,7 @@
          * Write the contents of a file.
          *
          * @param string $path
-         * @param string|resource $contents
+         * @param \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $contents
          * @param mixed $options
          * @return bool 
          * @static 
@@ -13999,6 +14598,18 @@
                         return $instance->getDriver();
         }
                     /**
+         * Define a custom temporary URL builder callback.
+         *
+         * @param \Closure $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function buildTemporaryUrlsUsing($callback)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        $instance->buildTemporaryUrlsUsing($callback);
+        }
+                    /**
          * Register a custom macro.
          *
          * @param string $name
@@ -14033,6 +14644,16 @@
         public static function hasMacro($name)
         {
                         return \Illuminate\Filesystem\FilesystemAdapter::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Filesystem\FilesystemAdapter::flushMacros();
         }
                     /**
          * Dynamically handle calls to the class.
@@ -14534,6 +15155,16 @@
         {
                         return \Illuminate\Routing\UrlGenerator::hasMacro($name);
         }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Routing\UrlGenerator::flushMacros();
+        }
          
     }
             /**
@@ -14773,6 +15404,21 @@
         {
                         /** @var \Illuminate\View\Factory $instance */
                         return $instance->renderWhen($condition, $view, $data, $mergeData);
+        }
+                    /**
+         * Get the rendered content of the view based on the negation of a given condition.
+         *
+         * @param bool $condition
+         * @param string $view
+         * @param \Illuminate\Contracts\Support\Arrayable|array $data
+         * @param array $mergeData
+         * @return string 
+         * @static 
+         */ 
+        public static function renderUnless($condition, $view, $data = [], $mergeData = [])
+        {
+                        /** @var \Illuminate\View\Factory $instance */
+                        return $instance->renderUnless($condition, $view, $data, $mergeData);
         }
                     /**
          * Get the rendered contents of a partial from a loop.
@@ -15134,6 +15780,16 @@
                         return \Illuminate\View\Factory::hasMacro($name);
         }
                     /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\View\Factory::flushMacros();
+        }
+                    /**
          * Start a component rendering process.
          *
          * @param \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string $view
@@ -15171,18 +15827,31 @@
                         return $instance->renderComponent();
         }
                     /**
+         * Get an item from the component data that exists above the current component.
+         *
+         * @param string $key
+         * @param mixed $default
+         * @return mixed|null 
+         * @static 
+         */ 
+        public static function getConsumableComponentData($key, $default = null)
+        {
+                        /** @var \Illuminate\View\Factory $instance */
+                        return $instance->getConsumableComponentData($key, $default);
+        }
+                    /**
          * Start the slot rendering process.
          *
          * @param string $name
          * @param string|null $content
+         * @param array $attributes
          * @return void 
-         * @throws \InvalidArgumentException
          * @static 
          */ 
-        public static function slot($name, $content = null)
+        public static function slot($name, $content = null, $attributes = [])
         {
                         /** @var \Illuminate\View\Factory $instance */
-                        $instance->slot($name, $content);
+                        $instance->slot($name, $content, $attributes);
         }
                     /**
          * Save the slot content for rendering.
@@ -15344,7 +16013,7 @@
                         return \Illuminate\View\Factory::parentPlaceholder($section);
         }
                     /**
-         * Check if the section exists.
+         * Check if section exists.
          *
          * @param string $name
          * @return bool 
@@ -15575,10 +16244,1098 @@
         class Str {
          
     }
+            /**
+     * 
+     *
+     */ 
+        class Collection {
+                    /**
+         * 
+         *
+         * @see \Barryvdh\Debugbar\ServiceProvider::register()
+         * @static 
+         */ 
+        public static function debug()
+        {
+                        return \Illuminate\Support\Collection::debug();
+        }
+         
+    }
      
 }
 
-        namespace Facade\Ignition\Facades { 
+        namespace Laravel\Socialite\Facades { 
+            /**
+     * 
+     *
+     * @see \Laravel\Socialite\SocialiteManager
+     */ 
+        class Socialite {
+                    /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function with($driver)
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->with($driver);
+        }
+                    /**
+         * Build an OAuth 2 provider instance.
+         *
+         * @param string $provider
+         * @param array $config
+         * @return \Laravel\Socialite\Two\AbstractProvider 
+         * @static 
+         */ 
+        public static function buildProvider($provider, $config)
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->buildProvider($provider, $config);
+        }
+                    /**
+         * Format the server configuration.
+         *
+         * @param array $config
+         * @return array 
+         * @static 
+         */ 
+        public static function formatConfig($config)
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->formatConfig($config);
+        }
+                    /**
+         * Forget all of the resolved driver instances.
+         *
+         * @return \Laravel\Socialite\SocialiteManager 
+         * @static 
+         */ 
+        public static function forgetDrivers()
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->forgetDrivers();
+        }
+                    /**
+         * Set the container instance used by the manager.
+         *
+         * @param \Illuminate\Contracts\Container\Container $container
+         * @return \Laravel\Socialite\SocialiteManager 
+         * @static 
+         */ 
+        public static function setContainer($container)
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->setContainer($container);
+        }
+                    /**
+         * Get the default driver name.
+         *
+         * @return string 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function getDefaultDriver()
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->getDefaultDriver();
+        }
+                    /**
+         * Get a driver instance.
+         *
+         * @param string|null $driver
+         * @return mixed 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function driver($driver = null)
+        {            //Method inherited from \Illuminate\Support\Manager         
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->driver($driver);
+        }
+                    /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return \Laravel\Socialite\SocialiteManager 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {            //Method inherited from \Illuminate\Support\Manager         
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->extend($driver, $callback);
+        }
+                    /**
+         * Get all of the created "drivers".
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDrivers()
+        {            //Method inherited from \Illuminate\Support\Manager         
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->getDrivers();
+        }
+                    /**
+         * Get the container instance used by the manager.
+         *
+         * @return \Illuminate\Contracts\Container\Container 
+         * @static 
+         */ 
+        public static function getContainer()
+        {            //Method inherited from \Illuminate\Support\Manager         
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->getContainer();
+        }
+         
+    }
+     
+}
+
+    namespace Barryvdh\Debugbar\Facades { 
+            /**
+     * 
+     *
+     * @method static void alert(mixed $message)
+     * @method static void critical(mixed $message)
+     * @method static void debug(mixed $message)
+     * @method static void emergency(mixed $message)
+     * @method static void error(mixed $message)
+     * @method static void info(mixed $message)
+     * @method static void log(mixed $message)
+     * @method static void notice(mixed $message)
+     * @method static void warning(mixed $message)
+     * @see \Barryvdh\Debugbar\LaravelDebugbar
+     */ 
+        class Debugbar {
+                    /**
+         * Enable the Debugbar and boot, if not already booted.
+         *
+         * @static 
+         */ 
+        public static function enable()
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->enable();
+        }
+                    /**
+         * Boot the debugbar (add collectors, renderer and listener)
+         *
+         * @static 
+         */ 
+        public static function boot()
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->boot();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function shouldCollect($name, $default = false)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->shouldCollect($name, $default);
+        }
+                    /**
+         * Adds a data collector
+         *
+         * @param \DebugBar\DataCollector\DataCollectorInterface $collector
+         * @throws DebugBarException
+         * @return \Barryvdh\Debugbar\LaravelDebugbar 
+         * @static 
+         */ 
+        public static function addCollector($collector)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->addCollector($collector);
+        }
+                    /**
+         * Handle silenced errors
+         *
+         * @param $level
+         * @param $message
+         * @param string $file
+         * @param int $line
+         * @param array $context
+         * @throws \ErrorException
+         * @static 
+         */ 
+        public static function handleError($level, $message, $file = '', $line = 0, $context = [])
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->handleError($level, $message, $file, $line, $context);
+        }
+                    /**
+         * Starts a measure
+         *
+         * @param string $name Internal name, used to stop the measure
+         * @param string $label Public name
+         * @static 
+         */ 
+        public static function startMeasure($name, $label = null)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->startMeasure($name, $label);
+        }
+                    /**
+         * Stops a measure
+         *
+         * @param string $name
+         * @static 
+         */ 
+        public static function stopMeasure($name)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->stopMeasure($name);
+        }
+                    /**
+         * Adds an exception to be profiled in the debug bar
+         *
+         * @param \Exception $e
+         * @deprecated in favor of addThrowable
+         * @static 
+         */ 
+        public static function addException($e)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->addException($e);
+        }
+                    /**
+         * Adds an exception to be profiled in the debug bar
+         *
+         * @param \Exception $e
+         * @static 
+         */ 
+        public static function addThrowable($e)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->addThrowable($e);
+        }
+                    /**
+         * Returns a JavascriptRenderer for this instance
+         *
+         * @param string $baseUrl
+         * @param string $basePathng
+         * @return \Barryvdh\Debugbar\JavascriptRenderer 
+         * @static 
+         */ 
+        public static function getJavascriptRenderer($baseUrl = null, $basePath = null)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getJavascriptRenderer($baseUrl, $basePath);
+        }
+                    /**
+         * Modify the response and inject the debugbar (or data in headers)
+         *
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @param \Symfony\Component\HttpFoundation\Response $response
+         * @return \Symfony\Component\HttpFoundation\Response 
+         * @static 
+         */ 
+        public static function modifyResponse($request, $response)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->modifyResponse($request, $response);
+        }
+                    /**
+         * Check if the Debugbar is enabled
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function isEnabled()
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->isEnabled();
+        }
+                    /**
+         * Collects the data from the collectors
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function collect()
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->collect();
+        }
+                    /**
+         * Injects the web debug toolbar into the given Response.
+         *
+         * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+         * Based on https://github.com/symfony/WebProfilerBundle/blob/master/EventListener/WebDebugToolbarListener.php
+         * @static 
+         */ 
+        public static function injectDebugbar($response)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->injectDebugbar($response);
+        }
+                    /**
+         * Disable the Debugbar
+         *
+         * @static 
+         */ 
+        public static function disable()
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->disable();
+        }
+                    /**
+         * Adds a measure
+         *
+         * @param string $label
+         * @param float $start
+         * @param float $end
+         * @static 
+         */ 
+        public static function addMeasure($label, $start, $end)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->addMeasure($label, $start, $end);
+        }
+                    /**
+         * Utility function to measure the execution of a Closure
+         *
+         * @param string $label
+         * @param \Closure $closure
+         * @return mixed 
+         * @static 
+         */ 
+        public static function measure($label, $closure)
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->measure($label, $closure);
+        }
+                    /**
+         * Collect data in a CLI request
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function collectConsole()
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->collectConsole();
+        }
+                    /**
+         * Adds a message to the MessagesCollector
+         * 
+         * A message can be anything from an object to a string
+         *
+         * @param mixed $message
+         * @param string $label
+         * @static 
+         */ 
+        public static function addMessage($message, $label = 'info')
+        {
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->addMessage($message, $label);
+        }
+                    /**
+         * Checks if a data collector has been added
+         *
+         * @param string $name
+         * @return boolean 
+         * @static 
+         */ 
+        public static function hasCollector($name)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->hasCollector($name);
+        }
+                    /**
+         * Returns a data collector
+         *
+         * @param string $name
+         * @return \DebugBar\DataCollector\DataCollectorInterface 
+         * @throws DebugBarException
+         * @static 
+         */ 
+        public static function getCollector($name)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getCollector($name);
+        }
+                    /**
+         * Returns an array of all data collectors
+         *
+         * @return \DebugBar\array[DataCollectorInterface] 
+         * @static 
+         */ 
+        public static function getCollectors()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getCollectors();
+        }
+                    /**
+         * Sets the request id generator
+         *
+         * @param \DebugBar\RequestIdGeneratorInterface $generator
+         * @return \Barryvdh\Debugbar\LaravelDebugbar 
+         * @static 
+         */ 
+        public static function setRequestIdGenerator($generator)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->setRequestIdGenerator($generator);
+        }
+                    /**
+         * 
+         *
+         * @return \DebugBar\RequestIdGeneratorInterface 
+         * @static 
+         */ 
+        public static function getRequestIdGenerator()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getRequestIdGenerator();
+        }
+                    /**
+         * Returns the id of the current request
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getCurrentRequestId()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getCurrentRequestId();
+        }
+                    /**
+         * Sets the storage backend to use to store the collected data
+         *
+         * @param \DebugBar\StorageInterface $storage
+         * @return \Barryvdh\Debugbar\LaravelDebugbar 
+         * @static 
+         */ 
+        public static function setStorage($storage = null)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->setStorage($storage);
+        }
+                    /**
+         * 
+         *
+         * @return \DebugBar\StorageInterface 
+         * @static 
+         */ 
+        public static function getStorage()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getStorage();
+        }
+                    /**
+         * Checks if the data will be persisted
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function isDataPersisted()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->isDataPersisted();
+        }
+                    /**
+         * Sets the HTTP driver
+         *
+         * @param \DebugBar\HttpDriverInterface $driver
+         * @return \Barryvdh\Debugbar\LaravelDebugbar 
+         * @static 
+         */ 
+        public static function setHttpDriver($driver)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->setHttpDriver($driver);
+        }
+                    /**
+         * Returns the HTTP driver
+         * 
+         * If no http driver where defined, a PhpHttpDriver is automatically created
+         *
+         * @return \DebugBar\HttpDriverInterface 
+         * @static 
+         */ 
+        public static function getHttpDriver()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getHttpDriver();
+        }
+                    /**
+         * Returns collected data
+         * 
+         * Will collect the data if none have been collected yet
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getData()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getData();
+        }
+                    /**
+         * Returns an array of HTTP headers containing the data
+         *
+         * @param string $headerName
+         * @param integer $maxHeaderLength
+         * @return array 
+         * @static 
+         */ 
+        public static function getDataAsHeaders($headerName = 'phpdebugbar', $maxHeaderLength = 4096, $maxTotalHeaderLength = 250000)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getDataAsHeaders($headerName, $maxHeaderLength, $maxTotalHeaderLength);
+        }
+                    /**
+         * Sends the data through the HTTP headers
+         *
+         * @param bool $useOpenHandler
+         * @param string $headerName
+         * @param integer $maxHeaderLength
+         * @return \Barryvdh\Debugbar\LaravelDebugbar 
+         * @static 
+         */ 
+        public static function sendDataInHeaders($useOpenHandler = null, $headerName = 'phpdebugbar', $maxHeaderLength = 4096)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->sendDataInHeaders($useOpenHandler, $headerName, $maxHeaderLength);
+        }
+                    /**
+         * Stacks the data in the session for later rendering
+         *
+         * @static 
+         */ 
+        public static function stackData()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->stackData();
+        }
+                    /**
+         * Checks if there is stacked data in the session
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function hasStackedData()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->hasStackedData();
+        }
+                    /**
+         * Returns the data stacked in the session
+         *
+         * @param boolean $delete Whether to delete the data in the session
+         * @return array 
+         * @static 
+         */ 
+        public static function getStackedData($delete = true)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getStackedData($delete);
+        }
+                    /**
+         * Sets the key to use in the $_SESSION array
+         *
+         * @param string $ns
+         * @return \Barryvdh\Debugbar\LaravelDebugbar 
+         * @static 
+         */ 
+        public static function setStackDataSessionNamespace($ns)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->setStackDataSessionNamespace($ns);
+        }
+                    /**
+         * Returns the key used in the $_SESSION array
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getStackDataSessionNamespace()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->getStackDataSessionNamespace();
+        }
+                    /**
+         * Sets whether to only use the session to store stacked data even
+         * if a storage is enabled
+         *
+         * @param boolean $enabled
+         * @return \Barryvdh\Debugbar\LaravelDebugbar 
+         * @static 
+         */ 
+        public static function setStackAlwaysUseSessionStorage($enabled = true)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->setStackAlwaysUseSessionStorage($enabled);
+        }
+                    /**
+         * Checks if the session is always used to store stacked data
+         * even if a storage is enabled
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function isStackAlwaysUseSessionStorage()
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->isStackAlwaysUseSessionStorage();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetSet($key, $value)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->offsetSet($key, $value);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetGet($key)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->offsetGet($key);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetExists($key)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->offsetExists($key);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetUnset($key)
+        {            //Method inherited from \DebugBar\DebugBar         
+                        /** @var \Barryvdh\Debugbar\LaravelDebugbar $instance */
+                        return $instance->offsetUnset($key);
+        }
+         
+    }
+     
+}
+
+    namespace Encore\Admin\Facades { 
+            /**
+     * Class Admin.
+     *
+     * @see \Encore\Admin\Admin
+     */ 
+        class Admin {
+                    /**
+         * Returns the long version of Laravel-admin.
+         *
+         * @return string The long application version
+         * @static 
+         */ 
+        public static function getLongVersion()
+        {
+                        return \Encore\Admin\Admin::getLongVersion();
+        }
+                    /**
+         * 
+         *
+         * @param $model
+         * @param \Closure $callable
+         * @return \Encore\Admin\Grid 
+         * @deprecated since v1.6.1
+         * @static 
+         */ 
+        public static function grid($model, $callable)
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->grid($model, $callable);
+        }
+                    /**
+         * 
+         *
+         * @param $model
+         * @param \Closure $callable
+         * @return \Encore\Admin\Form @deprecated since v1.6.1
+         * @static 
+         */ 
+        public static function form($model, $callable)
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->form($model, $callable);
+        }
+                    /**
+         * Build a tree.
+         *
+         * @param $model
+         * @param \Closure|null $callable
+         * @return \Encore\Admin\Tree 
+         * @static 
+         */ 
+        public static function tree($model, $callable = null)
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->tree($model, $callable);
+        }
+                    /**
+         * Build show page.
+         *
+         * @param $model
+         * @param mixed $callable
+         * @return \Encore\Admin\Show 
+         * @deprecated since v1.6.1
+         * @static 
+         */ 
+        public static function show($model, $callable = null)
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->show($model, $callable);
+        }
+                    /**
+         * 
+         *
+         * @param \Closure $callable
+         * @return \Encore\Admin\Layout\Content 
+         * @deprecated since v1.6.1
+         * @static 
+         */ 
+        public static function content($callable = null)
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->content($callable);
+        }
+                    /**
+         * 
+         *
+         * @param $model
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getModel($model)
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->getModel($model);
+        }
+                    /**
+         * Left sider-bar menu.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function menu()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->menu();
+        }
+                    /**
+         * 
+         *
+         * @param array $menu
+         * @return array 
+         * @static 
+         */ 
+        public static function menuLinks($menu = [])
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->menuLinks($menu);
+        }
+                    /**
+         * Set admin title.
+         *
+         * @param string $title
+         * @return void 
+         * @static 
+         */ 
+        public static function setTitle($title)
+        {
+                        \Encore\Admin\Admin::setTitle($title);
+        }
+                    /**
+         * Get admin title.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function title()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->title();
+        }
+                    /**
+         * 
+         *
+         * @param null|string $favicon
+         * @return string|void 
+         * @static 
+         */ 
+        public static function favicon($favicon = null)
+        {
+                        return \Encore\Admin\Admin::favicon($favicon);
+        }
+                    /**
+         * Get the currently authenticated user.
+         *
+         * @return \App\Models\Entities\UserEntity|null 
+         * @static 
+         */ 
+        public static function user()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->user();
+        }
+                    /**
+         * Attempt to get the guard from the local cache.
+         *
+         * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard 
+         * @static 
+         */ 
+        public static function guard()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->guard();
+        }
+                    /**
+         * Set navbar.
+         *
+         * @param \Closure|null $builder
+         * @return \Encore\Admin\Widgets\Navbar 
+         * @static 
+         */ 
+        public static function navbar($builder = null)
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->navbar($builder);
+        }
+                    /**
+         * Get navbar object.
+         *
+         * @return \Encore\Admin\Widgets\Navbar 
+         * @static 
+         */ 
+        public static function getNavbar()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->getNavbar();
+        }
+                    /**
+         * Register the laravel-admin builtin routes.
+         *
+         * @return void 
+         * @deprecated Use Admin::routes() instead();
+         * @static 
+         */ 
+        public static function registerAuthRoutes()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        $instance->registerAuthRoutes();
+        }
+                    /**
+         * Register the laravel-admin builtin routes.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function routes()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        $instance->routes();
+        }
+                    /**
+         * Extend a extension.
+         *
+         * @param string $name
+         * @param string $class
+         * @return void 
+         * @static 
+         */ 
+        public static function extend($name, $class)
+        {
+                        \Encore\Admin\Admin::extend($name, $class);
+        }
+                    /**
+         * 
+         *
+         * @param callable $callback
+         * @static 
+         */ 
+        public static function booting($callback)
+        {
+                        return \Encore\Admin\Admin::booting($callback);
+        }
+                    /**
+         * 
+         *
+         * @param callable $callback
+         * @static 
+         */ 
+        public static function booted($callback)
+        {
+                        return \Encore\Admin\Admin::booted($callback);
+        }
+                    /**
+         * Bootstrap the admin application.
+         *
+         * @static 
+         */ 
+        public static function bootstrap()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->bootstrap();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function disablePjax()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->disablePjax();
+        }
+                    /**
+         * Add css or get all css.
+         *
+         * @param null $css
+         * @param bool $minify
+         * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View 
+         * @static 
+         */ 
+        public static function css($css = null, $minify = true)
+        {
+                        return \Encore\Admin\Admin::css($css, $minify);
+        }
+                    /**
+         * 
+         *
+         * @param null $css
+         * @param bool $minify
+         * @return array|null 
+         * @static 
+         */ 
+        public static function baseCss($css = null, $minify = true)
+        {
+                        return \Encore\Admin\Admin::baseCss($css, $minify);
+        }
+                    /**
+         * Add js or get all js.
+         *
+         * @param null $js
+         * @param bool $minify
+         * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View 
+         * @static 
+         */ 
+        public static function js($js = null, $minify = true)
+        {
+                        return \Encore\Admin\Admin::js($js, $minify);
+        }
+                    /**
+         * Add js or get all js.
+         *
+         * @param null $js
+         * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View 
+         * @static 
+         */ 
+        public static function headerJs($js = null)
+        {
+                        return \Encore\Admin\Admin::headerJs($js);
+        }
+                    /**
+         * 
+         *
+         * @param null $js
+         * @param bool $minify
+         * @return array|null 
+         * @static 
+         */ 
+        public static function baseJs($js = null, $minify = true)
+        {
+                        return \Encore\Admin\Admin::baseJs($js, $minify);
+        }
+                    /**
+         * 
+         *
+         * @param string $assets
+         * @param bool $ignore
+         * @static 
+         */ 
+        public static function ignoreMinify($assets, $ignore = true)
+        {
+                        return \Encore\Admin\Admin::ignoreMinify($assets, $ignore);
+        }
+                    /**
+         * 
+         *
+         * @param string $script
+         * @param bool $deferred
+         * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View 
+         * @static 
+         */ 
+        public static function script($script = '', $deferred = false)
+        {
+                        return \Encore\Admin\Admin::script($script, $deferred);
+        }
+                    /**
+         * 
+         *
+         * @param string $style
+         * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View 
+         * @static 
+         */ 
+        public static function style($style = '')
+        {
+                        return \Encore\Admin\Admin::style($style);
+        }
+                    /**
+         * 
+         *
+         * @param string $html
+         * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View 
+         * @static 
+         */ 
+        public static function html($html = '')
+        {
+                        return \Encore\Admin\Admin::html($html);
+        }
+                    /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function jQuery()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->jQuery();
+        }
+                    /**
+         * 
+         *
+         * @param $component
+         * @static 
+         */ 
+        public static function component($component, $data = [])
+        {
+                        return \Encore\Admin\Admin::component($component, $data);
+        }
+         
+    }
+     
+}
+
+    namespace Facade\Ignition\Facades { 
             /**
      * Class Flare.
      *
@@ -15623,6 +17380,16 @@
         {
                         /** @var \Facade\FlareClient\Flare $instance */
                         return $instance->filterExceptionsUsing($filterExceptionsCallable);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function filterReportsUsing($filterReportsCallable)
+        {
+                        /** @var \Facade\FlareClient\Flare $instance */
+                        return $instance->filterReportsUsing($filterReportsCallable);
         }
                     /**
          * 
@@ -16182,7 +17949,7 @@
          *
          * @param string $header The name of the header to retrieve. Can be HTTP compliant such as
          *                       "User-Agent" or "X-Device-User-Agent" or can be php-esque with the
-         *                       all-caps, HTTP_ prefixed, underscore seperated awesomeness.
+         *                       all-caps, HTTP_ prefixed, underscore separated awesomeness.
          * @return string|null The value of the header.
          * @static 
          */ 
@@ -16457,6 +18224,7 @@
                     /**
          * Retrieve the mobile grading, using self::MOBILE_GRADE_* constants.
          *
+         * @deprecated This is no longer being maintained, it was an experiment at the time.
          * @return string One of the self::MOBILE_GRADE_* constants.
          * @static 
          */ 
@@ -16464,6 +18232,1110 @@
         {            //Method inherited from \Mobile_Detect         
                         /** @var \Jenssegers\Agent\Agent $instance */
                         return $instance->mobileGrade();
+        }
+         
+    }
+     
+}
+
+    namespace LINE\Laravel\Facade { 
+            /**
+     * 
+     *
+     */ 
+        class LINEBot {
+                    /**
+         * Get basic information about bot.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getBotInfo()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getBotInfo();
+        }
+                    /**
+         * Gets specified user's profile through API calling.
+         *
+         * @param string $userId The user ID to retrieve profile.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getProfile($userId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getProfile($userId);
+        }
+                    /**
+         * Gets the list of User IDs of users who have added your LINE Official Account as a friend.
+         * 
+         * These users' IDs won't be included in the obtained list of user IDs:
+         * - Users who blocked the target LINE Official Account after adding it as a friend.
+         * - Users who haven't consented to their profile information being obtained.
+         * 
+         * This feature is only available for LINE@ Approved accounts or official accounts.
+         *
+         * @param string|null $start continuationToken
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getFollowerIds($start = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getFollowerIds($start);
+        }
+                    /**
+         * Gets the list of User IDs of users who have added your LINE Official Account as a friend.
+         * 
+         * These users' IDs won't be included in the obtained list of user IDs:
+         * - Users who blocked the target LINE Official Account after adding it as a friend.
+         * - Users who haven't consented to their profile information being obtained.
+         * 
+         * This method gets all of followers by calling getFollowerIds() continually using token
+         * 
+         * This feature is only available for LINE@ Approved accounts or official accounts.
+         *
+         * @return array userIds
+         * @see \LINE\LINEBot::getFollowerIds()
+         * @static 
+         */ 
+        public static function getAllFollowerIds()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getAllFollowerIds();
+        }
+                    /**
+         * Gets message content which is associated with specified message ID.
+         *
+         * @param string $messageId The message ID to retrieve content.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getMessageContent($messageId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getMessageContent($messageId);
+        }
+                    /**
+         * Gets the target limit for additional messages in the current month.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfLimitForAdditional()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfLimitForAdditional();
+        }
+                    /**
+         * Gets the number of messages sent in the current month.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfSentThisMonth()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfSentThisMonth();
+        }
+                    /**
+         * Replies arbitrary message to destination which is associated with reply token.
+         *
+         * @param string $replyToken Identifier of destination.
+         * @param \LINE\LINEBot\MessageBuilder $messageBuilder Message builder to send.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function replyMessage($replyToken, $messageBuilder)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->replyMessage($replyToken, $messageBuilder);
+        }
+                    /**
+         * Replies text message(s) to destination which is associated with reply token.
+         * 
+         * This method receives variable texts. It can send text(s) message as bulk.
+         * 
+         * Exact signature of this method is <code>replyText(string $replyToken, string $text, string[] $extraTexts)</code>.
+         * 
+         * Means, this method can also receive multiple texts like so;
+         * 
+         * <code>
+         * $bot->replyText('reply-text', 'text', 'extra text1', 'extra text2', ...)
+         * </code>
+         *
+         * @param string $replyToken Identifier of destination.
+         * @param string $text Text of message.
+         * @param string[]|null $extraTexts Extra text of message.
+         * @return \Response 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function replyText($replyToken, $text, $extraTexts = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->replyText($replyToken, $text, $extraTexts);
+        }
+                    /**
+         * Sends arbitrary message to destination.
+         *
+         * @param string $to Identifier of destination.
+         * @param \LINE\LINEBot\MessageBuilder $messageBuilder Message builder to send.
+         * @param boolean $notificationDisabled Don't send push notifications(=true) or send(=false)
+         * @param string|null $retryKey UUID(example: 123e4567-e89b-12d3-a456-426614174000) or Not needed retry(=null)
+         * @param array $customAggregationUnits Name of aggregation unit.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function pushMessage($to, $messageBuilder, $notificationDisabled = false, $retryKey = null, $customAggregationUnits = [])
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->pushMessage($to, $messageBuilder, $notificationDisabled, $retryKey, $customAggregationUnits);
+        }
+                    /**
+         * Sends arbitrary message to multi destinations.
+         *
+         * @param array $tos Identifiers of destination.
+         * @param \LINE\LINEBot\MessageBuilder $messageBuilder Message builder to send.
+         * @param boolean $notificationDisabled Don't send push notifications(=true) or send(=false)
+         * @param string|null $retryKey UUID(example: 123e4567-e89b-12d3-a456-426614174000) or Not needed retry(=null)
+         * @param array $customAggregationUnits Name of aggregation unit.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function multicast($tos, $messageBuilder, $notificationDisabled = false, $retryKey = null, $customAggregationUnits = [])
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->multicast($tos, $messageBuilder, $notificationDisabled, $retryKey, $customAggregationUnits);
+        }
+                    /**
+         * Sends push messages to multiple users at any time.
+         * 
+         * LINE@ accounts cannot call this API endpoint. Please migrate it to a LINE official account.
+         *
+         * @param \LINE\LINEBot\MessageBuilder $messageBuilder Message builder to send.
+         * @param boolean $notificationDisabled Don't send push notifications(=true) or send(=false)
+         * @param string|null $retryKey UUID(example: 123e4567-e89b-12d3-a456-426614174000) or Not needed retry(=null)
+         * @return \Response 
+         * @static 
+         */ 
+        public static function broadcast($messageBuilder, $notificationDisabled = false, $retryKey = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->broadcast($messageBuilder, $notificationDisabled, $retryKey);
+        }
+                    /**
+         * Leaves from group.
+         *
+         * @param string $groupId Identifier of group to leave.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function leaveGroup($groupId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->leaveGroup($groupId);
+        }
+                    /**
+         * Leaves from room.
+         *
+         * @param string $roomId Identifier of room to leave.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function leaveRoom($roomId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->leaveRoom($roomId);
+        }
+                    /**
+         * Parse event request to Event objects.
+         *
+         * @param string $body Request body.
+         * @param string $signature Signature of request.
+         * @param bool $eventOnly if this flag on, get events only.
+         * @return mixed 
+         * @throws LINEBot\Exception\InvalidEventRequestException
+         * @throws LINEBot\Exception\InvalidSignatureException
+         * @static 
+         */ 
+        public static function parseEventRequest($body, $signature, $eventOnly = true)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->parseEventRequest($body, $signature, $eventOnly);
+        }
+                    /**
+         * Validate request with signature.
+         *
+         * @param string $body Request body.
+         * @param string $signature Signature of request.
+         * @return bool Request is valid or not.
+         * @throws LINEBot\Exception\InvalidSignatureException
+         * @static 
+         */ 
+        public static function validateSignature($body, $signature)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->validateSignature($body, $signature);
+        }
+                    /**
+         * Gets the user profile of a member of a group that the bot is in.
+         * 
+         * This can be the user ID of a user who has not added the bot as a friend or has blocked the bot.
+         *
+         * @param string $groupId Identifier of the group
+         * @param string $userId Identifier of the user
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getGroupMemberProfile($groupId, $userId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getGroupMemberProfile($groupId, $userId);
+        }
+                    /**
+         * Gets the user profile of a member of a room that the bot is in.
+         * 
+         * This can be the user ID of a user who has not added the bot as a friend or has blocked the bot.
+         *
+         * @param string $roomId Identifier of the room
+         * @param string $userId Identifier of the user
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRoomMemberProfile($roomId, $userId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRoomMemberProfile($roomId, $userId);
+        }
+                    /**
+         * Gets the user IDs of the members of a group that the bot is in.
+         * 
+         * This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.
+         * 
+         * This feature is only available for LINE@ Approved accounts or official accounts.
+         *
+         * @param string $groupId Identifier of the group
+         * @param string|null $start continuationToken
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getGroupMemberIds($groupId, $start = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getGroupMemberIds($groupId, $start);
+        }
+                    /**
+         * Gets the user IDs of the members of a room that the bot is in.
+         * 
+         * This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.
+         * 
+         * This feature is only available for LINE@ Approved accounts or official accounts.
+         *
+         * @param string $roomId Identifier of the room
+         * @param string|null $start continuationToken
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRoomMemberIds($roomId, $start = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRoomMemberIds($roomId, $start);
+        }
+                    /**
+         * Gets the user IDs of the members of a group that the bot is in.
+         * 
+         * This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.
+         * This method gets all of the members by calling getGroupMemberIds() continually using token
+         * 
+         * This feature is only available for LINE@ Approved accounts or official accounts.
+         *
+         * @param string $groupId Identifier of the group
+         * @return array memberIds
+         * @see \LINE\LINEBot::getGroupMemberIds()
+         * @static 
+         */ 
+        public static function getAllGroupMemberIds($groupId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getAllGroupMemberIds($groupId);
+        }
+                    /**
+         * Gets the user IDs of the members of a room that the bot is in.
+         * 
+         * This includes the user IDs of users who have not added the bot as a friend or has blocked the bot.
+         * This method gets all of the members by calling getRoomMemberIds() continually using token
+         * 
+         * This feature is only available for LINE@ Approved accounts or official accounts.
+         *
+         * @param string $roomId Identifier of the room
+         * @return array memberIds
+         * @see \LINE\LINEBot::getRoomMemberIds()
+         * @static 
+         */ 
+        public static function getAllRoomMemberIds($roomId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getAllRoomMemberIds($roomId);
+        }
+                    /**
+         * Get group summary
+         * 
+         * Gets the group ID, group name, and group icon URL of a group where the LINE Official Account is a member.
+         *
+         * @param string $groupId Group ID
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getGroupSummary($groupId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getGroupSummary($groupId);
+        }
+                    /**
+         * Gets the count of members in a group
+         * 
+         * The number returned excludes the LINE Official Account.
+         *
+         * @param string $groupId Group ID
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getGroupMembersCount($groupId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getGroupMembersCount($groupId);
+        }
+                    /**
+         * Gets the count of members in a room
+         * 
+         * The number returned excludes the LINE Official Account.
+         *
+         * @param string $roomId Room ID
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRoomMembersCount($roomId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRoomMembersCount($roomId);
+        }
+                    /**
+         * Issues a link token used for the account link feature.
+         *
+         * @param string $userId User ID for the LINE account to be linked.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createLinkToken($userId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createLinkToken($userId);
+        }
+                    /**
+         * Gets a rich menu via a rich menu ID.
+         *
+         * @param string $richMenuId ID of an uploaded rich menu
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRichMenu($richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRichMenu($richMenuId);
+        }
+                    /**
+         * Creates a rich menu.
+         * 
+         * You must upload a rich menu image and link the rich menu to a user for the rich menu to be displayed.
+         *
+         * @param \LINE\LINEBot\RichMenuBuilder $richMenuBuilder
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createRichMenu($richMenuBuilder)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createRichMenu($richMenuBuilder);
+        }
+                    /**
+         * Deletes a rich menu.
+         *
+         * @param string $richMenuId ID of an uploaded rich menu
+         * @return \Response 
+         * @static 
+         */ 
+        public static function deleteRichMenu($richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->deleteRichMenu($richMenuId);
+        }
+                    /**
+         * Set the default rich menu.
+         *
+         * @param string $richMenuId ID of an uploaded rich menu
+         * @return \Response 
+         * @static 
+         */ 
+        public static function setDefaultRichMenuId($richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->setDefaultRichMenuId($richMenuId);
+        }
+                    /**
+         * Get the default rich menu ID.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getDefaultRichMenuId()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getDefaultRichMenuId();
+        }
+                    /**
+         * Cancel the default rich menu.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function cancelDefaultRichMenuId()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->cancelDefaultRichMenuId();
+        }
+                    /**
+         * Gets the ID of the rich menu linked to a user.
+         *
+         * @param string $userId User ID. Found in the source object of webhook event objects.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRichMenuId($userId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRichMenuId($userId);
+        }
+                    /**
+         * Links a rich menu to a user. Only one rich menu can be linked to a user at one time.
+         *
+         * @param string $userId User ID. Found in the source object of webhook event objects.
+         * @param string $richMenuId ID of an uploaded rich menu
+         * @return \Response 
+         * @static 
+         */ 
+        public static function linkRichMenu($userId, $richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->linkRichMenu($userId, $richMenuId);
+        }
+                    /**
+         * Links a rich menu to multiple users.
+         *
+         * @param string[] $userIds Found in the source object of webhook event objects. Max: 150 user IDs.
+         * @param string $richMenuId ID of an uploaded rich menu
+         * @return \Response 
+         * @static 
+         */ 
+        public static function bulkLinkRichMenu($userIds, $richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->bulkLinkRichMenu($userIds, $richMenuId);
+        }
+                    /**
+         * Unlinks a rich menu from multiple user.
+         *
+         * @param string $userId User ID. Found in the source object of webhook event objects.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function unlinkRichMenu($userId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->unlinkRichMenu($userId);
+        }
+                    /**
+         * Unlinks rich menus from multiple users.
+         *
+         * @param string[] $userIds Found in the source object of webhook event objects. Max: 150 user IDs.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function bulkUnlinkRichMenu($userIds)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->bulkUnlinkRichMenu($userIds);
+        }
+                    /**
+         * Downloads an image associated with a rich menu.
+         *
+         * @param string $richMenuId ID of an uploaded rich menu
+         * @return \Response 
+         * @static 
+         */ 
+        public static function downloadRichMenuImage($richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->downloadRichMenuImage($richMenuId);
+        }
+                    /**
+         * Uploads and attaches an image to a rich menu.
+         * 
+         * Notes:
+         * <ul><li>Images must have one of the following resolutions: 2500x1686 or 2500x843 pixels.</li>
+         * <li>You cannot replace an image attached to a rich menu. To update your rich menu image,
+         * create a new rich menu object and upload another image.</li></ul>
+         *
+         * @param string $richMenuId ID of an uploaded rich menu
+         * @param string $imagePath Path to the image
+         * @param string $contentType image/jpeg or image/png
+         * @return \Response 
+         * @static 
+         */ 
+        public static function uploadRichMenuImage($richMenuId, $imagePath, $contentType)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->uploadRichMenuImage($richMenuId, $imagePath, $contentType);
+        }
+                    /**
+         * Gets a list of all uploaded rich menus.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRichMenuList()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRichMenuList();
+        }
+                    /**
+         * Create rich menu alias
+         *
+         * @param string $richMenuAliasId Rich menu alias ID, which can be any ID, unique for each channel.
+         * @param string $richMenuId The rich menu ID to be associated with the rich menu alias.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createRichMenuAlias($richMenuAliasId, $richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createRichMenuAlias($richMenuAliasId, $richMenuId);
+        }
+                    /**
+         * Delete rich menu alias
+         *
+         * @param string $richMenuAliasId The rich menu alias ID whose information you want to obtain.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function deleteRichMenuAlias($richMenuAliasId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->deleteRichMenuAlias($richMenuAliasId);
+        }
+                    /**
+         * Update rich menu alias
+         *
+         * @param string $richMenuAliasId The rich menu alias ID whose information you want to obtain.
+         * @param string $richMenuId The rich menu ID to be associated with the rich menu alias.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function updateRichMenuAlias($richMenuAliasId, $richMenuId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->updateRichMenuAlias($richMenuAliasId, $richMenuId);
+        }
+                    /**
+         * Get rich menu alias information
+         *
+         * @param string $richMenuAliasId The rich menu alias ID whose information you want to obtain.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRichMenuAlias($richMenuAliasId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRichMenuAlias($richMenuAliasId);
+        }
+                    /**
+         * Get list of rich menu alias
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getRichMenuAliasList()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getRichMenuAliasList();
+        }
+                    /**
+         * Get number of sent reply messages
+         *
+         * @param \DateTime $datetime Date the messages were sent.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfSentReplyMessages($datetime)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfSentReplyMessages($datetime);
+        }
+                    /**
+         * Get number of sent push messages
+         *
+         * @param \DateTime $datetime Date the messages were sent.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfSentPushMessages($datetime)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfSentPushMessages($datetime);
+        }
+                    /**
+         * Get number of sent multicast messages
+         *
+         * @param \DateTime $datetime Date the messages were sent.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfSentMulticastMessages($datetime)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfSentMulticastMessages($datetime);
+        }
+                    /**
+         * Get number of sent broadcast messages
+         *
+         * @param \DateTime $datetime Date the messages were sent.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfSentBroadcastMessages($datetime)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfSentBroadcastMessages($datetime);
+        }
+                    /**
+         * Get number of message deliveries
+         *
+         * @param \DateTime $datetime Date for which to retrieve number of sent messages.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfMessageDeliveries($datetime)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfMessageDeliveries($datetime);
+        }
+                    /**
+         * Get number of followers
+         *
+         * @param \DateTime $datetime Date for which to retrieve the number of followers.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfFollowers($datetime)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfFollowers($datetime);
+        }
+                    /**
+         * Get friend demographics
+         * 
+         * It can take up to 3 days for demographic information to be calculated.
+         * This means the information the API returns may be 3 days old.
+         * Furthermore, your Target reach number must be at least 20 to retrieve demographic information.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getFriendDemographics()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getFriendDemographics();
+        }
+                    /**
+         * Get user interaction statistics
+         * 
+         * Returns statistics about how users interact with broadcast messages sent from your LINE official account.
+         * Interactions are tracked for only 14 days after a message was sent.
+         * The statistics are no longer updated after 15 days.
+         *
+         * @param string $requestId Request ID of broadcast message.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getUserInteractionStatistics($requestId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getUserInteractionStatistics($requestId);
+        }
+                    /**
+         * Create channel access token
+         * 
+         * Create a short-lived channel access token.
+         * Up to 30 tokens can be issued.
+         * If the maximum is exceeded,
+         * existing channel access tokens are revoked in the order of when they were first issued.
+         *
+         * @param string $channelId
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createChannelAccessToken($channelId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createChannelAccessToken($channelId);
+        }
+                    /**
+         * Revoke channel access token
+         * 
+         * Revokes a channel access token.
+         *
+         * @param string $channelAccessToken
+         * @return \Response 
+         * @static 
+         */ 
+        public static function revokeChannelAccessToken($channelAccessToken)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->revokeChannelAccessToken($channelAccessToken);
+        }
+                    /**
+         * Create channel access token v2.1
+         * 
+         * You can issue up to 30 tokens.
+         * If you reach the maximum limit, additional requests of issuing channel access tokens are blocked.
+         *
+         * @see https://developers.line.biz/en/docs/messaging-api/generate-json-web-token/#generate_jwt
+         * @param string $jwt
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createChannelAccessToken21($jwt)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createChannelAccessToken21($jwt);
+        }
+                    /**
+         * Revoke channel access token v2.1
+         *
+         * @param string $channelId
+         * @param string $channelSecret
+         * @param string $channelAccessToken
+         * @return \Response 
+         * @static 
+         */ 
+        public static function revokeChannelAccessToken21($channelId, $channelSecret, $channelAccessToken)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->revokeChannelAccessToken21($channelId, $channelSecret, $channelAccessToken);
+        }
+                    /**
+         * Get all valid channel access token key IDs v2.1
+         *
+         * @param string $jwt
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getChannelAccessToken21Keys($jwt)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getChannelAccessToken21Keys($jwt);
+        }
+                    /**
+         * Send Narrowcast message.
+         *
+         * @param \LINE\LINEBot\MessageBuilder $messageBuilder
+         * @param \LINE\LINEBot\Narrowcast\Recipient\RecipientBuilder|null $recipientBuilder
+         * @param \LINE\LINEBot\Narrowcast\DemographicFilter\DemographicFilterBuilder|null $demographicFilterBuilder
+         * @param int|null $max
+         * @param string|null $retryKey UUID(example: 123e4567-e89b-12d3-a456-426614174000) or Not needed retry(=null)
+         * @return \Response 
+         * @static 
+         */ 
+        public static function sendNarrowcast($messageBuilder, $recipientBuilder = null, $demographicFilterBuilder = null, $max = null, $retryKey = null, $upToRemainingQuota = false)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->sendNarrowcast($messageBuilder, $recipientBuilder, $demographicFilterBuilder, $max, $retryKey, $upToRemainingQuota);
+        }
+                    /**
+         * Get Narrowcast message sending progress.
+         *
+         * @param string $requestId
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNarrowcastProgress($requestId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNarrowcastProgress($requestId);
+        }
+                    /**
+         * Create audience for uploading user IDs
+         *
+         * @param string $description The audience's name. Max character limit: 120
+         * @param array $audiences An array of up to 10,000 user IDs or IFAs.
+         * @param bool $isIfaAudience If this is false (default), recipients are specified by user IDs.
+         * @param string|null $uploadDescription The description to register with the job.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createAudienceGroupForUploadingUserIds($description, $audiences = [], $isIfaAudience = false, $uploadDescription = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createAudienceGroupForUploadingUserIds($description, $audiences, $isIfaAudience, $uploadDescription);
+        }
+                    /**
+         * Create audience for uploading user IDs (by file)
+         *
+         * @param string $description The audience's name. Max character limit: 120
+         * @param string $filePath A text file path with one user ID or IFA entered per line. Max number: 1,500,000
+         * @param bool $isIfaAudience If this is false (default), recipients are specified by user IDs.
+         * @param string|null $uploadDescription The description to register with the job.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createAudienceGroupForUploadingUserIdsByFile($description, $filePath, $isIfaAudience = false, $uploadDescription = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createAudienceGroupForUploadingUserIdsByFile($description, $filePath, $isIfaAudience, $uploadDescription);
+        }
+                    /**
+         * Add user IDs or Identifiers for Advertisers (IFAs) to an audience for uploading user IDs
+         *
+         * @param int $audienceGroupId The audience ID.
+         * @param array $audiences An array of up to 10,000 user IDs or IFAs.
+         * @param string|null $uploadDescription The description to register with the job.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function updateAudienceGroupForUploadingUserIds($audienceGroupId, $audiences, $uploadDescription = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->updateAudienceGroupForUploadingUserIds($audienceGroupId, $audiences, $uploadDescription);
+        }
+                    /**
+         * Add user IDs or Identifiers for Advertisers (IFAs) to an audience for uploading user IDs (by file)
+         *
+         * @param int $audienceGroupId The audience ID.
+         * @param string $filePath A text file path with one user ID or IFA entered per line. Max number: 1,500,000
+         * @param string|null $uploadDescription The description to register with the job.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function updateAudienceGroupForUploadingUserIdsByFile($audienceGroupId, $filePath, $uploadDescription = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->updateAudienceGroupForUploadingUserIdsByFile($audienceGroupId, $filePath, $uploadDescription);
+        }
+                    /**
+         * Create audience for click-based retargeting
+         *
+         * @param string $description The audience's name. Max character limit: 120
+         * @param string $requestId The request ID of a broadcast or narrowcast message sent in the past 60 days.
+         * @param string|null $clickUrl The URL clicked by the user. Max character limit: 2,000
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createAudienceGroupForClick($description, $requestId, $clickUrl = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createAudienceGroupForClick($description, $requestId, $clickUrl);
+        }
+                    /**
+         * Create audience for impression-based retargeting
+         *
+         * @param string $description The audience's name. Max character limit: 120
+         * @param string $requestId The request ID of a broadcast or narrowcast message sent in the past 60 days.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function createAudienceGroupForImpression($description, $requestId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->createAudienceGroupForImpression($description, $requestId);
+        }
+                    /**
+         * Rename an audience
+         *
+         * @param int $audienceGroupId The audience ID.
+         * @param string $description The audience's name. Max character limit: 120
+         * @return \Response 
+         * @static 
+         */ 
+        public static function renameAudience($audienceGroupId, $description)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->renameAudience($audienceGroupId, $description);
+        }
+                    /**
+         * Delete audience
+         *
+         * @param int $audienceGroupId The audience ID.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function deleteAudience($audienceGroupId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->deleteAudience($audienceGroupId);
+        }
+                    /**
+         * Get audience
+         *
+         * @param int $audienceGroupId The audience ID.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getAudience($audienceGroupId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getAudience($audienceGroupId);
+        }
+                    /**
+         * Get data for multiple audiences
+         *
+         * @param int $page The page to return when getting (paginated) results. Must be 1 or higher.
+         * @param int $size The number of audiences per page. Max: 40
+         * @param string|null $description You can search for partial matches.
+         * @param string|null $status One of: IN_PROGRESS, READY, FAILED, EXPIRED
+         * @param boolean|null $includesExternalPublicGroups
+         * @param string|null $createRoute How the audience was created. One of: OA_MANAGER, MESSAGING_API
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getAudiences($page, $size = 20, $description = null, $status = null, $includesExternalPublicGroups = null, $createRoute = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getAudiences($page, $size, $description, $status, $includesExternalPublicGroups, $createRoute);
+        }
+                    /**
+         * Get the authority level of the audience
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getAuthorityLevel()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getAuthorityLevel();
+        }
+                    /**
+         * Change the authority level of the audience
+         *
+         * @param string $authorityLevel One of: PUBLIC, PRIVATE
+         * @return \Response 
+         * @static 
+         */ 
+        public static function updateAuthorityLevel($authorityLevel)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->updateAuthorityLevel($authorityLevel);
+        }
+                    /**
+         * Activate the audience
+         *
+         * @param int $audienceGroupId The audience ID.
+         * @return \Response 
+         * @static 
+         */ 
+        public static function activateAudience($audienceGroupId)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->activateAudience($audienceGroupId);
+        }
+                    /**
+         * Get webhook endpoint information
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getWebhookEndpointInfo()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getWebhookEndpointInfo();
+        }
+                    /**
+         * Set webhook endpoint URL
+         *
+         * @param string $endpoint
+         * @return \Response 
+         * @static 
+         */ 
+        public static function setWebhookEndpoint($endpoint)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->setWebhookEndpoint($endpoint);
+        }
+                    /**
+         * Checks if the configured webhook endpoint can receive a test webhook event
+         *
+         * @param string $endpoint
+         * @return \Response 
+         * @static 
+         */ 
+        public static function testWebhookEndpoint($endpoint)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->testWebhookEndpoint($endpoint);
+        }
+                    /**
+         * Get the per-unit statistics of how users interact
+         * with push messages and multicast messages
+         * sent from your LINE Official Account.
+         *
+         * @param string $customAggregationUnit Name of aggregation unit
+         * @param string $from Start date of aggregation period
+         * @param string $to End date of aggregation period
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getUserInteractionStatisticsPerUnit($customAggregationUnit, $from, $to)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getUserInteractionStatisticsPerUnit($customAggregationUnit, $from, $to);
+        }
+                    /**
+         * Get the number of aggregation units used this month.
+         *
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNumberOfUnitsUsedThisMonth()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNumberOfUnitsUsedThisMonth();
+        }
+                    /**
+         * Get the name list of units used this month for statistics aggregation.
+         *
+         * @param string|null $limit
+         * @param int|null $start
+         * @return \Response 
+         * @static 
+         */ 
+        public static function getNameListOfUnitsUsedThisMonth($limit = null, $start = null)
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getNameListOfUnitsUsedThisMonth($limit, $start);
+        }
+                    /**
+         * Get the name list of units used this month for statistics aggregation.
+         * 
+         * This method gets all of the names
+         * by calling getNameListOfUnitsUsedThisMonth() continually using token
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getAllNameListOfUnitsUsedThisMonth()
+        {
+                        /** @var \LINE\LINEBot $instance */
+                        return $instance->getAllNameListOfUnitsUsedThisMonth();
         }
          
     }
@@ -16747,6 +19619,56 @@
                         /** @var \Livewire\LivewireManager $instance */
                         return $instance->withQueryParams($queryParams);
         }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->setBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function disableBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->disableBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function enableBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->enableBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function shouldDisableBackButtonCache()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->shouldDisableBackButtonCache();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function flushState()
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->flushState();
+        }
          
     }
      
@@ -16771,7 +19693,7 @@
                     /**
          * Get config.
          *
-         * @return array 
+         * @return array<string, mixed> 
          * @static 
          */ 
         public static function getConfig()
@@ -16783,7 +19705,7 @@
          * Fluent section setter.
          *
          * @param string $section
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function section($section)
@@ -16794,7 +19716,7 @@
                     /**
          * Get structs.
          *
-         * @return array 
+         * @return \romanzipp\Seo\Structs\Struct[] 
          * @static 
          */ 
         public static function getStructs()
@@ -16817,7 +19739,7 @@
                     /**
          * Set structs.
          *
-         * @param array $structCollection
+         * @param \romanzipp\Seo\Structs\Struct[] $structCollection
          * @static 
          */ 
         public static function setStructCollection($structCollection)
@@ -16863,7 +19785,7 @@
          * Add struct.
          *
          * @param \romanzipp\Seo\Structs\Struct $struct
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function add($struct)
@@ -16876,7 +19798,7 @@
          *
          * @param bool $boolean
          * @param \romanzipp\Seo\Structs\Struct $struct
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function addIf($boolean, $struct)
@@ -16887,8 +19809,8 @@
                     /**
          * Add many structs.
          *
-         * @param array $structs
-         * @return self 
+         * @param \romanzipp\Seo\Structs\Struct[] $structs
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function addMany($structs)
@@ -16899,8 +19821,8 @@
                     /**
          * Add structs from array format.
          *
-         * @param array $data
-         * @return self 
+         * @param \romanzipp\Seo\Services\array<string,  mixed> $data
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function addFromArray($data)
@@ -16971,7 +19893,7 @@
          * Get matching struct duplicate.
          *
          * @param \romanzipp\Seo\Structs\Struct $struct
-         * @return array|null 
+         * @return \romanzipp\Seo\Services\(\romanzipp\Seo\Structs\Struct|int|\romanzipp\Seo\Services\null)[]|null 
          * @static 
          */ 
         public static function getDuplicateStruct($struct)
@@ -17016,9 +19938,19 @@
                         return \romanzipp\Seo\Services\SeoService::hasMacro($name);
         }
                     /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \romanzipp\Seo\Services\SeoService::flushMacros();
+        }
+                    /**
          * Get spatie/schema-org types.
          *
-         * @return array 
+         * @return \Spatie\SchemaOrg\Type[] 
          * @static 
          */ 
         public static function getSchemes()
@@ -17030,7 +19962,7 @@
          * Add spatie/schema-org object.
          *
          * @param \romanzipp\Seo\Services\Type $schema schema.org Type
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function addSchema($schema)
@@ -17042,7 +19974,7 @@
          * Set array of spatie/schema-org objects.
          *
          * @param \Spatie\SchemaOrg\Type[] $schemes
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function setSchemes($schemes)
@@ -17053,8 +19985,8 @@
                     /**
          * Add a list of breadcrumbs.
          *
-         * @param array $crumbs
-         * @return self 
+         * @param \romanzipp\Seo\Services\array<array<string,  string>> $crumbs
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function addSchemaBreadcrumbs($crumbs)
@@ -17067,7 +19999,7 @@
          *
          * @param string|null $title
          * @param bool $escape
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function title($title = null, $escape = true)
@@ -17080,7 +20012,7 @@
          *
          * @param string|null $description
          * @param bool $escape
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function description($description = null, $escape = true)
@@ -17093,7 +20025,7 @@
          *
          * @param string|null $image
          * @param bool $escape
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function image($image = null, $escape = true)
@@ -17107,7 +20039,7 @@
          * @param string $name
          * @param mixed|null $content
          * @param bool $escape
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function meta($name, $content = null, $escape = true)
@@ -17121,7 +20053,7 @@
          * @param string $name
          * @param mixed|null $content
          * @param bool $escape
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function twitter($name, $content = null, $escape = true)
@@ -17135,7 +20067,7 @@
          * @param string $property
          * @param mixed|null $content
          * @param bool $escape
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function og($property, $content = null, $escape = true)
@@ -17147,7 +20079,7 @@
          * Add the meta charset struct.
          *
          * @param string $charset
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function charset($charset = 'utf-8')
@@ -17159,7 +20091,7 @@
          * Add the meta viewport struct.
          *
          * @param string $viewport
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function viewport($viewport = 'width=device-width, initial-scale=1')
@@ -17171,7 +20103,7 @@
          * Add the canonical struct.
          *
          * @param string $canonical
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function canonical($canonical)
@@ -17183,7 +20115,7 @@
          * Add the CSRF token meta struct.
          *
          * @param string|null $token
-         * @return self 
+         * @return \romanzipp\Seo\Services\SeoService 
          * @static 
          */ 
         public static function csrfToken($token = null)
@@ -17276,6 +20208,45 @@
         public static function dangerBanner($message)
         {
                         return \Illuminate\Http\RedirectResponse::dangerBanner($message);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\Routing { 
+            /**
+     * 
+     *
+     * @mixin \Illuminate\Routing\RouteRegistrar
+     */ 
+        class Router {
+                    /**
+         * 
+         *
+         * @see \Encore\Admin\AdminServiceProvider::macroRouter()
+         * @param mixed $uri
+         * @param mixed $content
+         * @param mixed $options
+         * @static 
+         */ 
+        public static function content($uri, $content, $options = [])
+        {
+                        return \Illuminate\Routing\Router::content($uri, $content, $options);
+        }
+                    /**
+         * 
+         *
+         * @see \Encore\Admin\AdminServiceProvider::macroRouter()
+         * @param mixed $uri
+         * @param mixed $component
+         * @param mixed $data
+         * @param mixed $options
+         * @static 
+         */ 
+        public static function component($uri, $component, $data = [], $options = [])
+        {
+                        return \Illuminate\Routing\Router::component($uri, $component, $data, $options);
         }
          
     }
@@ -17791,6 +20762,20 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->value($column);
+            }
+             
+                /**
+             * Get a single column's value from the first result of the query or throw an exception.
+             *
+             * @param string|\Illuminate\Database\Query\Expression $column
+             * @return mixed 
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+             * @static 
+             */ 
+            public static function valueOrFail($column)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->valueOrFail($column);
             }
              
                 /**
@@ -18437,6 +21422,131 @@ namespace  {
             }
              
                 /**
+             * Add a basic where clause to a relationship query.
+             *
+             * @param string $relation
+             * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
+             * @param mixed $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function whereRelation($relation, $column, $operator = null, $value = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->whereRelation($relation, $column, $operator, $value);
+            }
+             
+                /**
+             * Add an "or where" clause to a relationship query.
+             *
+             * @param string $relation
+             * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
+             * @param mixed $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereRelation($relation, $column, $operator = null, $value = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orWhereRelation($relation, $column, $operator, $value);
+            }
+             
+                /**
+             * Add a polymorphic relationship condition to the query with a where clause.
+             *
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param string|array $types
+             * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
+             * @param mixed $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function whereMorphRelation($relation, $types, $column, $operator = null, $value = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->whereMorphRelation($relation, $types, $column, $operator, $value);
+            }
+             
+                /**
+             * Add a polymorphic relationship condition to the query with an "or where" clause.
+             *
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param string|array $types
+             * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
+             * @param mixed $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereMorphRelation($relation, $types, $column, $operator = null, $value = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orWhereMorphRelation($relation, $types, $column, $operator, $value);
+            }
+             
+                /**
+             * Add a morph-to relationship condition to the query.
+             *
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function whereMorphedTo($relation, $model, $boolean = 'and')
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->whereMorphedTo($relation, $model, $boolean);
+            }
+             
+                /**
+             * Add a morph-to relationship condition to the query with an "or where" clause.
+             *
+             * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
+             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereMorphedTo($relation, $model)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orWhereMorphedTo($relation, $model);
+            }
+             
+                /**
+             * Add a "belongs to" relationship where clause to the query.
+             *
+             * @param \Illuminate\Database\Eloquent\Model $related
+             * @param string $relationship
+             * @param string $boolean
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @throws \RuntimeException
+             * @static 
+             */ 
+            public static function whereBelongsTo($related, $relationshipName = null, $boolean = 'and')
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->whereBelongsTo($related, $relationshipName, $boolean);
+            }
+             
+                /**
+             * Add an "BelongsTo" relationship with an "or where" clause to the query.
+             *
+             * @param \Illuminate\Database\Eloquent\Model $related
+             * @param string $relationship
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @throws \RuntimeException
+             * @static 
+             */ 
+            public static function orWhereBelongsTo($related, $relationshipName = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orWhereBelongsTo($related, $relationshipName);
+            }
+             
+                /**
              * Add subselect queries to include an aggregate value for a relationship.
              *
              * @param mixed $relations
@@ -18547,18 +21657,6 @@ namespace  {
             }
              
                 /**
-             * Explains the query.
-             *
-             * @return \Illuminate\Support\Collection 
-             * @static 
-             */ 
-            public static function explain()
-            {
-                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
-                                return $instance->explain();
-            }
-             
-                /**
              * Chunk the results of the query.
              *
              * @param int $count
@@ -18650,7 +21748,7 @@ namespace  {
                 /**
              * Query lazily, by chunking the results of a query by comparing IDs.
              *
-             * @param int $count
+             * @param int $chunkSize
              * @param string|null $column
              * @param string|null $alias
              * @return \Illuminate\Support\LazyCollection 
@@ -18661,6 +21759,22 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->lazyById($chunkSize, $column, $alias);
+            }
+             
+                /**
+             * Query lazily, by chunking the results of a query by comparing IDs in descending order.
+             *
+             * @param int $chunkSize
+             * @param string|null $column
+             * @param string|null $alias
+             * @return \Illuminate\Support\LazyCollection 
+             * @throws \InvalidArgumentException
+             * @static 
+             */ 
+            public static function lazyByIdDesc($chunkSize = 1000, $column = null, $alias = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->lazyByIdDesc($chunkSize, $column, $alias);
             }
              
                 /**
@@ -18695,7 +21809,7 @@ namespace  {
              * Pass the query to a given callback.
              *
              * @param callable $callback
-             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @return $this|mixed 
              * @static 
              */ 
             public static function tap($callback)
@@ -19412,7 +22526,7 @@ namespace  {
                 /**
              * Add a "where date" statement to the query.
              *
-             * @param string $column
+             * @param \Illuminate\Database\Query\Expression|string $column
              * @param string $operator
              * @param \DateTimeInterface|string|null $value
              * @param string $boolean
@@ -19812,6 +22926,35 @@ namespace  {
             }
              
                 /**
+             * Add a "where fulltext" clause to the query.
+             *
+             * @param string|string[] $columns
+             * @param string $value
+             * @param string $boolean
+             * @return \Illuminate\Database\Query\Builder 
+             * @static 
+             */ 
+            public static function whereFullText($columns, $value, $options = [], $boolean = 'and')
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->whereFullText($columns, $value, $options, $boolean);
+            }
+             
+                /**
+             * Add a "or where fulltext" clause to the query.
+             *
+             * @param string|string[] $columns
+             * @param string $value
+             * @return \Illuminate\Database\Query\Builder 
+             * @static 
+             */ 
+            public static function orWhereFullText($columns, $value, $options = [])
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->orWhereFullText($columns, $value, $options);
+            }
+             
+                /**
              * Add a "group by" clause to the query.
              *
              * @param array|string $groups
@@ -19917,7 +23060,7 @@ namespace  {
                 /**
              * Add an "order by" clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string $column
+             * @param \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string $column
              * @param string $direction
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException
@@ -19932,7 +23075,7 @@ namespace  {
                 /**
              * Add a descending "order by" clause to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string $column
+             * @param \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string $column
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -20418,6 +23561,19 @@ namespace  {
             }
              
                 /**
+             * Update records in a PostgreSQL database using the update from syntax.
+             *
+             * @param array $values
+             * @return int 
+             * @static 
+             */ 
+            public static function updateFrom($values)
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->updateFrom($values);
+            }
+             
+                /**
              * Insert or update a record matching the attributes, and fill it with values.
              *
              * @param array $attributes
@@ -20508,6 +23664,19 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
                                 return $instance->addBinding($value, $type);
+            }
+             
+                /**
+             * Cast the given binding value.
+             *
+             * @param mixed $value
+             * @return mixed 
+             * @static 
+             */ 
+            public static function castBinding($value)
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->castBinding($value);
             }
              
                 /**
@@ -20613,13 +23782,25 @@ namespace  {
                 /**
              * Die and dump the current SQL and bindings.
              *
-             * @return void 
+             * @return \Illuminate\Database\Query\never 
              * @static 
              */ 
             public static function dd()
             {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
-                                $instance->dd();
+                                return $instance->dd();
+            }
+             
+                /**
+             * Explains the query.
+             *
+             * @return \Illuminate\Support\Collection 
+             * @static 
+             */ 
+            public static function explain()
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->explain();
             }
              
                 /**
@@ -20650,6 +23831,17 @@ namespace  {
             }
              
                 /**
+             * Flush the existing macros.
+             *
+             * @return void 
+             * @static 
+             */ 
+            public static function flushMacros()
+            {
+                                \Illuminate\Database\Query\Builder::flushMacros();
+            }
+             
+                /**
              * Dynamically handle calls to the class.
              *
              * @param string $method
@@ -20677,6 +23869,7 @@ namespace  {
             class Queue extends \Illuminate\Support\Facades\Queue {}
             class RateLimiter extends \Illuminate\Support\Facades\RateLimiter {}
             class Redirect extends \Illuminate\Support\Facades\Redirect {}
+            class Redis extends \Illuminate\Support\Facades\Redis {}
             class Request extends \Illuminate\Support\Facades\Request {}
             class Response extends \Illuminate\Support\Facades\Response {}
             class Route extends \Illuminate\Support\Facades\Route {}
@@ -20687,9 +23880,13 @@ namespace  {
             class URL extends \Illuminate\Support\Facades\URL {}
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
+            class Socialite extends \Laravel\Socialite\Facades\Socialite {}
+            class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
+            class Admin extends \Encore\Admin\Facades\Admin {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
             class Image extends \Intervention\Image\Facades\Image {}
             class Agent extends \Jenssegers\Agent\Facades\Agent {}
+            class LINEBot extends \LINE\Laravel\Facade\LINEBot {}
             class Livewire extends \Livewire\Livewire {}
             class Seo extends \romanzipp\Seo\Facades\Seo {}
      

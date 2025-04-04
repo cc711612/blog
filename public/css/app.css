@@ -433,11 +433,6 @@ input::-moz-placeholder, textarea::-moz-placeholder {
   color: #9ca3af;
 }
 
-input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-  opacity: 1;
-  color: #9ca3af;
-}
-
 input::placeholder,
 textarea::placeholder {
   opacity: 1;
@@ -622,11 +617,6 @@ input::-moz-placeholder, textarea::-moz-placeholder {
 	opacity: 1;
 }
 
-input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-	color: #6b7280;
-	opacity: 1;
-}
-
 input::placeholder,textarea::placeholder {
 	color: #6b7280;
 	opacity: 1;
@@ -672,7 +662,6 @@ select {
 	background-origin: border-box;
 	-webkit-user-select: none;
 	   -moz-user-select: none;
-	    -ms-user-select: none;
 	        user-select: none;
 	flex-shrink: 0;
 	height: 1rem;
@@ -1129,6 +1118,10 @@ select {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
+.my-1 {
+	margin-top: 0.25rem;
+	margin-bottom: 0.25rem;
+}
 .my-5 {
 	margin-top: 1.25rem;
 	margin-bottom: 1.25rem;
@@ -1202,20 +1195,20 @@ select {
 .mb-4 {
 	margin-bottom: 1rem;
 }
-.-mt-px {
-	margin-top: -1px;
-}
 .mr-1 {
 	margin-right: 0.25rem;
 }
-.mb-8 {
-	margin-bottom: 2rem;
+.-mt-px {
+	margin-top: -1px;
 }
 .mb-3 {
 	margin-bottom: 0.75rem;
 }
 .block {
 	display: block;
+}
+.inline {
+	display: inline;
 }
 .flex {
 	display: flex;
@@ -1300,6 +1293,9 @@ select {
 }
 .w-10 {
 	width: 2.5rem;
+}
+.w-1\/2 {
+	width: 50%;
 }
 .w-20 {
 	width: 5rem;
