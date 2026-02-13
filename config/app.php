@@ -177,6 +177,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Livewire\LivewireServiceProvider::class,
 
         /*
          * Application Service Providers...
