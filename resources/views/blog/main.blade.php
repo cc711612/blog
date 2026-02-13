@@ -48,10 +48,10 @@
         document.head.appendChild(script);
     }
     
-    // 等待 DOM 載入後再載入非關鍵 JS
+    // 等待 DOM 載入後再載入非關鍵 JS（不要在這裡插入 Blade 指令）
     window.addEventListener('DOMContentLoaded', function() {
-        // 延遲載入 Livewire 和其他 JS
-        @livewireScripts
+        // 可在此動態載入非關鍵第三方腳本，例如：
+        // loadScript('/js/some-noncritical-lib.js');
     });
     
     // 圖片延遲載入 - 改善圖片載入性能
@@ -134,6 +134,7 @@
 <!-- jquery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{{url('/js/blog/global.js')}}"></script>
+@livewireScripts
 @stack('scripts')
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
