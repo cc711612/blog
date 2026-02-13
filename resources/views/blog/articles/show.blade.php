@@ -22,7 +22,15 @@
                             <a href="{{$Html->element->actions->user_uri}}">{{$Html->element->user_name}}</a>
                             on {{$Html->element->updated_at}}
                         </span>
-                        <span id="busuanzi_value_page_pv"></span> Views
+                        <div class="mt-2 d-flex align-items-center">
+                            <!-- 瀏覽人數統計 -->
+                            <livewire:article-viewer-count :articleId="$Html->element->id" />
+                            <span class="mx-2">|</span>
+                            <!-- 點讚功能 -->
+                            <livewire:article-like :articleId="$Html->element->id" />
+                            <span class="mx-2">|</span>
+                            <span id="busuanzi_value_page_pv"></span> Views
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,5 +48,7 @@
             </div>
         </div>
     </article>
+    
+    <!-- 增強的留言系統 -->
     <livewire:comment :element="$Html->element">
 @endsection
