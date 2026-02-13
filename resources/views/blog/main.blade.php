@@ -36,6 +36,62 @@
     <!-- END PAGE LEVEL PLUGINS -->
     @include("layouts.tracking_header")
     @laravelPWA
+    
+    {{-- Lighthouse Performance 優化 --}}
+    <script>
+    // 動態載入 JavaScript - 解決 Render Blocking
+    function loadScript(src, async = true, defer = true) {
+        const script = document.createElement('script');
+        script.src = src;
+        if (async) script.async = true;
+        if (defer) script.defer = true;
+        document.head.appendChild(script);
+    }
+    
+    // 等待 DOM 載入後再載入非關鍵 JS
+    window.addEventListener('DOMContentLoaded', function() {
+        // 延遲載入 Livewire 和其他 JS
+        @livewireScripts
+    });
+    
+    // 圖片延遲載入 - 改善圖片載入性能
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                }
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const lazyImages = document.querySelectorAll('img[data-src]');
+            lazyImages.forEach(img => imageObserver.observe(img));
+        });
+    }
+    </script>
+    
+    {{-- Service Worker 註冊 - 改善快取策略 --}}
+    @if(config('app.env') === 'production')
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('SW registered: ', registration);
+                })
+                .catch(function(registrationError) {
+                    console.log('SW registration failed: ', registrationError);
+                });
+        });
+    }
+    </script>
+    @endif
 </head>
 <body>
 @include("layouts.tracking_noscript")
@@ -78,7 +134,6 @@
 <!-- jquery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{{url('/js/blog/global.js')}}"></script>
-@livewireScripts
 @stack('scripts')
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
