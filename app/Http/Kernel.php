@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\SecurityHeaders::class, // 新增安全標頭
     ];
 
     /**
@@ -64,6 +65,6 @@ class Kernel extends HttpKernel
         'verified'           => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'VerifyApi'          => \App\Http\Middleware\VerifyApi::class,
         'SocketOnline'       => \App\Http\Middleware\SocketOnline::class,
-        'authenticate-guest' => \App\Http\Middleware\AuthenticateGuest::class,
+        // 'authenticate-guest' => \App\Http\Middleware\AuthenticateGuest::class, // 已移除 - 檔案不存在
     ];
 }

@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+
+class SecurityHeaders
+{
+    /**
+     * 處理傳入的請求
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        $response = $next($request);
+        
+        // Content Security Policy (CSP)
+        $csp = [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+            "font-src 'self' https://fonts.gstatic.com",
+            "img-src 'self' data: https: blob:",
+            "connect-src 'self'",
+            "frame-src 'none'",
+            "object-src 'none'",
+            "base-uri 'self'",
+            "form-action 'self'",
+            "frame-ancestors 'none'",
+            "upgrade-insecure-requests"
+        ];
+        
+        $response->headers->set('Content-Security-Policy', implode('; ', $csp));
+        
+        // HTTP Strict Transport Security (HSTS)
+        $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        
+        // Cross-Origin Embedder Policy (COOP)
+        $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin');
+        
+        // Cross-Origin Embedder Policy (COEP)
+        $response->headers->set('Cross-Origin-Embedder-Policy', 'require-corp');
+        
+        // X-Frame-Options
+        $response->headers->set('X-Frame-Options', 'DENY');
+        
+        // X-Content-Type-Options
+        $response->headers->set('X-Content-Type-Options', 'nosniff');
+        
+        // Referrer Policy
+        $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        
+        // Permissions Policy
+        $permissions = [
+            'camera=()',
+            'microphone=()',
+            'geolocation=()',
+            'payment=()',
+            'usb=()',
+            'magnetometer=()',
+            'gyroscope=()',
+            'accelerometer=()'
+        ];
+        
+        $response->headers->set('Permissions-Policy', implode(', ', $permissions));
+        
+        return $response;
+    }
+}
