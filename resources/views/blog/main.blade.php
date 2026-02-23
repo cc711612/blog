@@ -30,6 +30,8 @@
     <link href="{{url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <link href="{{url('/css/badge.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{url('/css/custom-theme.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    <link href="{{url('/css/desktop-optimized.css?v='.config('app.version'))}}" rel="stylesheet"/>
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     @stack('css-plugins')
     @livewireStyles

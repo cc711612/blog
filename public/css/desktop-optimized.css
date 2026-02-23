@@ -1,0 +1,228 @@
+/* 電腦版優化設計 */
+
+/* 大螢幕版面配置 */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+    
+    /* 改為雙欄布局 */
+    .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 2rem;
+        align-items: start;
+    }
+    
+    .main-content {
+        min-width: 0;
+    }
+    
+    .sidebar {
+        position: sticky;
+        top: 2rem;
+    }
+}
+
+/* 文章卡片重新設計 - 適合較寬版面 */
+@media (min-width: 992px) {
+    .post-preview {
+        padding: 2.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 16px;
+    }
+    
+    .post-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .post-subtitle {
+        font-size: 1.2rem;
+        line-height: 1.7;
+    }
+    
+    /* 文章內容預覽增加資訊密度 */
+    .post-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+/* 主標題區域電腦版優化 */
+@media (min-width: 992px) {
+    .masthead {
+        padding: 10rem 0 5rem !important;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+    }
+    
+    .site-heading h1 {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .site-heading .subheading {
+        font-size: 1.5rem;
+    }
+}
+
+/* 側邊欄設計 */
+.sidebar {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    border: 1px solid var(--border-color);
+}
+
+.sidebar h3 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.sidebar-widget {
+    margin-bottom: 2.5rem;
+}
+
+.sidebar-widget:last-child {
+    margin-bottom: 0;
+}
+
+/* 標籤雲 */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background: var(--light-bg);
+    color: var(--primary-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.tag:hover {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* 最新文章列表 */
+.recent-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recent-posts li {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.recent-posts li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.recent-posts li:first-child {
+    padding-top: 0;
+}
+
+.recent-post-title {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.recent-post-title:hover {
+    color: var(--accent-color);
+}
+
+.recent-post-date {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* 搜尋區域電腦版優化 */
+@media (min-width: 992px) {
+    .search-section {
+        margin-bottom: 3rem;
+    }
+    
+    .form-control {
+        font-size: 1.1rem;
+        padding: 1rem 1.25rem;
+    }
+}
+
+/* 文章列表電腦版優化 */
+@media (min-width: 992px) {
+    .article-list {
+        margin-bottom: 3rem;
+    }
+    
+    .btn-outline-primary {
+        font-size: 1.1rem;
+        padding: 1rem 2.5rem;
+    }
+}
+
+/* 統計資訊 */
+.stats-widget {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 12px;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* 改善整體視覺層次 */
+@media (min-width: 992px) {
+    body {
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+    
+    .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
