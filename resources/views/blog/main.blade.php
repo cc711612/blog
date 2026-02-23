@@ -149,7 +149,7 @@
     }
     
     // Service Worker 註冊 - 改善快取策略
-    if ('serviceWorker' in navigator && config('app.env') === 'production') {
+    if ('serviceWorker' in navigator && '{{config('app.env')}}' === 'production') {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/sw.js')
                 .then(function(registration) {
