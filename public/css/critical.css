@@ -1,0 +1,53 @@
+/* Critical CSS for above-the-fold content */
+.masthead {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    padding: 8rem 0 4rem;
+    color: white;
+    text-align: center;
+}
+
+.site-heading h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 1rem;
+}
+
+.site-heading .subheading {
+    font-size: 1.3rem;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 900px;
+}
+
+/* Loading animation */
+.loader {
+    opacity: 0.6;
+    position: fixed;
+    z-index: 999999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+
+/* Essential form styles */
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #e67e22;
+    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+}

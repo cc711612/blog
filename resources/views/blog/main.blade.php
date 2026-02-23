@@ -26,21 +26,78 @@
     -->
     {{ seo()->render() }}
     <link rel="icon" type="image/x-icon" href="{{url('/favicon.ico')}}"/>
-<!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{url('/css/styles.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="{{url('/css/main.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="{{url('/css/badge.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="{{url('/css/custom-theme.css?v='.config('app.version'))}}" rel="stylesheet"/>
-    <link href="{{url('/css/desktop-optimized.css?v='.config('app.version'))}}" rel="stylesheet"/>
+    
+    <!-- Critical CSS inline -->
+    <style>
+        .masthead {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 8rem 0 4rem;
+            color: white;
+            text-align: center;
+        }
+        .site-heading h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+        }
+        .site-heading .subheading {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .form-control {
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #e67e22;
+            box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+        }
+    </style>
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="{{url('/css/styles.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}"></noscript>
+    
+    <link rel="preload" href="{{url('/css/custom-theme.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{url('/css/custom-theme.css?v='.config('app.version'))}}"></noscript>
+    
+    <!-- Non-critical CSS loaded asynchronously -->
+    <link rel="preload" href="{{url('/css/main.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{url('/css/main.css?v='.config('app.version'))}}"></noscript>
+    
+    <link rel="preload" href="{{url('/css/badge.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{url('/css/badge.css?v='.config('app.version'))}}"></noscript>
+    
+    <link rel="preload" href="{{url('/css/desktop-optimized.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{url('/css/desktop-optimized.css?v='.config('app.version'))}}"></noscript>
+    
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     @stack('css-plugins')
     @livewireStyles
     <!-- END PAGE LEVEL PLUGINS -->
-    @include("layouts.tracking_header")
+    @if(config('app.env') !== 'local')
+        @include("layouts.tracking_header")
+    @endif
     @laravelPWA
     
-    {{-- Lighthouse Performance 優化 --}}
+    <!-- Performance Optimization -->
     <script>
+    // CSS 非同步載入
+    function loadCSS(href) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        document.head.appendChild(link);
+    }
+    
     // 動態載入 JavaScript - 解決 Render Blocking
     function loadScript(src, async = true, defer = true) {
         const script = document.createElement('script');
@@ -50,10 +107,24 @@
         document.head.appendChild(script);
     }
     
-    // 等待 DOM 載入後再載入非關鍵 JS（不要在這裡插入 Blade 指令）
-    window.addEventListener('DOMContentLoaded', function() {
-        // 可在此動態載入非關鍵第三方腳本，例如：
-        // loadScript('/js/some-noncritical-lib.js');
+    // 等待關鍵 CSS 載入後再載入其他資源
+    window.addEventListener('load', function() {
+        // 預載入字體
+        if ('fonts' in document) {
+            document.fonts.load('400 1em Lora').then(function() {
+                document.documentElement.classList.add('fonts-loaded');
+            });
+        }
+        
+        // 預載入關鍵圖片
+        const criticalImages = [
+            '{{config('filesystems.disks.s3.url')."assets/img/home-bg.webp"}}'
+        ];
+        
+        criticalImages.forEach(function(src) {
+            const img = new Image();
+            img.src = src;
+        });
     });
     
     // 圖片延遲載入 - 改善圖片載入性能
@@ -76,12 +147,9 @@
             lazyImages.forEach(img => imageObserver.observe(img));
         });
     }
-    </script>
     
-    {{-- Service Worker 註冊 - 改善快取策略 --}}
-    @if(config('app.env') === 'production')
-    <script>
-    if ('serviceWorker' in navigator) {
+    // Service Worker 註冊 - 改善快取策略
+    if ('serviceWorker' in navigator && config('app.env') === 'production') {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/sw.js')
                 .then(function(registration) {
@@ -93,7 +161,6 @@
         });
     }
     </script>
-    @endif
 </head>
 <body>
 @include("layouts.tracking_noscript")
@@ -134,19 +201,33 @@
     let onlineUsers = 0;
 </script>
 <!-- jquery-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="{{url('/js/blog/global.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
 @livewireScripts
 @stack('scripts')
 <!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
-<!-- Core theme JS-->
-<script src="{{url('/js/blog/logout.js?v='.config('app.version'))}}"></script>
-<script src="{{url('/js/blog/scripts.js?v='.config('app.version'))}}"></script>
-<script src="{{url('js/app.js?v='.config('app.version')) }}"></script>
-<script src="{{url('/js/blog/online.js?v='.config('app.version'))}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" defer></script>
+<!-- Core theme JS - 延後載入 -->
+<script>
+    window.addEventListener('load', function() {
+        // 延後載入非關鍵 JS
+        loadScript("{{url('/js/blog/global.js')}}");
+        loadScript("{{url('/js/blog/logout.js?v='.config('app.version'))}}");
+        loadScript("{{url('/js/blog/scripts.js?v='.config('app.version'))}}");
+        loadScript("{{url('js/app.js?v='.config('app.version')) }}");
+        loadScript("{{url('/js/blog/online.js?v='.config('app.version'))}}");
+        
+        // 性能監控
+        @if(config('app.env') === 'production')
+        loadScript("{{url('/js/performance-monitor.js')}}");
+        @endif
+        
+        // 第三方腳本最後載入
+        if (typeof busuanzi !== 'undefined') {
+            loadScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js", true, false);
+        }
+        loadScript("https://use.fontawesome.com/releases/v5.15.3/js/all.js", true, false);
+    });
+</script>
 
 {{--@if(config('app.env' ) == 'production')--}}
 {{--    <script src="{{url('/js/blog/face-book-chat.js?v='.config('app.version'))}}"></script>--}}
