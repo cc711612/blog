@@ -29,6 +29,8 @@ class ArticleSearch extends Component
 
     public function mount()
     {
+        // 從 URL 參數讀取搜尋關鍵字
+        $this->search = request()->get('search', '');
         $this->loadArticles();
     }
 

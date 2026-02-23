@@ -41,6 +41,11 @@ class ArticleController extends BaseController
             ->setRequest($request->toArray())
             ->paginate();
 
+        // 取得側邊欄資料
+        $sidebarService = new \App\Models\Services\Web\SidebarWebService();
+        $recentArticles = $sidebarService->getRecentArticles();
+        $popularKeywords = $sidebarService->getPopularKeywords();
+
         $this->setSeo([
             'title'       => config('app.name'),
             'description' => '文章列表',
@@ -52,7 +57,7 @@ class ArticleController extends BaseController
             ->getIndex()
             ->all();
 
-        return view('blog.articles.index', compact('Html'));
+        return view('blog.articles.index', compact('Html', 'recentArticles', 'popularKeywords'));
     }
 
     /**
