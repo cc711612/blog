@@ -7,8 +7,8 @@
                     <input 
                         type="text" 
                         class="form-control" 
-                        placeholder="搜尋文章..." 
-                        wire:model.debounce.300ms="search"
+                        placeholder="搜尋文章（至少輸入2個字元）..." 
+                        wire:model.debounce.500ms="search"
                         wire:loading.attr="disabled"
                     >
                     <button 
@@ -20,9 +20,13 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                @if(!empty($search))
+                @if(!empty($search) && strlen($search) >= 2)
                     <small class="text-muted">
                         搜尋 "{{ $search }}" 的結果
+                    </small>
+                @elseif(strlen($search ?? '') == 1)
+                    <small class="text-info">
+                        <i class="fas fa-info-circle"></i> 字元太少，顯示所有文章（請輸入至少2個字元進行搜尋）
                     </small>
                 @endif
             </div>
@@ -52,22 +56,24 @@
             </div>
         @else
             @foreach($articles as $article)
-                <div class="post-preview">
-                    <a href="{{ route('article.show', ['article' => $article->id]) }}">
-                        <h2 class="post-title">{{ $article->title }}</h2>
-                        <h3 class="post-subtitle">{{ substr(strip_tags($article->content), 0, 100) }}...</h3>
-                    </a>
-                    <p class="post-meta">
-                        Posted by
-                        <a href="#">{{ $article->users->name ?? 'Anonymous' }}</a>
-                        on {{ $article->created_at->format('Y-m-d') }}
-                        <span class="ms-3">
-                            <i class="fas fa-comments"></i> 
-                            {{ $article->comments_count ?? 0 }} 則留言
-                        </span>
-                    </p>
-                </div>
-                <hr class="my-4"/>
+                @if(is_object($article))
+                    <div class="post-preview">
+                        <a href="{{ route('article.show', ['article' => $article->id]) }}">
+                            <h2 class="post-title">{{ $article->title }}</h2>
+                            <h3 class="post-subtitle">{{ substr(strip_tags($article->content), 0, 100) }}...</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#">{{ $article->users->name ?? 'Anonymous' }}</a>
+                            on {{ $article->created_at->format('Y-m-d') }}
+                            <span class="ms-3">
+                                <i class="fas fa-comments"></i> 
+                                {{ $article->comments_count ?? 0 }} 則留言
+                            </span>
+                        </p>
+                    </div>
+                    <hr class="my-4"/>
+                @endif
             @endforeach
         @endif
     </div>
