@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Articles\ArticleController;
 use App\Http\Controllers\Api\Comments\CommentController;
 use App\Http\Controllers\Api\Bots\LineController;
+use App\Http\Controllers\PerformanceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -67,6 +68,8 @@ Route::group(['middleware' => [], 'as' => 'api.'], function () {
             Route::name("test")->any("/test", [LineController::class, 'test']);
         });
     });
+    # 性能監控
+    Route::post('/performance', [PerformanceController::class, 'store']);
 });
 Route::fallback(function () {
     return response([
