@@ -35,15 +35,25 @@ class ArticleSearch extends Component
     public function updatedSearch()
     {
         $this->validateOnly('search');
-        $this->checkRateLimit();
         $this->sanitizeSearch();
+        
+        // 如果搜尋字串太短，顯示所有文章而不是空列表
+        if (strlen($this->search) < 2 && !empty($this->search)) {
+            $this->resetPage();
+            $this->loadAllArticles();
+            return;
+        }
+        
+        $this->checkRateLimit();
         $this->resetPage();
         $this->loadArticles();
     }
 
     public function loadArticles()
     {
-        $query = ArticleEntity::with(['users'])
+        $query = ArticleEntity::with(['users' => function ($query) {
+                $query->select(['id', 'name', 'images']);
+            }])
             ->where('status', 1)
             ->where('user_id', config('app.user_id'));
 
@@ -64,6 +74,14 @@ class ArticleSearch extends Component
 
         $this->articles = $articles->items();
         $this->hasMorePages = $articles->hasMorePages();
+    }
+
+    /**
+     * 載入所有文章（當搜尋字串太短時使用）
+     */
+    public function loadAllArticles()
+    {
+        $this->loadArticles();
     }
 
     public function loadMore()
@@ -138,9 +156,6 @@ class ArticleSearch extends Component
 
     public function render()
     {
-        // 每次渲染都重新載入文章，確保資料最新
-        $this->loadArticles();
-        
         return view('livewire.article-search');
     }
 }

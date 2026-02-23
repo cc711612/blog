@@ -17,34 +17,36 @@ class SecurityHeaders
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        
+ 
         // Content Security Policy (CSP)
         $csp = [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
             "font-src 'self' https://fonts.gstatic.com",
-            "img-src 'self' data: https: blob:",
-            "connect-src 'self'",
+            "img-src 'self' data: https: blob: https://usongrat.s3.ap-northeast-1.amazonaws.com",
+            "connect-src 'self' https://www.google-analytics.com",
             "frame-src 'none'",
             "object-src 'none'",
             "base-uri 'self'",
             "form-action 'self'",
             "frame-ancestors 'none'",
-            "upgrade-insecure-requests"
         ];
+        
+        // 只在生產環境啟用 upgrade-insecure-requests
+        if (app()->environment('production')) {
+            $csp[] = "upgrade-insecure-requests";
+            $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        }
         
         $response->headers->set('Content-Security-Policy', implode('; ', $csp));
         
-        // HTTP Strict Transport Security (HSTS)
-        $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-        
         // Cross-Origin Embedder Policy (COOP)
         $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin');
-        
+ 
         // Cross-Origin Embedder Policy (COEP)
-        $response->headers->set('Cross-Origin-Embedder-Policy', 'require-corp');
-        
+        $response->headers->set('Cross-Origin-Embedder-Policy', 'credentialless');
+ 
         // X-Frame-Options
         $response->headers->set('X-Frame-Options', 'DENY');
         
