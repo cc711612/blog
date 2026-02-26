@@ -1,5 +1,5 @@
 
-$().ready(function () {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('                  _oo0oo_\n' +
         '                 o8888888o\n' +
         '                 88" . "88\n' +
@@ -23,6 +23,3 @@ $().ready(function () {
         '          佛祖保佑         永無BUG\n' +
         '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 });
-
-
-
