@@ -4,24 +4,24 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
-                        <a href="https://www.instagram.com/comman24/" alt="instagram" target="_blank">
-                            <span class="fa-stack fa-lg">
+                        <a href="https://www.instagram.com/comman24/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                            <span class="fa-stack fa-lg" aria-hidden="true">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="https://www.facebook.com/roy22887" alt="facebook" target="_blank">
-                            <span class="fa-stack fa-lg">
+                        <a href="https://www.facebook.com/roy22887" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <span class="fa-stack fa-lg" aria-hidden="true">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="https://github.com/cc711612" alt="github" target="_blank">
-                            <span class="fa-stack fa-lg">
+                        <a href="https://github.com/cc711612" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                            <span class="fa-stack fa-lg" aria-hidden="true">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fab fa-github fa-stack-1x fa-inverse"></i>
                             </span>

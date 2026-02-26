@@ -26,6 +26,18 @@
     -->
     {{ seo()->render() }}
     <link rel="icon" type="image/x-icon" href="{{url('/favicon.ico')}}"/>
+
+    <!-- Preconnect to critical third-party origins -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- FontAwesome CSS: preload 非同步載入，取代 JS 版本效能更好 -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous"></noscript>
+    @if(config('filesystems.disks.s3.url'))
+    <link rel="preconnect" href="{{rtrim(config('filesystems.disks.s3.url'), '/')}}">
+    @endif
     
     <!-- Critical CSS inline -->
     <style>
@@ -62,14 +74,11 @@
         }
     </style>
     
-    <!-- Preload critical CSS -->
-    <link rel="preload" href="{{url('/css/styles.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}"></noscript>
+    <!-- Critical CSS: 同步載入避免 CLS (layout shift) -->
+    <link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}">
+    <link rel="stylesheet" href="{{url('/css/custom-theme.css?v='.config('app.version'))}}">
     
-    <link rel="preload" href="{{url('/css/custom-theme.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{url('/css/custom-theme.css?v='.config('app.version'))}}"></noscript>
-    
-    <!-- Non-critical CSS loaded asynchronously -->
+    <!-- Non-critical CSS: 非同步延後載入 -->
     <link rel="preload" href="{{url('/css/main.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{url('/css/main.css?v='.config('app.version'))}}"></noscript>
     
@@ -192,7 +201,9 @@
               fill="white"/>
     </svg>
 </div>
+<main id="main-content">
 @yield("content")
+</main>
 <!-- Footer-->
 @include("layouts.footer")
 <script>
@@ -225,7 +236,7 @@
         if (typeof busuanzi !== 'undefined') {
             loadScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js", true, false);
         }
-        loadScript("https://use.fontawesome.com/releases/v5.15.3/js/all.js", true, false);
+        // FontAwesome 已改由 CSS preload 處理，不再使用 JS 版本
     });
 </script>
 

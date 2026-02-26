@@ -22,10 +22,10 @@ class SecurityHeaders
         $csp = [
             "default-src 'self'",
             "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://use.fontawesome.com",
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-            "font-src 'self' https://fonts.gstatic.com",
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://pro.fontawesome.com",
+            "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://pro.fontawesome.com",
             "img-src 'self' data: https: blob: https://usongrat.s3.ap-northeast-1.amazonaws.com",
-            "connect-src 'self' https://www.google-analytics.com https://cdn.jsdelivr.net https://ep1.adtrafficquality.google https://googleads.g.doubleclick.net",
+            "connect-src 'self' https://www.google-analytics.com https://cdn.jsdelivr.net https://ep1.adtrafficquality.google https://googleads.g.doubleclick.net wss: ws:",
             "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
             "object-src 'none'",
             "base-uri 'self'",
