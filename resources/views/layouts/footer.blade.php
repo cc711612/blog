@@ -28,7 +28,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="small text-center text-muted fst-italic">Copyright &copy; 2021 Roy<p
+                <div class="small text-center fst-italic" style="color:#595959">Copyright &copy; 2021 Roy<p
                         id="busuanzi_value_site_pv"></p></div>
             </div>
         </div>
