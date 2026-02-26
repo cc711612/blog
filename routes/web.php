@@ -8,6 +8,23 @@ use App\Http\Controllers\Web\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
+| PWA Manifest Route Override
+| 排除 Session/Cookie middleware，加強快取 30 天；須在 package routes 前定義
+|--------------------------------------------------------------------------
+*/
+Route::get('/manifest.json', function () {
+    $manifest = app(\LaravelPWA\Http\Controllers\LaravelPWAController::class)->manifestJson();
+    return $manifest->header('Cache-Control', 'public, max-age=2592000');
+})->withoutMiddleware([
+    \App\Http\Middleware\EncryptCookies::class,
+    \Illuminate\Session\Middleware\StartSession::class,
+    \Illuminate\Session\Middleware\AuthenticateSession::class,
+    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    \App\Http\Middleware\VerifyCsrfToken::class,
+]);
+
+/*
+|--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |

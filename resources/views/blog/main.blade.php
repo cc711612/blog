@@ -54,7 +54,7 @@
         }
         .masthead {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-            padding: 8rem 0 4rem !important;
+            padding: 4rem 0 2rem !important;
             color: white;
             text-align: center;
         }
@@ -101,25 +101,18 @@
         body { background-color: #f8f9fa; }
         @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         @media (max-width: 768px) {
-            .masthead { padding: 6rem 0 3rem !important; }
+            .masthead { padding: 3rem 0 1.5rem !important; }
             .site-heading h1 { font-size: 2.5rem; }
             .post-preview { padding: 1.5rem; }
             .post-title { font-size: 1.5rem; }
         }
-        /* ===== FontAwesome font-display:swap override（改用 jsdelivr） ===== */
+        /* ===== FontAwesome font-display:swap override（fa-solid 在關鍵路徑，fa-brands 交由 all.min.css 延後載入） ===== */
         @font-face {
             font-family: 'Font Awesome 5 Free';
             font-style: normal;
             font-weight: 900;
             font-display: swap;
             src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-solid-900.woff2') format('woff2');
-        }
-        @font-face {
-            font-family: 'Font Awesome 5 Brands';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-brands-400.woff2') format('woff2');
         }
         @font-face {
             font-family: 'Font Awesome 5 Free';
@@ -129,11 +122,6 @@
             src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-regular-400.woff2') format('woff2');
         }
     </style>
-    
-    <!-- styles.css 非同步 preload（消除 render-blocking，Mobile FCP -~980ms） -->
-    <link rel="preload" href="{{ url('/css/styles.css?v='.config('app.version')) }}"
-          as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ url('/css/styles.css?v='.config('app.version')) }}"></noscript>
     
     <!-- Non-critical CSS: 非同步延後載入 -->
     <link rel="preload" href="{{url('/css/main.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -259,8 +247,6 @@
     // 線上人數
     let onlineUsers = 0;
 </script>
-<!-- jquery（jsdelivr 無 Adobe/Google 第三方 Cookie）-->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" defer></script>
 @livewireScripts
 @stack('scripts')
 <!-- Bootstrap core JS-->

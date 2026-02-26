@@ -26,11 +26,6 @@ function tinymceInit(selector = '#content') {
             editor.on('change', function () {
                 this.save();
                 need_update = true;
-                let target = $('.nav-tabs > li:eq(' + $('#' + this.id).parents('div.tab-pane').index() + ')').find('a');
-
-                if (target.find('i').length === 0) {
-                    target.append(tips);
-                }
             });
         },
         paste_postprocess: function (pl, o) {

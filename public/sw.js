@@ -1,7 +1,6 @@
-const CACHE_NAME = 'blog-v1.0.1';
+const CACHE_NAME = 'blog-v1.0.2';
 const urlsToCache = [
     '/',
-    '/css/styles.css',
     '/css/custom-theme.css',
     '/css/main.css',
     '/css/badge.css',

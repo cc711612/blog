@@ -13,35 +13,35 @@ return [
         'status_bar'       => 'black',
         'icons'            => [
             '72x72'   => [
-                'path'    => '/images/icons/blog-icon-72x72.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-72x72.png',
                 'purpose' => 'any',
             ],
             '96x96'   => [
-                'path'    => '/images/icons/blog-icon-96x96.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-96x96.png',
                 'purpose' => 'any',
             ],
             '128x128' => [
-                'path'    => '/images/icons/blog-icon-128x128.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-128x128.png',
                 'purpose' => 'any',
             ],
             '144x144' => [
-                'path'    => '/images/icons/blog-icon-144x144.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-144x144.png',
                 'purpose' => 'any',
             ],
             '152x152' => [
-                'path'    => '/images/icons/blog-icon-152x152.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-152x152.png',
                 'purpose' => 'any',
             ],
             '192x192' => [
-                'path'    => '/images/icons/blog-icon-192x192.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-192x192.png',
                 'purpose' => 'any',
             ],
             '384x384' => [
-                'path'    => '/images/icons/blog-icon-384x384.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-384x384.png',
                 'purpose' => 'any',
             ],
             '512x512' => [
-                'path'    => '/images/icons/blog-icon-512x512.png',
+                'path'    => env('APP_URL', '') . '/images/icons/blog-icon-512x512.png',
                 'purpose' => 'any',
             ],
         ],

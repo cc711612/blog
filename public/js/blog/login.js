@@ -1,30 +1,37 @@
-$().ready(function () {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+document.addEventListener('DOMContentLoaded', function () {
     login();
 });
 
 function login() {
-    $("#login").click(function () {
+    var btn = document.getElementById('login');
+    if (!btn) return;
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
         ajaxLoadingOpen();
-        let form = $("#form");
-        $.post(form.attr('action'), form.serialize(), function (Obj) {
+        var form = document.getElementById('form');
+        var action = form.getAttribute('action');
+        var data = new FormData(form);
+
+        fetch(action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': window._csrfToken,
+                'Accept': 'application/json'
+            },
+            body: data
+        })
+        .then(function (response) { return response.json(); })
+        .then(function (obj) {
             ajaxLoadingClose();
-            if(Obj.status){
-                if (Obj.redirect != '' && Obj.redirect != undefined) {
-                    location.href = Obj.redirect;
+            if (obj.status) {
+                if (obj.redirect) {
+                    location.href = obj.redirect;
                 }
-            }else {
-                $.each(Obj.message, function (key, value) {
-                    alert(value.join('\r'));
+            } else {
+                Object.keys(obj.message).forEach(function (key) {
+                    alert(obj.message[key].join('\r'));
                 });
             }
         });
-        return false;
     });
 }
-
-

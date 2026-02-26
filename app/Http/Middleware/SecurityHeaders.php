@@ -70,6 +70,12 @@ class SecurityHeaders
         ];
         
         $response->headers->set('Permissions-Policy', implode(', ', $permissions));
+
+        // no-cache 允許 bf-cache；Laravel Session 預設 no-store 會阻擋
+        if ($request->isMethod('GET') && !$request->expectsJson()
+            && !$request->is('api/*') && !$request->is('livewire/*')) {
+            $response->headers->set('Cache-Control', 'no-cache, private');
+        }
         
         return $response;
     }

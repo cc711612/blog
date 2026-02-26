@@ -1,22 +1,23 @@
 
-$().ready(function () {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+document.addEventListener('DOMContentLoaded', function () {
     logout();
 });
 
-function logout()
-{
-    $("#logout").click(function (){
+function logout() {
+    var btn = document.getElementById('logout');
+    if (!btn) return;
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
         ajaxLoadingOpen();
-        $.post(logout_uri, {}, function(Obj){
+        fetch(logout_uri, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': window._csrfToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(function () {
             location.reload();
         });
-        return false ;
     });
 }
-
-

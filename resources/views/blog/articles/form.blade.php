@@ -69,21 +69,33 @@
             referrerpolicy="origin"></script>
     <script src="{{asset('/js/tinymce.js')}}"></script>
     <script>
-        $(function () {
-            let FormElement = $("#form");
+        document.addEventListener('DOMContentLoaded', function () {
+            const FormElement = document.getElementById('form');
             tinymceInit();
-            $("button[data-action='submit']").click(function () {
+            document.querySelector("button[data-action='submit']").addEventListener('click', function () {
+                if (typeof tinymce !== 'undefined') tinymce.triggerSave();
                 ajaxLoadingOpen();
-                $.post(FormElement.attr('action'), FormElement.serialize(), function (Obj) {
+                const formData = new FormData(FormElement);
+                fetch(FormElement.getAttribute('action'), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': window._csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(r => r.json())
+                .then(function (Obj) {
                     ajaxLoadingClose();
                     if (Obj.status !== true) {
-                        $.each(Obj.message, function (key, value) {
+                        Object.entries(Obj.message).forEach(function ([key, value]) {
                             alert(value.join(','));
                         });
                     } else {
                         alert('{{$Html->success_msg}}');
                     }
-                    if (Obj.redirect != '' && Obj.redirect != undefined) {
+                    if (Obj.redirect && Obj.redirect !== '') {
                         location.href = Obj.redirect;
                     }
                 });
