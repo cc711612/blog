@@ -25,7 +25,7 @@ class SecurityHeaders
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://pro.fontawesome.com",
             "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://pro.fontawesome.com",
             "img-src 'self' data: https: blob: https://usongrat.s3.ap-northeast-1.amazonaws.com",
-            "connect-src 'self' https://www.google-analytics.com https://cdn.jsdelivr.net https://ep1.adtrafficquality.google https://googleads.g.doubleclick.net wss: ws:",
+            "connect-src 'self' https://www.google-analytics.com https://cdn.jsdelivr.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://googleads.g.doubleclick.net https://www.google.com wss: ws:",
             "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
             "object-src 'none'",
             "base-uri 'self'",
@@ -45,7 +45,8 @@ class SecurityHeaders
         $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin');
  
         // Cross-Origin Embedder Policy (COEP)
-        $response->headers->set('Cross-Origin-Embedder-Policy', 'credentialless');
+        // 使用 unsafe-none 避免封鎖廣告 iframe（doubleclick.net 等）
+        $response->headers->set('Cross-Origin-Embedder-Policy', 'unsafe-none');
  
         // X-Frame-Options
         $response->headers->set('X-Frame-Options', 'DENY');
