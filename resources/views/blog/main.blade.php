@@ -37,13 +37,24 @@
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous"></noscript>
     @if(config('filesystems.disks.s3.url'))
     <link rel="preconnect" href="{{rtrim(config('filesystems.disks.s3.url'), '/')}}">
+    <!-- LCP hero 圖片 preload：提升 LCP 分數 -->
+    <link rel="preload" href="{{config('filesystems.disks.s3.url')}}assets/img/home-bg.webp" as="image" type="image/webp" fetchpriority="high">
     @endif
     
-    <!-- Critical CSS inline -->
+    <!-- Critical CSS inline（含 custom-theme，消除 render-blocking） -->
     <style>
+        /* ===== custom-theme.css inlined ===== */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e67e22;
+            --light-bg: #f8f9fa;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+        }
         .masthead {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            padding: 8rem 0 4rem;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+            padding: 8rem 0 4rem !important;
             color: white;
             text-align: center;
         }
@@ -58,25 +69,68 @@
             font-weight: 300;
             opacity: 0.9;
         }
-        .container {
-            max-width: 900px;
-        }
-        .form-control {
-            border-radius: 8px;
-            border: 2px solid #dee2e6;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
+        .post-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
             transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
         }
-        .form-control:focus {
-            border-color: #e67e22;
-            box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+        .post-preview:hover { transform: translateY(-3px); box-shadow: 0 5px 25px rgba(0,0,0,0.15); }
+        .post-preview:last-child { border-bottom: none; }
+        .post-preview + hr { display: none; }
+        .post-title { font-size: 1.8rem; font-weight: 700; color: #2c3e50; margin-bottom: 0.5rem; line-height: 1.3; }
+        .post-subtitle { font-size: 1.1rem; color: #6c757d; line-height: 1.6; margin-bottom: 1.5rem; }
+        .post-meta { font-size: 0.9rem; color: #6c757d; border-top: 1px solid #dee2e6; padding-top: 1rem; margin-top: 1.5rem; }
+        .post-meta a { color: #b5520a; text-decoration: none; font-weight: 600; }
+        .post-meta a:hover { text-decoration: underline; }
+        .container { max-width: 900px; }
+        .form-control { border-radius: 8px; border: 2px solid #dee2e6; padding: 0.75rem 1rem; font-size: 1rem; transition: all 0.3s ease; }
+        .form-control:focus { border-color: #e67e22; box-shadow: 0 0 0 0.2rem rgba(230,126,34,0.25); }
+        .btn-outline-secondary { border-radius: 8px; border-color: #dee2e6; color: #6c757d; }
+        .btn-outline-secondary:hover { background-color: #e67e22; border-color: #e67e22; color: white; }
+        .btn-outline-primary { border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: 2px solid #2c3e50; color: #2c3e50; transition: all 0.3s ease; }
+        .btn-outline-primary:hover { background-color: #2c3e50; border-color: #2c3e50; transform: translateY(-2px); }
+        .number-of-people { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .badge { background: #e67e22; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; box-shadow: 0 2px 10px rgba(230,126,34,0.3); }
+        body { background-color: #f8f9fa; }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @media (max-width: 768px) {
+            .masthead { padding: 6rem 0 3rem !important; }
+            .site-heading h1 { font-size: 2.5rem; }
+            .post-preview { padding: 1.5rem; }
+            .post-title { font-size: 1.5rem; }
+        }
+        /* ===== FontAwesome font-display:swap override ===== */
+        @font-face {
+            font-family: 'Font Awesome 5 Free';
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-solid-900.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Font Awesome 5 Brands';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-brands-400.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Font Awesome 5 Free';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-regular-400.woff2') format('woff2');
         }
     </style>
     
-    <!-- Critical CSS: 同步載入避免 CLS (layout shift) -->
-    <link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}">
-    <link rel="stylesheet" href="{{url('/css/custom-theme.css?v='.config('app.version'))}}">
+    <!-- Critical CSS: styles.css 改為 async（custom-theme 已 inline，CLS 已解決）-->
+    <link rel="preload" href="{{url('/css/styles.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}"></noscript>
     
     <!-- Non-critical CSS: 非同步延後載入 -->
     <link rel="preload" href="{{url('/css/main.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
