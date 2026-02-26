@@ -21,12 +21,12 @@ class SecurityHeaders
         // Content Security Policy (CSP)
         $csp = [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://use.fontawesome.com https://ep2.adtrafficquality.google https://tpc.googlesyndication.com https://adservice.google.com",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://use.fontawesome.com https://ep2.adtrafficquality.google https://tpc.googlesyndication.com https://adservice.google.com https://fundingchoicesmessages.google.com",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://pro.fontawesome.com",
             "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://pro.fontawesome.com",
             "img-src 'self' data: https: blob: https://usongrat.s3.ap-northeast-1.amazonaws.com",
-            "connect-src 'self' https://www.google-analytics.com https://cdn.jsdelivr.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://googleads.g.doubleclick.net https://www.google.com wss: ws:",
-            "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
+            "connect-src 'self' https://www.google-analytics.com https://cdn.jsdelivr.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://www.google.com wss: ws:",
+            "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://ep2.adtrafficquality.google https://www.google.com",
             "object-src 'none'",
             "base-uri 'self'",
             "form-action 'self'",
