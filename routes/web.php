@@ -21,7 +21,7 @@ Route::get('/manifest.json', function () {
     \Illuminate\Session\Middleware\AuthenticateSession::class,
     \Illuminate\View\Middleware\ShareErrorsFromSession::class,
     \App\Http\Middleware\VerifyCsrfToken::class,
-]);
+])->name('laravelpwa.manifest');
 
 /*
 |--------------------------------------------------------------------------
