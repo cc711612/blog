@@ -255,7 +255,7 @@
 <script>
     window.addEventListener('load', function() {
         // 延後載入非關鍵 JS
-        loadScript("{{url('/js/blog/global.js')}}");
+        loadScript("{{url('/js/blog/global.js?v='.config('app.version'))}}");
         loadScript("{{url('/js/blog/logout.js?v='.config('app.version'))}}");
         loadScript("{{url('/js/blog/scripts.js?v='.config('app.version'))}}");
         loadScript("{{url('js/app.js?v='.config('app.version')) }}");
