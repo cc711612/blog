@@ -1,4 +1,4 @@
-const CACHE_NAME = 'blog-v1.0.2';
+const CACHE_NAME = 'blog-v1.0.3';
 const urlsToCache = [
     '/',
     '/css/custom-theme.css',
@@ -6,8 +6,7 @@ const urlsToCache = [
     '/css/badge.css',
     '/css/desktop-optimized.css',
     '/js/app.js',
-    '/js/blog/global.js',
-    '/js/livewire.js'
+    '/js/blog/global.js'
 ];
 
 // 安裝 Service Worker
