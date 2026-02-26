@@ -1,4 +1,4 @@
-const CACHE_NAME = 'blog-v1.0.3';
+const CACHE_NAME = 'blog-v1.0.4';
 const urlsToCache = [
     '/',
     '/css/custom-theme.css',
@@ -12,10 +12,16 @@ const urlsToCache = [
 // 安裝 Service Worker
 self.addEventListener('install', function(event) {
     event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(function(cache) {
-                return cache.addAll(urlsToCache);
-            })
+        caches.open(CACHE_NAME).then(function(cache) {
+            // 逐一快取，單一失敗不影響整體安裝
+            return Promise.allSettled(
+                urlsToCache.map(function(url) {
+                    return cache.add(url).catch(function(err) {
+                        console.warn('SW: failed to cache', url, err);
+                    });
+                })
+            );
+        })
     );
 });
 
