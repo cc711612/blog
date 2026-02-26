@@ -130,8 +130,10 @@
         }
     </style>
     
-    <!-- styles.css 同步載入（Bootstrap layout CSS，避免 CLS）-->
-    <link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}">
+    <!-- styles.css 非同步 preload（消除 render-blocking，Mobile FCP -~980ms） -->
+    <link rel="preload" href="{{ url('/css/styles.css?v='.config('app.version')) }}"
+          as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ url('/css/styles.css?v='.config('app.version')) }}"></noscript>
     
     <!-- Non-critical CSS: 非同步延後載入 -->
     <link rel="preload" href="{{url('/css/main.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
