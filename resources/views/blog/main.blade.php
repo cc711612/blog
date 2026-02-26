@@ -92,8 +92,8 @@
         .form-control:focus { border-color: #e67e22; box-shadow: 0 0 0 0.2rem rgba(230,126,34,0.25); }
         .btn-outline-secondary { border-radius: 8px; border-color: #dee2e6; color: #6c757d; }
         .btn-outline-secondary:hover { background-color: #e67e22; border-color: #e67e22; color: white; }
-        .btn-outline-primary { border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: 2px solid #2c3e50; color: #2c3e50; transition: all 0.3s ease; }
-        .btn-outline-primary:hover { background-color: #2c3e50; border-color: #2c3e50; transform: translateY(-2px); }
+        .btn-outline-primary { border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: 2px solid #006f87; color: #006f87; --bs-btn-color: #006f87; --bs-btn-border-color: #006f87; transition: all 0.3s ease; }
+        .btn-outline-primary:hover { background-color: #006f87; border-color: #006f87; --bs-btn-hover-bg: #006f87; --bs-btn-hover-border-color: #006f87; transform: translateY(-2px); }
         .number-of-people { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .badge { background: #e67e22; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; box-shadow: 0 2px 10px rgba(230,126,34,0.3); }
         body { background-color: #f8f9fa; }
@@ -128,9 +128,8 @@
         }
     </style>
     
-    <!-- Critical CSS: styles.css 改為 async（custom-theme 已 inline，CLS 已解決）-->
-    <link rel="preload" href="{{url('/css/styles.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}"></noscript>
+    <!-- styles.css 同步載入（Bootstrap layout CSS，避免 CLS）-->
+    <link rel="stylesheet" href="{{url('/css/styles.css?v='.config('app.version'))}}">
     
     <!-- Non-critical CSS: 非同步延後載入 -->
     <link rel="preload" href="{{url('/css/main.css?v='.config('app.version'))}}" as="style" onload="this.onload=null;this.rel='stylesheet'">
