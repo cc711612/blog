@@ -27,19 +27,19 @@
     {{ seo()->render() }}
     <link rel="icon" type="image/x-icon" href="{{url('/favicon.ico')}}"/>
 
-    <!-- Preconnect to critical third-party origins -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <!-- Preconnect to critical third-party origins（jsdelivr 無第三方 Cookie） -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- FontAwesome CSS: preload 非同步載入，取代 JS 版本效能更好 -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous"></noscript>
-    @if(config('filesystems.disks.s3.url'))
-    <link rel="preconnect" href="{{rtrim(config('filesystems.disks.s3.url'), '/')}}">
-    <!-- LCP hero 圖片 preload：提升 LCP 分數 -->
-    <link rel="preload" href="{{config('filesystems.disks.s3.url')}}assets/img/home-bg.webp" as="image" type="image/webp" fetchpriority="high">
-    @endif
+    <!-- FontAwesome CSS: jsdelivr 無第三方 Cookie，preload 非同步載入 -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" crossorigin="anonymous"></noscript>
+
+    <!-- GA / GTM preconnect（節省約 300ms DNS+連線時間） -->
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     
     <!-- Critical CSS inline（含 custom-theme，消除 render-blocking） -->
     <style>
@@ -93,8 +93,8 @@
         .btn-outline-secondary { border-radius: 8px; border-color: #dee2e6; color: #6c757d; }
         .btn-outline-secondary:hover { background-color: #e67e22; border-color: #e67e22; color: white; }
         .search-clear-btn { width: 3rem; min-width: 3rem; padding-left: 0; padding-right: 0; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 3rem; }
-        .btn-outline-primary { border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: 2px solid #006f87; color: #006f87; --bs-btn-color: #006f87; --bs-btn-border-color: #006f87; transition: all 0.3s ease; }
-        .btn-outline-primary:hover { background-color: #006f87; border-color: #006f87; --bs-btn-hover-bg: #006f87; --bs-btn-hover-border-color: #006f87; transform: translateY(-2px); }
+        .btn-outline-primary { border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: 2px solid #006f87 !important; color: #006f87 !important; --bs-btn-color: #006f87; --bs-btn-border-color: #006f87; transition: all 0.3s ease; }
+        .btn-outline-primary:hover { background-color: #006f87 !important; border-color: #006f87 !important; color: #fff !important; --bs-btn-hover-bg: #006f87; --bs-btn-hover-border-color: #006f87; transform: translateY(-2px); }
         .load-more-btn { min-width: 11rem; }
         .number-of-people { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .badge { background: #e67e22; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; box-shadow: 0 2px 10px rgba(230,126,34,0.3); }
@@ -106,27 +106,27 @@
             .post-preview { padding: 1.5rem; }
             .post-title { font-size: 1.5rem; }
         }
-        /* ===== FontAwesome font-display:swap override ===== */
+        /* ===== FontAwesome font-display:swap override（改用 jsdelivr） ===== */
         @font-face {
             font-family: 'Font Awesome 5 Free';
             font-style: normal;
             font-weight: 900;
             font-display: swap;
-            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-solid-900.woff2') format('woff2');
+            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-solid-900.woff2') format('woff2');
         }
         @font-face {
             font-family: 'Font Awesome 5 Brands';
             font-style: normal;
             font-weight: 400;
             font-display: swap;
-            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-brands-400.woff2') format('woff2');
+            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-brands-400.woff2') format('woff2');
         }
         @font-face {
             font-family: 'Font Awesome 5 Free';
             font-style: normal;
             font-weight: 400;
             font-display: swap;
-            src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-regular-400.woff2') format('woff2');
+            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-regular-400.woff2') format('woff2');
         }
     </style>
     
@@ -180,15 +180,7 @@
             });
         }
         
-        // 預載入關鍵圖片
-        const criticalImages = [
-            @json(config('filesystems.disks.s3.url')."assets/img/home-bg.webp")
-        ];
-        
-        criticalImages.forEach(function(src) {
-            const img = new Image();
-            img.src = src;
-        });
+        // 預載入關鍵圖片已移除
     });
     
     // 圖片延遲載入 - 改善圖片載入性能
@@ -234,7 +226,6 @@
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
 <div class="loader" id="loading" style="display:none;">
-    <img src="{{config('filesystems.disks.s3.url') . 'assets/img/loader.gif'}}" alt="Loading..."/>
 </div>
 <!-- Navigation-->
 @include("layouts.header")
@@ -266,8 +257,8 @@
     // 線上人數
     let onlineUsers = 0;
 </script>
-<!-- jquery-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+<!-- jquery（jsdelivr 無 Adobe/Google 第三方 Cookie）-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" defer></script>
 @livewireScripts
 @stack('scripts')
 <!-- Bootstrap core JS-->
