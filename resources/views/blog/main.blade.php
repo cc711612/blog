@@ -92,8 +92,10 @@
         .form-control:focus { border-color: #e67e22; box-shadow: 0 0 0 0.2rem rgba(230,126,34,0.25); }
         .btn-outline-secondary { border-radius: 8px; border-color: #dee2e6; color: #6c757d; }
         .btn-outline-secondary:hover { background-color: #e67e22; border-color: #e67e22; color: white; }
+        .search-clear-btn { width: 3rem; min-width: 3rem; padding-left: 0; padding-right: 0; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 3rem; }
         .btn-outline-primary { border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: 2px solid #006f87; color: #006f87; --bs-btn-color: #006f87; --bs-btn-border-color: #006f87; transition: all 0.3s ease; }
         .btn-outline-primary:hover { background-color: #006f87; border-color: #006f87; --bs-btn-hover-bg: #006f87; --bs-btn-hover-border-color: #006f87; transform: translateY(-2px); }
+        .load-more-btn { min-width: 11rem; }
         .number-of-people { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .badge { background: #e67e22; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; box-shadow: 0 2px 10px rgba(230,126,34,0.3); }
         body { background-color: #f8f9fa; }
@@ -180,7 +182,7 @@
         
         // 預載入關鍵圖片
         const criticalImages = [
-            '{{config('filesystems.disks.s3.url')."assets/img/home-bg.webp"}}'
+            @json(config('filesystems.disks.s3.url')."assets/img/home-bg.webp")
         ];
         
         criticalImages.forEach(function(src) {
@@ -211,7 +213,7 @@
     }
     
     // Service Worker 註冊 - 改善快取策略
-    if ('serviceWorker' in navigator && '{{config('app.env')}}' === 'production') {
+    if ('serviceWorker' in navigator && @json(config('app.env')) === 'production') {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/sw.js')
                 .then(function(registration) {
@@ -260,7 +262,7 @@
 <!-- Footer-->
 @include("layouts.footer")
 <script>
-    let logout_uri = '{{route('logout')}}';
+    let logout_uri = @json(route('logout'));
     // 線上人數
     let onlineUsers = 0;
 </script>

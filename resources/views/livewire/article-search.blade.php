@@ -12,7 +12,7 @@
                         wire:loading.attr="disabled"
                     >
                     <button 
-                        class="btn btn-outline-secondary" 
+                        class="btn btn-outline-secondary search-clear-btn" 
                         type="button" 
                         wire:click="clearSearch"
                         wire:loading.attr="disabled"
@@ -83,7 +83,7 @@
     @if($hasMorePages)
         <div class="text-center mt-4">
             <button 
-                class="btn btn-outline-primary" 
+                class="btn btn-outline-primary load-more-btn" 
                 wire:click="loadMore"
                 wire:loading.attr="disabled"
                 wire:loading.class="btn-primary"
