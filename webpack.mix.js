@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('tailwindcss'),
     ])
+    .disableSuccessNotifications()
     .options({
         // 啟用程式碼分割
         runtimeChunkPath: 'js',
@@ -39,6 +40,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 if (mix.inProduction()) {
     mix.version()
+       .sourceMaps(false) // 關閉 source maps 避免第三方 .map 404 錯誤
        .options({
            // 啟用壓縮
            terser: {
@@ -48,13 +50,5 @@ if (mix.inProduction()) {
                    },
                },
            },
-       })
-       .babel({
-           presets: [
-               ['@babel/preset-env', {
-                   useBuiltIns: 'usage',
-                   corejs: 3,
-               }]
-           ]
        });
 }
