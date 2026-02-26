@@ -1,2 +1,9 @@
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /logout
+Disallow: /nova
+Allow: /
+
+Sitemap: https://roy.usongrat.tw/sitemap.xml

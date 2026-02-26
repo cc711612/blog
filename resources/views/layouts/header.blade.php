@@ -2,9 +2,9 @@
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="{{route('website.index')}}">{{ config('app.name', 'Laravel') }}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Menu">
             Menu
-            <i class="fas fa-bars"></i>
+            <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">

@@ -16,8 +16,9 @@
                         type="button" 
                         wire:click="clearSearch"
                         wire:loading.attr="disabled"
+                        aria-label="清除搜尋"
                     >
-                        <i class="fas fa-times"></i>
+                        <i class="fas fa-times" aria-hidden="true"></i>
                     </button>
                 </div>
                 @if(!empty($search) && strlen($search) >= 2)
