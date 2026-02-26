@@ -35,9 +35,9 @@
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" crossorigin="anonymous"></noscript>
 
-    <!-- GA / GTM preconnect（節省約 300ms DNS+連線時間） -->
-    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <!-- GA / GTM preconnect（節省約 300ms DNS+連線時間）— 不加 crossorigin，Script 非 CORS 資源 -->
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     
@@ -106,7 +106,7 @@
             .post-preview { padding: 1.5rem; }
             .post-title { font-size: 1.5rem; }
         }
-        /* ===== FontAwesome font-display:swap override（fa-solid 在關鍵路徑，fa-brands 交由 all.min.css 延後載入） ===== */
+        /* ===== FontAwesome font-display:swap override（覆蓋 CDN CSS 無 font-display 的問題） ===== */
         @font-face {
             font-family: 'Font Awesome 5 Free';
             font-style: normal;
@@ -120,6 +120,13 @@
             font-weight: 400;
             font-display: swap;
             src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-regular-400.woff2') format('woff2');
+        }
+        @font-face {
+            font-family: 'Font Awesome 5 Brands';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-brands-400.woff2') format('woff2');
         }
     </style>
     
@@ -197,7 +204,7 @@
     // Service Worker 註冊 - 改善快取策略
     if ('serviceWorker' in navigator && @json(config('app.env')) === 'production') {
         window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js')
+            navigator.serviceWorker.register('/sw.js?v=@json(config("app.version"))')
                 .then(function(registration) {
                     console.log('SW registered: ', registration);
                 })
@@ -254,19 +261,25 @@
 <!-- Core theme JS - 延後載入 -->
 <script>
     window.addEventListener('load', function() {
-        // 延後載入非關鍵 JS
-        loadScript("{{url('/js/blog/global.js?v='.config('app.version'))}}");
-        loadScript("{{url('/js/blog/logout.js?v='.config('app.version'))}}");
-        loadScript("{{url('/js/blog/scripts.js?v='.config('app.version'))}}");
-        loadScript("{{url('js/app.js?v='.config('app.version')) }}");
-        loadScript("{{url('/js/blog/online.js?v='.config('app.version'))}}");
+        // global.js 必須最先載入（定義 window._csrfToken 供後續 JS 使用）
+        // 用 onload 串行確保依賴順序，避免 $ / _csrfToken 未定義錯誤
+        var globalScript = document.createElement('script');
+        globalScript.src = "{{url('/js/blog/global.js?v='.config('app.version'))}}";
+        globalScript.onload = function() {
+            // global.js 載入完成後，再並行載入其他非關鍵 JS
+            loadScript("{{url('/js/blog/logout.js?v='.config('app.version'))}}");
+            loadScript("{{url('/js/blog/scripts.js?v='.config('app.version'))}}");
+            loadScript("{{url('js/app.js?v='.config('app.version'))}}");
+            loadScript("{{url('/js/blog/online.js?v='.config('app.version'))}}");
+            
+            // 性能監控
+            @if(config('app.env') === 'production')
+            loadScript("{{url('/js/performance-monitor.js')}}");
+            @endif
+        };
+        document.head.appendChild(globalScript);
         
-        // 性能監控
-        @if(config('app.env') === 'production')
-        loadScript("{{url('/js/performance-monitor.js')}}");
-        @endif
-        
-        // 第三方腳本最後載入
+        // 第三方腳本最後載入（不依賴 global.js）
         if (typeof busuanzi !== 'undefined') {
             loadScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js", true, false);
         }
