@@ -1,10 +1,10 @@
-<div class="article-viewer-count">
-    <div class="d-inline-flex align-items-center">
-        <span class="badge bg-success me-2">
+<div class="article-viewer-count d-inline-flex align-items-center">
+    <div class="d-inline-flex align-items-center article-viewer-wrap">
+        <span class="badge bg-success article-viewer-badge">
             <i class="fas fa-eye"></i>
             {{ $viewerCount }}
         </span>
-        <small class="text-muted">
+        <small class="article-viewer-text">
             @if($viewerCount == 0)
                 目前無人瀏覽
             @elseif($viewerCount == 1)
