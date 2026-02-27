@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Entities\ArticleEntity;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -20,7 +19,7 @@ class ArticleSearch extends Component
 
     // 安全設定常數
     const MAX_SEARCH_LENGTH = 100;
- const SEARCH_RATE_LIMIT = 30; // 每分鐘最多 30 次搜尋
+    const SEARCH_RATE_LIMIT = 30; // 每分鐘最多 30 次搜尋
 
     protected $listeners = ['refreshArticles' => '$refresh'];
 
@@ -58,6 +57,9 @@ class ArticleSearch extends Component
     {
         $query = ArticleEntity::with(['users' => function ($query) {
                 $query->select(['id', 'name', 'images']);
+            }])
+            ->withCount(['comments' => function ($query) {
+                $query->where('status', 1);
             }])
             ->where('status', 1)
             ->where('user_id', config('app.user_id'));
