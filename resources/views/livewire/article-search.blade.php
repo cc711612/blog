@@ -80,7 +80,7 @@
     </div>
 
     <!-- 載入更多按鈕 -->
-    @if($hasMorePages)
+    @if($hasMorePages && $currentPage === 1)
         <div class="text-center mt-4">
             <button 
                 class="btn btn-outline-primary load-more-btn" 
@@ -95,6 +95,20 @@
                 </span>
             </button>
         </div>
+    @endif
+
+    @if($lastPage > 1)
+        <nav class="mt-4 d-flex flex-wrap gap-2 justify-content-center" aria-label="文章分頁">
+            @for($page = 1; $page <= $lastPage; $page++)
+                <a
+                    href="{{ route('article.index', array_filter(['page' => $page, 'search' => strlen($search ?? '') >= 2 ? $search : null])) }}"
+                    class="btn btn-sm {{ $page === $currentPage ? 'btn-primary' : 'btn-outline-secondary' }}"
+                    @if($page === $currentPage) aria-current="page" @endif
+                >
+                    {{ $page }}
+                </a>
+            @endfor
+        </nav>
     @endif
 
     <!-- 搜尋結果統計 -->
