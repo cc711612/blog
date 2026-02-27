@@ -15,6 +15,8 @@ class ArticleSearch extends Component
     public $perPage = 10;
     public $articles;
     public $hasMorePages = false;
+    public $currentPage = 1;
+    public $lastPage = 1;
 
     // 安全設定常數
     const MAX_SEARCH_LENGTH = 100;
@@ -31,6 +33,7 @@ class ArticleSearch extends Component
     {
         // 從 URL 參數讀取搜尋關鍵字
         $this->search = request()->get('search', '');
+        $this->currentPage = max(1, (int) request()->get('page', 1));
         $this->loadArticles();
     }
 
@@ -75,6 +78,8 @@ class ArticleSearch extends Component
             ->paginate($this->perPage);
 
         $this->articles = $articles->items();
+        $this->currentPage = $articles->currentPage();
+        $this->lastPage = $articles->lastPage();
         $this->hasMorePages = $articles->hasMorePages();
     }
 
