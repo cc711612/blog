@@ -102,12 +102,44 @@
         .number-of-people { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .badge { background: #e67e22; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; box-shadow: 0 2px 10px rgba(230,126,34,0.3); }
         body { background-color: #f8f9fa; }
+        .article-content pre {
+            box-sizing: border-box;
+            background: #2f333d;
+            color: #cdd3de;
+            font-family: Menlo, Monaco, monospace;
+            line-height: 1.6;
+            margin: 1.2em 0;
+            overflow: auto;
+            padding: 12px 15px;
+            border: 1px solid #292c33;
+            border-radius: 6px;
+            width: 100%;
+        }
+        .article-content pre code {
+            display: block;
+            font-family: inherit;
+            font-size: 14px;
+            white-space: pre;
+            color: inherit;
+            background: transparent;
+            padding: 0;
+        }
+        .article-content :not(pre) > code {
+            background: rgba(47, 51, 61, 0.08);
+            border: 1px solid rgba(47, 51, 61, 0.15);
+            border-radius: 4px;
+            color: #2f333d;
+            font-family: Menlo, Monaco, monospace;
+            font-size: 0.92em;
+            padding: 0.12em 0.38em;
+        }
         @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         @media (max-width: 768px) {
             .masthead { padding: 3rem 0 1.5rem !important; }
             .site-heading h1 { font-size: 2.5rem; }
             .post-preview { padding: 1.5rem; }
             .post-title { font-size: 1.5rem; }
+            .article-content pre { padding: 10px 12px; font-size: 13px; }
         }
         /* ===== FontAwesome font-display:swap override（覆蓋 CDN CSS 無 font-display 的問題） ===== */
         @font-face {

@@ -43,7 +43,7 @@
                 <a href="https://www.facebook.com/sharer/sharer.php?u={{\Illuminate\Support\Facades\URL::current()}}" target="_blank" title="facebook分享"><i class="fab fa-2x fa-facebook-square"></i></a>
                 <a href="https://social-plugins.line.me/lineit/share?url={{\Illuminate\Support\Facades\URL::current()}}&amp;from=line_scheme&amp;" title="Line分享" target="_blank"><i class="fab fa-2x fa-line text-success mr-1"></i></a>
             </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="row gx-4 gx-lg-5 justify-content-center article-content">
                 {!! $Html->element->content !!}
             </div>
         </div>
