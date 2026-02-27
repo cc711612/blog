@@ -22,14 +22,15 @@
                             <a href="{{$Html->element->actions->user_uri}}">{{$Html->element->user_name}}</a>
                             on {{$Html->element->updated_at}}
                         </span>
-                        <div class="mt-2 d-flex align-items-center">
+                        <div class="mt-2 d-flex align-items-center justify-content-center text-center flex-wrap gap-3 article-meta-tools">
                             <!-- 瀏覽人數統計 -->
                             <livewire:article-viewer-count :articleId="$Html->element->id" />
-                            <span class="mx-2">|</span>
                             <!-- 點讚功能 -->
                             <livewire:article-like :articleId="$Html->element->id" />
-                            <span class="mx-2">|</span>
-                            <span id="busuanzi_value_page_pv"></span> Views
+                            <span class="d-inline-flex align-items-center text-light article-meta-views">
+                                <span id="busuanzi_value_page_pv"></span>
+                                <span class="ms-1">Views</span>
+                            </span>
                         </div>
                     </div>
                 </div>
